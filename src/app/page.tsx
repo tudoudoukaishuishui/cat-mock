@@ -63,6 +63,19 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="mt-8 flex flex-col gap-3 border border-border bg-card p-5 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-xs tracking-[0.16em] text-muted-foreground">会员</p>
+          <h2 className="mt-1 font-heading text-3xl">月卡、季卡、半年卡、年卡</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
+            有效期内预约团课和公开课。课程也可以按场次单独买。新会员早鸟立减 ¥20。团课或私教两人及以上报名打 9 折。
+          </p>
+        </div>
+        <Link href="/membership" className={cn(buttonVariants(), "h-10 shrink-0 px-4")}>
+          查看会员
+        </Link>
+      </section>
+
       <section aria-label="三个板块" className="mt-8 grid gap-4 lg:grid-cols-3">
         {data.plates.map((plate) => (
           <article

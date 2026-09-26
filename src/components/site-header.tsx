@@ -9,6 +9,7 @@ const links = [
   { href: "/sections/group", label: "团课" },
   { href: "/sections/personal", label: "私教" },
   { href: "/sections/open", label: "公开课" },
+  { href: "/membership", label: "会员" },
   { href: "/bookings", label: "我的预约" },
 ];
 

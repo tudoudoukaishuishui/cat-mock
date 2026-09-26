@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Button, buttonVariants } from "@/components/ui/button";
+import { classTotal } from "@/data/membership";
 import { createLocalBooking } from "@/lib/local-bookings";
 import { cn } from "cn";
 import {
@@ -24,6 +25,7 @@ type BookingResult = {
   phone: string;
   partySize: number;
   totalPrice: number;
+  discountNote: string | null;
   timeLabel: string;
   courseName: string;
 };
@@ -34,13 +36,15 @@ export function BookDialog({ session }: { session: SessionView }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [partySize, setPartySize] = useState(1);
+  const [companions, setCompanions] = useState(1);
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [result, setResult] = useState<BookingResult | null>(null);
 
   const maxParty = session.section === "personal" ? 1 : Math.min(3, session.remaining);
-  const total = session.price * partySize;
+  const headcount = session.section === "personal" ? companions : partySize;
+  const quote = classTotal(session.section, session.price, headcount);
 
   if (session.status !== "open") {
     return (
@@ -101,7 +105,10 @@ export function BookDialog({ session }: { session: SessionView }) {
               </div>
               <div className="flex justify-between gap-4">
                 <dt>合计</dt>
-                <dd>¥{result.totalPrice}</dd>
+                <dd>
+                  ¥{result.totalPrice}
+                  {result.discountNote ? `（${result.discountNote}）` : ""}
+                </dd>
               </div>
             </dl>
             <Button
@@ -126,6 +133,7 @@ export function BookDialog({ session }: { session: SessionView }) {
                 name,
                 phone,
                 partySize,
+                companions,
                 agreed,
               });
               if (!data.ok) {
@@ -165,9 +173,25 @@ export function BookDialog({ session }: { session: SessionView }) {
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor={`${session.id}-party`}>人数</Label>
               {session.section === "personal" ? (
-                <p className="text-sm">私教场次固定 1 人。</p>
+                <>
+                  <p className="text-sm">这一场只占 1 个名额。</p>
+                  <label className="mt-3 grid gap-1 text-sm">
+                    一起报名人数
+                    <select
+                      value={companions}
+                      onChange={(event) => setCompanions(Number(event.target.value))}
+                      className="h-10 w-full rounded-lg border border-input bg-card px-2.5 text-sm"
+                    >
+                      <option value={1}>1 人，原价</option>
+                      <option value={2}>2 人一起报名，本节 9 折</option>
+                      <option value={3}>3 人一起报名，本节 9 折</option>
+                    </select>
+                  </label>
+                  <p className="text-sm text-muted-foreground">
+                    选 2 人或 3 人时，这一节打 9 折。同行的人需要再各自预约自己的私教场次。
+                  </p>
+                </>
               ) : (
                 <select
                   id={`${session.id}-party`}
@@ -185,7 +209,9 @@ export function BookDialog({ session }: { session: SessionView }) {
               )}
             </div>
             <p className="text-sm">
-              单价 {session.priceLabel}，本次合计 <span className="font-medium text-foreground">¥{total}</span>
+              单价 {session.priceLabel}
+              {quote.note ? `，标价 ¥${quote.listTotal}，${quote.note}` : ""}
+              ，本次合计 <span className="font-medium text-foreground">¥{quote.total}</span>
               。剩余 {session.remaining} 个名额。
             </p>
             <ul className="max-h-36 space-y-1 overflow-y-auto text-sm text-muted-foreground">

@@ -118,6 +118,7 @@ export function BookingsScreen() {
                   <dt className="text-muted-foreground">人数与价格</dt>
                   <dd>
                     {booking.partySize} 人 · 单价 ¥{booking.unitPrice} · 合计 ¥{booking.totalPrice}
+                    {booking.discountNote ? ` · ${booking.discountNote}` : ""}
                   </dd>
                 </div>
                 <div>

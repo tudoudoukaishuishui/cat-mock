@@ -159,6 +159,7 @@ export type BookingRecord = {
   partySize: number;
   unitPrice: number;
   totalPrice: number;
+  discountNote: string | null;
   createdAt: string;
   cancelledAt: string | null;
   lateCancel: boolean;

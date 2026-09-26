@@ -116,6 +116,7 @@ export function createBooking(input: BookInput): BookOk | BookErr {
       partySize,
       unitPrice: session.price,
       totalPrice: session.price * partySize,
+      discountNote: null,
       createdAt: new Date().toISOString(),
       cancelledAt: null,
       lateCancel: false,

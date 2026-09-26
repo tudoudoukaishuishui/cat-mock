@@ -1,4 +1,5 @@
 import { courses, sections, sessions } from "@/data/catalog";
+import { classTotal } from "@/data/membership";
 import { getSessionView, withExtraBookings } from "@/lib/queries";
 import type { BookingRecord, BookingView } from "@/lib/types";
 
@@ -14,6 +15,7 @@ export type BookInput = {
   name: string;
   phone: string;
   partySize: number;
+  companions?: number;
   agreed: boolean;
 };
 
@@ -101,9 +103,16 @@ export function createLocalBooking(input: BookInput): BookOk | BookErr {
   const section = sections.find((item) => item.slug === course?.section);
   if (!course || !section) return { ok: false, error: "找不到这个课程" };
 
-  const maxParty = section.slug === "personal" ? 1 : 3;
-  if (partySize > maxParty) {
-    return { ok: false, error: section.slug === "personal" ? "私教每场只能预约 1 人" : "单次最多预约 3 人" };
+  const companions = input.companions ?? 1;
+  const seats = section.slug === "personal" ? 1 : partySize;
+  if (section.slug === "personal" && partySize !== 1) {
+    return { ok: false, error: "私教每场只能预约 1 人" };
+  }
+  if (section.slug !== "personal" && partySize > 3) {
+    return { ok: false, error: "单次最多预约 3 人" };
+  }
+  if (!Number.isInteger(companions) || companions < 1 || companions > 3) {
+    return { ok: false, error: "一起报名人数请选 1 到 3 人" };
   }
 
   const state = readState();
@@ -113,23 +122,25 @@ export function createLocalBooking(input: BookInput): BookOk | BookErr {
   if (view.status === "full" || view.remaining < 1) {
     return { ok: false, error: `该场次已满（${view.booked}/${view.capacity}），无法预约` };
   }
-  if (partySize > view.remaining) {
-    return { ok: false, error: `剩余 ${view.remaining} 个名额，无法预约 ${partySize} 人` };
+  if (seats > view.remaining) {
+    return { ok: false, error: `剩余 ${view.remaining} 个名额，无法预约 ${seats} 人` };
   }
   const duplicated = state.bookings.some(
     (booking) => booking.sessionId === session.id && booking.phone === phone && booking.cancelledAt === null,
   );
   if (duplicated) return { ok: false, error: "此手机号已预约该场次，请到我的预约查看" };
 
+  const quote = classTotal(section.slug, session.price, section.slug === "personal" ? companions : partySize);
   const created: BookingRecord = {
     id: `BK-${state.nextNumber}`,
     sessionId: session.id,
     courseId: course.id,
     name,
     phone,
-    partySize,
+    partySize: seats,
     unitPrice: session.price,
-    totalPrice: session.price * partySize,
+    totalPrice: quote.total,
+    discountNote: quote.note || null,
     createdAt: new Date().toISOString(),
     cancelledAt: null,
     lateCancel: false,
