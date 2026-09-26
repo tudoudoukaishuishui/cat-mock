@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 
 import { CourseBrowser } from "@/components/course-browser";
+import { MissingPage } from "@/components/missing-page";
 import { getSection, listCourseItems, sectionCities } from "@/lib/queries";
 import type { SectionSlug } from "@/lib/types";
 
@@ -23,9 +23,23 @@ export async function generateMetadata({
 
 export default async function SectionPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  if (!slugs.has(slug as SectionSlug)) notFound();
+  if (!slugs.has(slug as SectionSlug)) {
+    return (
+      <MissingPage
+        title="没有这个板块"
+        body="只有团课、私教和公开课。回首页选一个板块。"
+      />
+    );
+  }
   const section = getSection(slug);
-  if (!section) notFound();
+  if (!section) {
+    return (
+      <MissingPage
+        title="没有这个板块"
+        body="只有团课、私教和公开课。回首页选一个板块。"
+      />
+    );
+  }
   const items = listCourseItems(section.slug);
   const cities = sectionCities(section.slug);
 

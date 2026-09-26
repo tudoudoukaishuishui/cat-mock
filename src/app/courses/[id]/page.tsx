@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 
 import { BookDialog } from "@/components/book-dialog";
+import { MissingPage } from "@/components/missing-page";
 import { getCourseView } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +22,14 @@ export async function generateMetadata({
 export default async function CoursePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const view = getCourseView(id);
-  if (!view) notFound();
+  if (!view) {
+    return (
+      <MissingPage
+        title="没有这门课"
+        body="课程编号不存在。回首页看团课、私教和公开课，或从板块列表进入。"
+      />
+    );
+  }
   const { course, section, sessions, coaches } = view;
 
   const payload = {

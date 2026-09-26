@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "cn";
 import {
   Dialog,
   DialogContent,
@@ -60,7 +61,7 @@ export function BookDialog({ session }: { session: SessionView }) {
         }
       }}
     >
-      <DialogTrigger render={<Button type="button" className="h-10 px-4" />}>预约此场次</DialogTrigger>
+      <DialogTrigger className={cn(buttonVariants(), "h-10 px-4")}>预约此场次</DialogTrigger>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>预约 {session.courseName}</DialogTitle>
