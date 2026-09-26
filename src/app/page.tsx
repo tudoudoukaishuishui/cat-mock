@@ -4,8 +4,6 @@ import { buttonVariants } from "@/components/ui/button";
 import { homeData } from "@/lib/queries";
 import { cn } from "cn";
 
-export const dynamic = "force-dynamic";
-
 const tone: Record<string, string> = {
   group: "bg-persimmon text-primary-foreground",
   personal: "bg-moss text-primary-foreground",

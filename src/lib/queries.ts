@@ -1,8 +1,6 @@
 import { coaches, courses, sections, sessions, studios } from "@/data/catalog";
 import { formatPrice, formatPriceRange, formatSessionTime } from "@/lib/format";
-import { readState } from "@/lib/store";
 import type {
-  BookingView,
   Course,
   CourseListItem,
   CourseView,
@@ -14,12 +12,7 @@ import type {
 } from "@/lib/types";
 
 function loadExtras() {
-  const extras = new Map<string, number>();
-  for (const booking of readState().bookings) {
-    if (booking.cancelledAt) continue;
-    extras.set(booking.sessionId, (extras.get(booking.sessionId) ?? 0) + booking.partySize);
-  }
-  return extras;
+  return new Map<string, number>();
 }
 
 export function sessionStatus(session: Session, booked: number, now = Date.now()): SessionStatus {
@@ -37,6 +30,22 @@ const statusLabel: Record<SessionStatus, string> = {
   started: "已开始",
   ended: "已结束",
 };
+
+export function withExtraBookings(view: SessionView, extra: number, now = Date.now()): SessionView {
+  const booked = view.booked + extra;
+  const status = sessionStatus(
+    { start: view.start, end: view.end, capacity: view.capacity } as Session,
+    booked,
+    now,
+  );
+  return {
+    ...view,
+    booked,
+    remaining: Math.max(view.capacity - booked, 0),
+    status,
+    statusLabel: statusLabel[status],
+  };
+}
 
 export function getSessionView(
   session: Session,
@@ -211,35 +220,6 @@ export function homeData(now = Date.now()) {
     plates,
     upcoming,
   };
-}
-
-export function bookingViews(phone?: string): BookingView[] {
-  const needle = phone?.trim();
-  return readState()
-    .bookings.filter((booking) => (needle ? booking.phone === needle : true))
-    .slice()
-    .reverse()
-    .map((booking) => {
-      const session = sessions.find((item) => item.id === booking.sessionId);
-      const view = session ? getSessionView(session) : null;
-      const ended = view ? view.status === "ended" || view.status === "started" : true;
-      let statusLabel = "已预约";
-      if (booking.cancelledAt) statusLabel = booking.lateCancel ? "已取消（超过免费时限）" : "已取消";
-      else if (ended) statusLabel = view?.statusLabel ?? "已结束";
-      else if (booking.lateCancel) statusLabel = "已预约";
-
-      return {
-        ...booking,
-        courseName: view?.courseName ?? booking.courseId,
-        courseCode: view?.courseCode ?? "",
-        sectionName: view?.sectionName ?? "",
-        timeLabel: view?.timeLabel ?? "",
-        coachLine: view?.coachLine ?? "",
-        addressLine: view?.addressLine ?? "",
-        statusLabel,
-        canCancel: !booking.cancelledAt && !ended,
-      };
-    });
 }
 
 export function sectionCities(section: SectionSlug) {

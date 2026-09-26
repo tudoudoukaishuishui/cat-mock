@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import Link from "next/link";
 
-import { BookDialog } from "@/components/book-dialog";
 import { MissingPage } from "@/components/missing-page";
+import { SessionTicket } from "@/components/session-ticket";
+import { courses } from "@/data/catalog";
 import { getCourseView } from "@/lib/queries";
 
-export const dynamic = "force-dynamic";
+export function generateStaticParams() {
+  return courses.map((course) => ({ id: course.id }));
+}
+
+export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
@@ -162,69 +166,11 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
       <section className="mt-12" aria-label="场次">
         <h2 className="font-heading text-3xl">场次</h2>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-          已预约人数含课表初始占位和本站新预约。取消后名额会回到对应场次。每场的教练、等级、时间和价格以这一栏为准。
+          已预约人数含课表初始占位，以及你在这台浏览器里新约的人数。每场的教练、等级、时间和价格以这一栏为准。
         </p>
         <div className="mt-5 space-y-5">
           {sessions.map((session) => (
-            <article
-              key={session.id}
-              id={`session-${session.id}`}
-              data-session-id={session.id}
-              data-status={session.status}
-              className="scroll-mt-24 border border-border bg-card p-4 md:p-5"
-            >
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="font-heading text-2xl">{session.timeLabel}</h3>
-                <p className="text-sm">
-                  {session.statusLabel} · {session.id}
-                </p>
-              </div>
-              <dl className="mt-3">
-                <Field label="教练" field="coach" value={session.coachLine} />
-                <Field label="等级" field="level" value={session.level} />
-                <Field label="时间" field="time" value={`${session.timeLabel}（${session.durationMinutes} 分钟）`} />
-                <Field
-                  label="地址"
-                  field="address"
-                  value={
-                    <span>
-                      {session.addressLine}
-                      <span className="mt-1 block text-muted-foreground">
-                        {session.transit}。签到：{session.frontDesk}。{session.facilities}
-                      </span>
-                    </span>
-                  }
-                />
-                <Field label="最多人数" field="capacity" value={`${session.capacity} 人`} />
-                <Field label="已预约" field="booked" value={`${session.booked} 人`} />
-                <Field label="剩余名额" field="remaining" value={`${session.remaining} 人`} />
-                <Field
-                  label="价格"
-                  field="price"
-                  value={
-                    <span>
-                      {session.priceLabel}
-                      <span className="mt-1 block text-muted-foreground">{session.priceIncludes}</span>
-                    </span>
-                  }
-                />
-                <Field
-                  label="注意事项"
-                  field="notes"
-                  value={
-                    <ul className="space-y-1">
-                      {session.notes.map((note) => (
-                        <li key={note}>{note}</li>
-                      ))}
-                      <li>{session.cancelRule}</li>
-                    </ul>
-                  }
-                />
-              </dl>
-              <div className="mt-4">
-                <BookDialog session={session} />
-              </div>
-            </article>
+            <SessionTicket key={session.id} session={session} />
           ))}
         </div>
       </section>
@@ -237,15 +183,6 @@ function Fact({ label, value, field }: { label: string; value: string; field: st
     <div data-field={field}>
       <dt className="text-muted-foreground">{label}</dt>
       <dd className="mt-0.5 leading-6">{value}</dd>
-    </div>
-  );
-}
-
-function Field({ label, field, value }: { label: string; field: string; value: ReactNode }) {
-  return (
-    <div data-field={field} className="grid gap-1 border-t border-border py-3 text-sm sm:grid-cols-[6.5rem_1fr]">
-      <dt className="text-muted-foreground">{label}</dt>
-      <dd className="leading-6">{value}</dd>
     </div>
   );
 }

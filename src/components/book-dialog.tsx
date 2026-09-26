@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Button, buttonVariants } from "@/components/ui/button";
+import { createLocalBooking } from "@/lib/local-bookings";
 import { cn } from "cn";
 import {
   Dialog,
@@ -116,39 +117,24 @@ export function BookDialog({ session }: { session: SessionView }) {
         ) : (
           <form
             className="space-y-4"
-            onSubmit={async (event) => {
+            onSubmit={(event) => {
               event.preventDefault();
               setPending(true);
               setError(null);
-              try {
-                const response = await fetch("/api/bookings", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    sessionId: session.id,
-                    name,
-                    phone,
-                    partySize,
-                    agreed,
-                  }),
-                });
-                const data = (await response.json()) as {
-                  ok: boolean;
-                  error?: string;
-                  booking?: BookingResult;
-                };
-                if (!response.ok || !data.ok || !data.booking) {
-                  setError(data.error ?? "预约失败");
-                  setPending(false);
-                  return;
-                }
-                setResult(data.booking);
+              const data = createLocalBooking({
+                sessionId: session.id,
+                name,
+                phone,
+                partySize,
+                agreed,
+              });
+              if (!data.ok) {
+                setError(data.error);
                 setPending(false);
-                router.refresh();
-              } catch {
-                setError("网络异常，预约没有提交成功");
-                setPending(false);
+                return;
               }
+              setResult(data.booking);
+              setPending(false);
             }}
           >
             <div className="space-y-1.5">

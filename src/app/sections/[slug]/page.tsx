@@ -6,7 +6,11 @@ import { MissingPage } from "@/components/missing-page";
 import { getSection, listCourseItems, sectionCities } from "@/lib/queries";
 import type { SectionSlug } from "@/lib/types";
 
-export const dynamic = "force-dynamic";
+export function generateStaticParams() {
+  return [{ slug: "group" }, { slug: "personal" }, { slug: "open" }];
+}
+
+export const dynamicParams = false;
 
 const slugs = new Set<SectionSlug>(["group", "personal", "open"]);
 

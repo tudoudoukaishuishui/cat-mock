@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { cancelLocalBooking, resetLocalBookings } from "@/lib/local-bookings";
 
 export function CancelBookingButton({ id }: { id: string }) {
-  const router = useRouter();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,20 +16,12 @@ export function CancelBookingButton({ id }: { id: string }) {
         variant="outline"
         className="h-9 px-3"
         disabled={pending}
-        onClick={async () => {
+        onClick={() => {
           setPending(true);
           setError(null);
-          try {
-            const response = await fetch(`/api/bookings/${id}/cancel`, { method: "POST" });
-            const data = (await response.json()) as { ok: boolean; error?: string };
-            if (!response.ok || !data.ok) {
-              setError(data.error ?? "取消失败");
-              setPending(false);
-              return;
-            }
-            router.refresh();
-          } catch {
-            setError("网络异常，取消没有提交成功");
+          const data = cancelLocalBooking(id);
+          if (!data.ok) {
+            setError(data.error);
             setPending(false);
           }
         }}
@@ -47,9 +38,7 @@ export function CancelBookingButton({ id }: { id: string }) {
 }
 
 export function ResetBookingsButton() {
-  const router = useRouter();
   const [armed, setArmed] = useState(false);
-  const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   return (
@@ -59,28 +48,13 @@ export function ResetBookingsButton() {
           type="button"
           variant="destructive"
           className="h-10 px-4"
-          disabled={pending}
-          onClick={async () => {
-            setPending(true);
+          onClick={() => {
+            resetLocalBookings();
+            setArmed(false);
             setError(null);
-            try {
-              const response = await fetch("/api/reset", { method: "POST" });
-              const data = (await response.json()) as { ok: boolean; error?: string };
-              if (!response.ok || !data.ok) {
-                setError(data.error ?? "清空失败");
-                setPending(false);
-                return;
-              }
-              setArmed(false);
-              setPending(false);
-              router.refresh();
-            } catch {
-              setError("网络异常，没有清空");
-              setPending(false);
-            }
           }}
         >
-          {pending ? "正在清空" : "确认清空"}
+          确认清空
         </Button>
       ) : (
         <Button type="button" variant="outline" className="h-10 px-4" onClick={() => setArmed(true)}>
