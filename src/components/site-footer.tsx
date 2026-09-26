@@ -7,10 +7,7 @@ export function SiteFooter() {
     <footer className="mt-auto border-t border-border">
       <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-8 text-sm text-muted-foreground md:grid-cols-[1.2fr_1fr]">
         <div>
-          <p className="font-heading text-base text-foreground">超级猫咪 · 模拟预约站</p>
-          <p className="mt-2 max-w-xl leading-6">
-            这是给智能体演练用的课程站，不是真实门店。页面是静态的。你新做的预约只存在这台浏览器里，清空后已预约人数回到课表上的初始数字。
-          </p>
+          <p className="font-heading text-base text-foreground">超级猫咪</p>
         </div>
         <ul className="space-y-1">
           {shops.map((studio) => (

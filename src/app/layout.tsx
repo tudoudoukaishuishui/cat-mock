@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s · 超级猫咪",
   },
   description:
-    "按次预约的模拟运动馆。首页看团课、私教、公开课，课程页写明教练、时间、地址、名额和价格。",
+    "按次预约的运动馆。首页看团课、私教、公开课，课程页写明教练、时间、地址、名额和价格。",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

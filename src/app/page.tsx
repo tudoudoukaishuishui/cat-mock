@@ -26,7 +26,7 @@ export default function HomePage() {
       </div>
       <section className="grid items-end gap-8 border-b border-border pb-10 lg:grid-cols-[1.15fr_0.85fr]">
         <div>
-          <p className="text-sm tracking-[0.18em] text-muted-foreground">SUPER CAT · 模拟预约站</p>
+          <p className="text-sm tracking-[0.18em] text-muted-foreground">SUPER CAT</p>
           <h1 className="mt-3 font-heading text-5xl leading-none md:text-7xl">超级猫咪</h1>
           <p className="mt-5 max-w-xl text-lg leading-8">
             按次上课，不办卡。首页三个板块：团课、私教、公开课。点进去看课程列表，再点一门课，看这一场的教练、等级、时间、地址、名额和价格。

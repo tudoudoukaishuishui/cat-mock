@@ -18,7 +18,7 @@ export const sectionImages: Record<SectionSlug, { src: string; alt: string }> = 
 };
 
 const kind: Record<string, string> = {
-  "cat-jab": "boxing",
+  "boxing-fit": "boxing",
   "pt-box": "boxing",
   "open-box": "boxing",
   "yin-yoga": "stretch",

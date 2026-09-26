@@ -61,7 +61,7 @@ export const studios: Studio[] = [
     address: "北京市朝阳区建国路87号华贸中心 SKP-S 3 层 3F-12",
     transit: "地铁 1 号线、10 号线国贸站 D 口，步行 6 分钟",
     phone: "010-85771280",
-    frontDesk: "3 层中庭扶梯旁，黑色猫耳灯箱",
+    frontDesk: "3 层中庭扶梯旁，黑色品牌灯箱",
     facilities: storeFacilities,
   },
   {
@@ -97,7 +97,7 @@ export const studios: Studio[] = [
     address: "上海市静安区北京西路500号静安雕塑公园南门内侧草坪",
     transit: "地铁 2 号线、12 号线、13 号线南京西路站 1 号口，步行约 8 分钟到公园南门",
     phone: "021-60881230",
-    frontDesk: "南门内侧草坪，教练举橙色猫耳旗，没有前台",
+    frontDesk: "南门内侧草坪，教练举橙色品牌旗，没有前台",
     facilities: "无更衣室、无淋浴、无储物柜。贵重物品自行保管。",
   },
   {
@@ -109,15 +109,15 @@ export const studios: Studio[] = [
     address: "广东省深圳市南山区滨海大道深圳湾公园 A 出口西侧草坪",
     transit: "地铁 9 号线、11 号线后海站 E 口，步行至公园 A 出口约 12 分钟",
     phone: "0755-86661290",
-    frontDesk: "A 出口西侧草坪，教练举橙色猫耳旗",
+    frontDesk: "A 出口西侧草坪，教练举橙色品牌旗",
     facilities: "无更衣室、无淋浴。公共厕所在 A 出口内侧约 80 米。",
   },
 ];
 
 export const coaches: Coach[] = [
   {
-    id: "lin-xiaomao",
-    name: "林晓猫",
+    id: "lin-xiaolan",
+    name: "林晓岚",
     title: "搏击主管教练",
     credentials: ["社会体育指导员（拳击）三级", "NSCA-CPT"],
     years: 8,
@@ -225,11 +225,11 @@ const openCancel =
 
 export const courses: Course[] = [
   {
-    id: "cat-jab",
+    id: "boxing-fit",
     code: "SC-GRP-01",
     section: "group",
-    name: "猫爪搏击",
-    englishName: "Cat Jab",
+    name: "燃脂搏击",
+    englishName: "Box Fit",
     summary: "空击和脚靶组合的搏击有氧，不安排对打。",
     description:
       "这节课用拳击的刺拳、后手直拳和勾拳带心率上来。前半段对空气出拳，后半段两人一组打教练手里的脚靶，每人打 3 分钟、换边休息。没有护具对打，也不学摔投。零基础可以跟入门场；午间场按初级节奏，组合比晚间少两组。",
@@ -269,8 +269,8 @@ export const courses: Course[] = [
     id: "yin-yoga",
     code: "SC-GRP-02",
     section: "group",
-    name: "午后猫伸展",
-    englishName: "Cat Yin",
+    name: "午后阴瑜伽",
+    englishName: "Afternoon Yin",
     summary: "阴瑜伽，八个体式长时间停留，强度低。",
     description:
       "课上做髋部、大腿后侧和胸椎的被动牵拉。每个体式停留 3–5 分钟，用鼻子呼吸，不追求手脚触地。适合久坐之后，不适合把这节课当成出汗训练。",
@@ -301,8 +301,8 @@ export const courses: Course[] = [
     id: "power-loop",
     code: "SC-GRP-03",
     section: "group",
-    name: "喵力循环",
-    englishName: "Pounce Loop",
+    name: "力量循环",
+    englishName: "Power Loop",
     summary: "哑铃循环力量，5 个动作轮 4 圈。",
     description:
       "教室里设深蹲、划船、推举、臀桥、农夫行走五个站。每站 40 秒、移动 15 秒，做完五站休息 60 秒，共 4 圈。重量自己选，教练会看动作而不是看重量。晨间场少一圈热身游戏，价格更低。",
@@ -367,8 +367,8 @@ export const courses: Course[] = [
     id: "dance",
     code: "SC-GRP-05",
     section: "group",
-    name: "爪爪有氧舞蹈",
-    englishName: "Paw Groove",
+    name: "有氧舞蹈",
+    englishName: "Dance Cardio",
     summary: "六段流行舞组合，面向镜子，不考核动作。",
     description:
       "整节课学一支约 1 分 30 秒的组合，拆成 6 个 4×8 拍。每段先慢速、再合音乐。没有对错评分，跟不上可以只走脚步。强度来自连续跳，不是来自负重。",
@@ -399,8 +399,8 @@ export const courses: Course[] = [
     id: "pilates",
     code: "SC-GRP-06",
     section: "group",
-    name: "核心猫步",
-    englishName: "Cat Step",
+    name: "核心普拉提",
+    englishName: "Core Pilates",
     summary: "垫上普拉提小班，控制而不是速度。",
     description:
       "以呼吸带动骨盆和肩胛。动作包括百次拍击、单腿伸展、侧卧抬腿和游泳式。成都太古里的一场把人数降到 8 人，价格高 ¥10。不要把它理解成腹肌撕裂训练。",
@@ -432,8 +432,8 @@ export const courses: Course[] = [
     id: "hiit",
     code: "SC-GRP-07",
     section: "group",
-    name: "间歇捕猎",
-    englishName: "Hunt HIIT",
+    name: "间歇燃脂",
+    englishName: "HIIT 40",
     summary: "40 分钟间歇，动作都有低冲击替换。",
     description:
       "8 个动作各做 30 秒、休息 15 秒，重复 3 轮，轮间休息 60 秒。跳跃动作可以改成踏步。课上心率可能接近最大心率的 85%，跟不上就休息，不要硬撑。",
@@ -465,7 +465,7 @@ export const courses: Course[] = [
     code: "SC-GRP-08",
     section: "group",
     name: "垫上筋膜放松",
-    englishName: "Soft Paw",
+    englishName: "Foam Release",
     summary: "泡沫轴和呼吸，心率保持在能说话。",
     description:
       "按小腿、大腿前侧、臀部、上背的顺序滚动，每个部位 60–90 秒，疼痛超过 7 分（满分 10 分）就减轻压力。最后 8 分钟只做呼吸。这节课用来恢复，不安排力量动作。",
@@ -627,7 +627,7 @@ export const courses: Course[] = [
     code: "SC-PT-05",
     section: "personal",
     name: "产后核心恢复",
-    englishName: "After Cat",
+    englishName: "Postnatal Core",
     summary: "55 分钟，面向符合周数条件的产后恢复。",
     description:
       "内容是呼吸、腹横肌激活、骨盆底感知和短桥。不安排卷腹、跳跃和跑步。预约即表示你确认：顺产已满 8 周，或剖宫产已满 12 周，并且医生允许进行此类运动。本站不核验证明。",
@@ -691,7 +691,7 @@ export const courses: Course[] = [
     id: "open-stretch",
     code: "SC-OP-02",
     section: "open",
-    name: "社区猫拉伸",
+    name: "社区公园拉伸",
     englishName: "Park Stretch",
     summary: "公园草坪 30 分钟拉伸，免费，自带垫子。",
     description:
@@ -702,8 +702,8 @@ export const courses: Course[] = [
     calories: "约 40–80 kcal，不是训练课。",
     goals: ["活动髋和胸椎", "学会两个可以自己做的拉伸"],
     outline: [
-      { minutes: "0–5", title: "集合", detail: "按橙色猫耳旗签到，报手机号后 4 位。" },
-      { minutes: "5–25", title: "拉伸", detail: "小腿、髋屈肌、胸肌、猫牛式。可站可坐。" },
+      { minutes: "0–5", title: "集合", detail: "按橙色品牌旗签到，报手机号后 4 位。" },
+      { minutes: "5–25", title: "拉伸", detail: "小腿、髋屈肌、胸肌、跪姿脊柱屈伸。可站可坐。" },
       { minutes: "25–30", title: "结束", detail: "自己收垫子，不组织合影。" },
     ],
     suitableFor: ["住在集合点附近、想轻度活动的人"],
@@ -727,12 +727,12 @@ export const courses: Course[] = [
     englishName: "Open Jab",
     summary: "30 分钟入门拳击，只学刺拳和直拳，¥49。",
     description:
-      "比猫爪搏击短，不上脚靶循环。内容是站姿、刺拳和后手直拳，最后 5 分钟打固定靶。用来判断要不要再约 60 分钟团课。价格 ¥49 / 人，不含手套以外的物品。",
+      "比燃脂搏击短，不上脚靶循环。内容是站姿、刺拳和后手直拳，最后 5 分钟打固定靶。用来判断要不要再约 60 分钟团课。价格 ¥49 / 人，不含手套以外的物品。",
     durationMinutes: 30,
     level: "入门",
     intensity: "中",
     calories: "按 60 kg 体重估算约 180–280 kcal。",
-    goals: ["做出刺拳", "知道下颌要收回", "决定是否再约猫爪搏击"],
+    goals: ["做出刺拳", "知道下颌要收回", "决定是否再约燃脂搏击"],
     outline: [
       { minutes: "0–5", title: "热身", detail: "踏步和肩环绕。" },
       { minutes: "5–22", title: "空击", detail: "刺拳、后手直拳、1-2 组合。" },
@@ -789,11 +789,11 @@ const holiday = "2026-10-01 是国庆节，本场照常开课。请按地址提�
 
 export const sessions: Session[] = [
   {
-    id: "cat-jab-0926-1830-jingan",
-    courseId: "cat-jab",
+    id: "boxing-fit-0926-1830-jingan",
+    courseId: "boxing-fit",
     start: "2026-09-26T18:30:00+08:00",
     end: "2026-09-26T19:30:00+08:00",
-    coachId: "lin-xiaomao",
+    coachId: "lin-xiaolan",
     studioId: "jingan",
     room: "搏击馆 A",
     level: "入门",
@@ -803,8 +803,8 @@ export const sessions: Session[] = [
     notes: ["晚间入门场，组合按课表全做。", "公用拳套剩余约 10 副，建议自备。"],
   },
   {
-    id: "cat-jab-0928-1900-guomao",
-    courseId: "cat-jab",
+    id: "boxing-fit-0928-1900-guomao",
+    courseId: "boxing-fit",
     start: "2026-09-28T19:00:00+08:00",
     end: "2026-09-28T20:00:00+08:00",
     coachId: "gu-yan",
@@ -817,11 +817,11 @@ export const sessions: Session[] = [
     notes: ["本场已满，不能候补。", "若有人取消，剩余名额会回到本页。"],
   },
   {
-    id: "cat-jab-0930-1215-jingan",
-    courseId: "cat-jab",
+    id: "boxing-fit-0930-1215-jingan",
+    courseId: "boxing-fit",
     start: "2026-09-30T12:15:00+08:00",
     end: "2026-09-30T13:15:00+08:00",
-    coachId: "lin-xiaomao",
+    coachId: "lin-xiaolan",
     studioId: "jingan",
     room: "搏击馆 B",
     level: "初级",
@@ -831,8 +831,8 @@ export const sessions: Session[] = [
     notes: ["午间场价格 ¥119 / 人，比晚间场低 ¥10。", "等级按初级：默认做过至少 1 次入门搏击。零基础请改约入门场。", "建议 12:00 前完成签到。"],
   },
   {
-    id: "cat-jab-1003-1100-bay",
-    courseId: "cat-jab",
+    id: "boxing-fit-1003-1100-bay",
+    courseId: "boxing-fit",
     start: "2026-10-03T11:00:00+08:00",
     end: "2026-10-03T12:00:00+08:00",
     coachId: "gu-yan",
@@ -1339,7 +1339,7 @@ export const sessions: Session[] = [
     courseId: "pt-box",
     start: "2026-09-29T20:00:00+08:00",
     end: "2026-09-29T21:00:00+08:00",
-    coachId: "lin-xiaomao",
+    coachId: "lin-xiaolan",
     studioId: "jingan",
     room: "搏击馆 C",
     level: "中级",
@@ -1367,7 +1367,7 @@ export const sessions: Session[] = [
     courseId: "pt-box",
     start: "2026-10-05T16:00:00+08:00",
     end: "2026-10-05T17:00:00+08:00",
-    coachId: "lin-xiaomao",
+    coachId: "lin-xiaolan",
     studioId: "bay",
     room: "搏击馆",
     level: "中级",
@@ -1521,14 +1521,14 @@ export const sessions: Session[] = [
     courseId: "open-box",
     start: "2026-10-03T17:10:00+08:00",
     end: "2026-10-03T17:40:00+08:00",
-    coachId: "lin-xiaomao",
+    coachId: "lin-xiaolan",
     studioId: "bay",
     room: "搏击馆",
     level: "入门",
     capacity: 15,
     booked: 4,
     price: 49,
-    notes: ["教练是林晓猫。内容仍是 30 分钟体验，不是 60 分钟团课。"],
+    notes: ["教练是林晓岚。内容仍是 30 分钟体验，不是 60 分钟团课。"],
   },
   {
     id: "open-box-1004-1120-taikoo",

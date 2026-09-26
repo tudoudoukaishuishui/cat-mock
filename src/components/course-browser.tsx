@@ -47,7 +47,7 @@ export function CourseBrowser({
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="例如 搏击、林晓猫、SC-GRP-01"
+            placeholder="例如 搏击、林晓岚、SC-GRP-01"
             className="h-10 rounded-lg border border-input bg-background px-2.5"
           />
         </label>
