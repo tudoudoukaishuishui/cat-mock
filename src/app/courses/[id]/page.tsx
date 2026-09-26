@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { MissingPage } from "@/components/missing-page";
 import { SessionTicket } from "@/components/session-ticket";
 import { courses } from "@/data/catalog";
+import { courseImage } from "@/lib/images";
 import { getCourseView } from "@/lib/queries";
 
 export function generateStaticParams() {
@@ -83,6 +85,17 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
         </Link>
         <span> / {course.name}</span>
       </nav>
+
+      <div className="relative mt-4 aspect-[16/9] w-full overflow-hidden md:aspect-[21/8]">
+        <Image
+          src={courseImage(course.id, course.name).src}
+          alt={courseImage(course.id, course.name).alt}
+          fill
+          priority
+          sizes="(min-width: 1152px) 1152px, 100vw"
+          className="object-cover"
+        />
+      </div>
 
       <header className="mt-4 grid gap-6 border-b border-border pb-8 lg:grid-cols-[1.3fr_0.7fr]">
         <div>

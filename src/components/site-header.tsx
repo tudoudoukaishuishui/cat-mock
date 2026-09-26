@@ -18,9 +18,9 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl items-center gap-4 px-4 py-3">
-        <Link href="/" className="flex items-center gap-2 text-foreground">
+        <Link href="/" className="flex shrink-0 items-center gap-2 text-foreground">
           <CatMark />
-          <span className="font-heading text-lg leading-none">超级猫咪</span>
+          <span className="font-heading text-lg leading-none whitespace-nowrap">超级猫咪</span>
         </Link>
         <nav aria-label="主导航" className="ml-auto flex gap-1 overflow-x-auto">
           {links.map((link) => {

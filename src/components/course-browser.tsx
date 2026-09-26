@@ -1,9 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { courseImage } from "@/lib/images";
 import type { CourseListItem, Level } from "@/lib/types";
 
 const levels: Array<Level | "全部"> = ["全部", "入门", "初级", "中级", "高级"];
@@ -110,7 +112,16 @@ export function CourseBrowser({
         <ul className="mt-2 divide-y divide-border">
           {filtered.map((item) => (
             <li key={item.id} className="py-6" data-course-id={item.id}>
-              <div className="grid gap-4 md:grid-cols-[1.3fr_0.9fr] md:gap-8">
+              <div className="grid gap-4 md:grid-cols-[14rem_1.3fr_0.9fr] md:gap-6">
+                <Link href={`/courses/${item.id}`} className="relative block aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={courseImage(item.id, item.name).src}
+                    alt={courseImage(item.id, item.name).alt}
+                    fill
+                    sizes="(min-width: 768px) 224px, 100vw"
+                    className="object-cover transition-transform duration-500 hover:scale-105"
+                  />
+                </Link>
                 <div>
                   <p className="text-xs tracking-wide text-muted-foreground">
                     {item.code} · {item.level} · {item.durationMinutes} 分钟 · 强度{item.intensity}

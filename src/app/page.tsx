@@ -1,6 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
+import { heroImage, sectionImages } from "@/lib/images";
 import { homeData } from "@/lib/queries";
 import { cn } from "cn";
 
@@ -15,6 +17,13 @@ export default function HomePage() {
 
   return (
     <main data-layer="home" className="mx-auto w-full max-w-6xl px-4 py-8 md:py-12">
+      <div className="relative mb-10 aspect-[16/9] w-full overflow-hidden md:aspect-[21/9]">
+        <Image src={heroImage.src} alt={heroImage.alt} fill priority sizes="(min-width: 1152px) 1152px, 100vw" className="object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
+        <p className="absolute bottom-4 left-4 hidden max-w-md text-sm leading-6 text-primary-foreground sm:block md:bottom-6 md:left-6 md:text-base">
+          上海、北京、深圳、成都四家门店，外加两处户外公开课集合点。按场次预约，不办卡。
+        </p>
+      </div>
       <section className="grid items-end gap-8 border-b border-border pb-10 lg:grid-cols-[1.15fr_0.85fr]">
         <div>
           <p className="text-sm tracking-[0.18em] text-muted-foreground">SUPER CAT · 模拟预约站</p>
@@ -61,6 +70,15 @@ export default function HomePage() {
             data-section={plate.slug}
             className="flex min-h-[28rem] flex-col border border-border bg-card p-5"
           >
+            <Link href={`/sections/${plate.slug}`} className="relative -mx-5 -mt-5 mb-5 block aspect-[4/3] overflow-hidden">
+              <Image
+                src={sectionImages[plate.slug].src}
+                alt={sectionImages[plate.slug].alt}
+                fill
+                sizes="(min-width: 1024px) 360px, 100vw"
+                className="object-cover transition-transform duration-500 hover:scale-105"
+              />
+            </Link>
             <p className={cn("w-fit px-2 py-1 text-xs", tone[plate.slug])}>{plate.index}</p>
             <h2 className="mt-4 font-heading text-4xl">{plate.name}</h2>
             <p className="mt-1 text-sm text-muted-foreground">{plate.englishName}</p>

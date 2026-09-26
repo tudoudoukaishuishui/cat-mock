@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { CourseBrowser } from "@/components/course-browser";
 import { MissingPage } from "@/components/missing-page";
+import { sectionImages } from "@/lib/images";
 import { getSection, listCourseItems, sectionCities } from "@/lib/queries";
 import type { SectionSlug } from "@/lib/types";
 
@@ -55,16 +57,28 @@ export default async function SectionPage({ params }: { params: Promise<{ slug: 
         </Link>
         <span> / {section.name}</span>
       </nav>
-      <header className="mt-4 max-w-3xl border-b border-border pb-6">
-        <p className="text-xs tracking-[0.16em] text-muted-foreground">
-          {section.index} · {section.englishName}
-        </p>
-        <h1 className="mt-2 font-heading text-5xl">{section.name}</h1>
-        <p className="mt-4 leading-7">{section.detail}</p>
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">{section.bookingRule}</p>
-        <p className="mt-2 text-sm text-muted-foreground">
-          免费取消需要在开课前满 {section.cancelHours} 小时。逾期仍可在本站取消并释放名额，记录会标明已超过免费时限。
-        </p>
+      <header className="mt-4 grid gap-6 border-b border-border pb-6 md:grid-cols-[1fr_0.8fr] md:items-end">
+        <div>
+          <p className="text-xs tracking-[0.16em] text-muted-foreground">
+            {section.index} · {section.englishName}
+          </p>
+          <h1 className="mt-2 font-heading text-5xl">{section.name}</h1>
+          <p className="mt-4 leading-7">{section.detail}</p>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">{section.bookingRule}</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            免费取消需要在开课前满 {section.cancelHours} 小时。逾期仍可在本站取消并释放名额，记录会标明已超过免费时限。
+          </p>
+        </div>
+        <div className="relative aspect-[4/3] overflow-hidden">
+          <Image
+            src={sectionImages[section.slug].src}
+            alt={sectionImages[section.slug].alt}
+            fill
+            priority
+            sizes="(min-width: 768px) 460px, 100vw"
+            className="object-cover"
+          />
+        </div>
       </header>
       <div className="mt-6">
         <CourseBrowser items={items} cities={cities} />
