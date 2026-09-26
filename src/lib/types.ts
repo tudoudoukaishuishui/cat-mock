@@ -95,6 +95,7 @@ export type SessionView = {
   end: string;
   timeLabel: string;
   durationMinutes: number;
+  coachId: string;
   coachName: string;
   coachTitle: string;
   coachLine: string;

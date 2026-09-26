@@ -76,6 +76,7 @@ export function getSessionView(
     end: session.end,
     timeLabel: formatSessionTime(session.start, session.end),
     durationMinutes: course.durationMinutes,
+    coachId: coach.id,
     coachName: coach.name,
     coachTitle: coach.title,
     coachLine: `${coach.name}，${coach.title}，${credentials}，执教 ${coach.years} 年`,

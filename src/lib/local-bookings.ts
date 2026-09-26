@@ -59,6 +59,10 @@ function toView(record: BookingRecord): BookingView {
   const seed = session ? getSessionView(session) : null;
   const view = seed ? withExtraBookings(seed, localExtra(seed.id)) : null;
   const ended = view ? view.status === "ended" || view.status === "started" : true;
+  const groupLocked =
+    view?.section === "group" &&
+    session !== undefined &&
+    new Date(session.start).getTime() - Date.now() < 6 * 60 * 60 * 1000;
   let statusLabel = "已预约";
   if (record.cancelledAt) statusLabel = record.lateCancel ? "已取消（超过免费时限）" : "已取消";
   else if (ended) statusLabel = view?.statusLabel ?? "已结束";
@@ -72,7 +76,7 @@ function toView(record: BookingRecord): BookingView {
     coachLine: view?.coachLine ?? "",
     addressLine: view?.addressLine ?? "",
     statusLabel,
-    canCancel: !record.cancelledAt && !ended,
+    canCancel: !record.cancelledAt && !ended && !groupLocked,
   };
 }
 
@@ -166,6 +170,9 @@ export function cancelLocalBooking(id: string): BookOk | BookErr {
   }
 
   const late = new Date(session.start).getTime() - Date.now() < section.cancelHours * 60 * 60 * 1000;
+  if (section.slug === "group" && late) {
+    return { ok: false, error: "距离开课不满 6 小时，不支持退款，不能取消。" };
+  }
   const bookings = state.bookings.map((booking) =>
     booking.id === id ? { ...booking, cancelledAt: new Date().toISOString(), lateCancel: late } : booking,
   );

@@ -3,9 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { CourseBrowser } from "@/components/course-browser";
+import { GroupTimetable } from "@/components/group-timetable";
 import { MissingPage } from "@/components/missing-page";
 import { sectionImages } from "@/lib/images";
-import { getSection, listCourseItems, sectionCities } from "@/lib/queries";
+import { getSection, listCourseItems, listSessionViews, sectionCities } from "@/lib/queries";
 import type { SectionSlug } from "@/lib/types";
 
 export function generateStaticParams() {
@@ -46,6 +47,15 @@ export default async function SectionPage({ params }: { params: Promise<{ slug: 
       />
     );
   }
+  if (section.slug === "group") {
+    const groupSessions = listSessionViews().filter((item) => item.section === "group");
+    return (
+      <main data-layer="section" data-section="group" className="bg-[#121212] text-white">
+        <GroupTimetable sessions={groupSessions} />
+      </main>
+    );
+  }
+
   const items = listCourseItems(section.slug);
   const cities = sectionCities(section.slug);
 

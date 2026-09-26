@@ -146,6 +146,9 @@ export function cancelBooking(id: string): BookOk | BookErr {
   }
 
   const late = new Date(session.start).getTime() - Date.now() < section.cancelHours * 60 * 60 * 1000;
+  if (section.slug === "group" && late) {
+    return { ok: false, status: 409, error: "距离开课不满 6 小时，不支持退款，不能取消。" };
+  }
   let updated: BookingRecord | null = null;
 
   updateState((state) => {

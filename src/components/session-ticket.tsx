@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 
 import { BookDialog } from "@/components/book-dialog";
+import { GroupBookSheet } from "@/components/group-book-sheet";
 import { localExtra } from "@/lib/local-bookings";
 import { withExtraBookings } from "@/lib/queries";
 import type { SessionView } from "@/lib/types";
 
 export function SessionTicket({ session }: { session: SessionView }) {
   const [view, setView] = useState(session);
+  const [sheet, setSheet] = useState(false);
 
   useEffect(() => {
     const apply = () => setView(withExtraBookings(session, localExtra(session.id)));
@@ -73,7 +75,20 @@ export function SessionTicket({ session }: { session: SessionView }) {
         />
       </dl>
       <div className="mt-4">
-        <BookDialog session={view} />
+        {view.section === "group" ? (
+          <>
+            <button
+              type="button"
+              onClick={() => setSheet(true)}
+              className="h-10 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
+            >
+              {view.status === "open" ? "预约此场次" : "查看场次"}
+            </button>
+            {sheet ? <GroupBookSheet session={view} onClose={() => setSheet(false)} /> : null}
+          </>
+        ) : (
+          <BookDialog session={view} />
+        )}
       </div>
     </article>
   );
