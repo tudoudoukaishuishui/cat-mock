@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { BookDialog } from "@/components/book-dialog";
 import { GroupBookSheet } from "@/components/group-book-sheet";
+import { Button } from "@/components/ui/button";
 import { localExtra } from "@/lib/local-bookings";
 import { withExtraBookings } from "@/lib/queries";
 import type { SessionView } from "@/lib/types";
@@ -77,13 +78,9 @@ export function SessionTicket({ session }: { session: SessionView }) {
       <div className="mt-4">
         {view.section === "group" ? (
           <>
-            <button
-              type="button"
-              onClick={() => setSheet(true)}
-              className="h-10 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
-            >
+            <Button type="button" className="h-10 px-4" onClick={() => setSheet(true)}>
               {view.status === "open" ? "预约此场次" : "查看场次"}
-            </button>
+            </Button>
             {sheet ? <GroupBookSheet session={view} onClose={() => setSheet(false)} /> : null}
           </>
         ) : (

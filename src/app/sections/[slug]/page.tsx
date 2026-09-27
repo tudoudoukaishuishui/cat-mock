@@ -50,7 +50,33 @@ export default async function SectionPage({ params }: { params: Promise<{ slug: 
   if (section.slug === "group") {
     const groupSessions = listSessionViews().filter((item) => item.section === "group");
     return (
-      <main data-layer="section" data-section="group" className="bg-[#121212] text-white">
+      <main data-layer="section" data-section="group" className="mx-auto w-full max-w-6xl px-4 py-8">
+        <nav aria-label="面包屑" className="text-sm text-muted-foreground">
+          <Link href="/" className="hover:text-foreground">
+            首页
+          </Link>
+          <span> / {section.name}</span>
+        </nav>
+        <header className="mt-4 grid gap-6 border-b border-border pb-6 md:grid-cols-[1fr_0.8fr] md:items-end">
+          <div>
+            <p className="text-xs tracking-[0.16em] text-muted-foreground">
+              {section.index} · {section.englishName}
+            </p>
+            <h1 className="mt-2 font-heading text-5xl">团课</h1>
+            <p className="mt-4 leading-7">{section.detail}</p>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">{section.bookingRule}</p>
+          </div>
+          <div className="relative aspect-[4/3] overflow-hidden">
+            <Image
+              src={sectionImages.group.src}
+              alt={sectionImages.group.alt}
+              fill
+              priority
+              sizes="(min-width: 768px) 460px, 100vw"
+              className="object-cover"
+            />
+          </div>
+        </header>
         <GroupTimetable sessions={groupSessions} />
       </main>
     );

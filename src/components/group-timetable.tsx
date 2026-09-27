@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { ChevronDown } from "lucide-react";
 
 import { GroupBookSheet } from "@/components/group-book-sheet";
 import { courses, studios } from "@/data/catalog";
@@ -104,42 +102,8 @@ export function GroupTimetable({ sessions }: { sessions: SessionView[] }) {
   const headline = store !== "全部" ? store : city !== "全部" ? `${city} · 全部门店` : "全部门店";
 
   return (
-    <div className="mx-auto min-h-[70vh] w-full max-w-md px-4 pt-2 pb-16">
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center py-3">
-        <label className="relative inline-flex w-fit items-center text-sm">
-          <select
-            aria-label="城市"
-            value={city}
-            onChange={(event) => {
-              setCity(event.target.value);
-              setStore("全部");
-            }}
-            className="appearance-none bg-transparent pr-5 text-white outline-none"
-          >
-            <option value="全部">全部</option>
-            {cities.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <ChevronDown className="pointer-events-none absolute right-0 size-3.5 text-white/70" />
-        </label>
-        <h1 className="text-lg font-semibold">课表</h1>
-        <span />
-      </div>
-
-      <nav aria-label="课程类型" className="flex gap-6 border-b border-white/10 text-sm">
-        <span className="border-b-2 border-[#f5c518] pb-2 font-medium">团课</span>
-        <Link href="/sections/personal" className="pb-2 text-white/50">
-          私教
-        </Link>
-        <Link href="/sections/open" className="pb-2 text-white/50">
-          公开课
-        </Link>
-      </nav>
-
-      <div className="mt-3 flex gap-1 overflow-x-auto pb-1">
+    <div className="pt-6 pb-16">
+      <div className="flex gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible">
         {dayKeys.map((key) => {
           const selected = key === selectedDay;
           const mark = dayMark(key, today);
@@ -148,56 +112,64 @@ export function GroupTimetable({ sessions }: { sessions: SessionView[] }) {
               key={key}
               type="button"
               onClick={() => setPickedDay(key)}
-              className="flex w-12 shrink-0 flex-col items-center gap-1"
+              className={cn(
+                "flex h-16 w-14 shrink-0 flex-col items-center justify-center border text-sm",
+                selected
+                  ? "border-persimmon bg-persimmon text-primary-foreground"
+                  : "border-border bg-card text-foreground hover:border-foreground",
+              )}
             >
-              <span
-                className={cn(
-                  "grid size-9 place-items-center rounded-full text-sm font-semibold",
-                  selected ? "bg-[#f5a623] text-black" : mark === "今" ? "bg-[#f6c445] text-black" : "text-white",
-                )}
-              >
-                {Number(key.slice(-2))}
-              </span>
-              <span className={cn("text-[11px]", selected ? "text-white" : "text-white/55")}>{mark}</span>
+              <span className="font-heading text-xl leading-none">{Number(key.slice(-2))}</span>
+              <span className={cn("mt-1 text-xs", selected ? "text-primary-foreground" : "text-muted-foreground")}>{mark}</span>
             </button>
           );
         })}
       </div>
 
-      <div className="mt-3 flex gap-2 overflow-x-auto pb-1 text-xs">
-        <label className="flex h-8 shrink-0 items-center rounded-full bg-[#2a2a2a] px-3">
+      <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-[minmax(14rem,1.3fr)_repeat(5,minmax(0,1fr))]">
+        <label>
+          <span className="sr-only">搜索课程、教练或门店</span>
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             aria-label="搜索课程、教练或门店"
-            className="w-14 bg-transparent outline-none placeholder:text-white/55"
-            placeholder="搜索"
+            placeholder="搜索课程、教练或门店"
+            className="h-10 w-full border border-border bg-card px-3 text-sm outline-none placeholder:text-muted-foreground focus-visible:border-ring"
           />
         </label>
         <Filter
-          label="课程"
-          value={courseId}
-          onChange={setCourseId}
-          options={[{ value: "全部", label: "全部" }, ...courseOptions.map((course) => ({ value: course.id, label: course.name }))]}
+          label="城市"
+          value={city}
+          onChange={(value) => {
+            setCity(value);
+            setStore("全部");
+          }}
+          options={[{ value: "全部", label: "全部城市" }, ...cities.map((item) => ({ value: item, label: item }))]}
         />
         <Filter
           label="门店"
           value={store}
           onChange={setStore}
-          options={[{ value: "全部", label: "全部" }, ...stores.map((item) => ({ value: item, label: item }))]}
+          options={[{ value: "全部", label: "全部门店" }, ...stores.map((item) => ({ value: item, label: studios.find((studio) => studio.name === item)?.short ?? item }))]}
+        />
+        <Filter
+          label="课程"
+          value={courseId}
+          onChange={setCourseId}
+          options={[{ value: "全部", label: "全部课程" }, ...courseOptions.map((course) => ({ value: course.id, label: course.name }))]}
         />
         <Filter
           label="教练"
           value={coachId}
           onChange={setCoachId}
-          options={[{ value: "全部", label: "全部" }, ...coachOptions.map((coach) => ({ value: coach.id, label: coach.name }))]}
+          options={[{ value: "全部", label: "全部教练" }, ...coachOptions.map((coach) => ({ value: coach.id, label: coach.name }))]}
         />
         <Filter
           label="时间"
           value={slot}
           onChange={setSlot}
           options={[
-            { value: "全部", label: "全部" },
+            { value: "全部", label: "全部时间" },
             { value: "上午", label: "上午" },
             { value: "下午", label: "下午" },
             { value: "晚上", label: "晚上" },
@@ -205,56 +177,60 @@ export function GroupTimetable({ sessions }: { sessions: SessionView[] }) {
         />
       </div>
 
-      <p className="mt-4 text-sm text-white/80">{headline}</p>
+      <p className="mt-5 text-sm text-muted-foreground">
+        {headline} · {rows.length} 场
+      </p>
 
-      <ul className="mt-3 space-y-3">
-        {rows.map((card) => {
-          const course = courses.find((item) => item.id === card.courseId);
-          const image = courseImage(card.courseId, card.courseName);
-          const place = studios.find((item) => item.name === card.studioName)?.short ?? card.studioName;
-          const tags = course ? `${course.level} · ${course.intensity}` : "";
-          return (
-            <li key={card.id}>
-              <button
-                type="button"
-                onClick={() => setActive(card)}
-                data-session-id={card.id}
-                data-status={card.status}
-                data-course={card.courseName}
-                data-coach={card.coachName}
-                data-price={card.price}
-                data-remaining={card.remaining}
-                className="flex w-full gap-3 rounded-2xl bg-[#1c1c1c] p-3 text-left"
-              >
-                <img src={image.src} alt="" className="size-14 shrink-0 rounded-full object-cover" />
-                <span className="min-w-0 flex-1">
-                  <span className="flex items-start justify-between gap-2">
-                    <span className="font-medium">
-                      {card.courseName}{" "}
-                      <span className="text-sm font-normal text-white/45 uppercase">{course?.englishName}</span>
+      {rows.length === 0 ? (
+        <div className="mt-4 border border-dashed border-border p-8">
+          <p className="font-medium">这一天没有团课</p>
+          <p className="mt-1 text-sm text-muted-foreground">换一天，或放宽城市、门店和课程筛选。</p>
+        </div>
+      ) : (
+        <ul className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {rows.map((card) => {
+            const course = courses.find((item) => item.id === card.courseId);
+            const image = courseImage(card.courseId, card.courseName);
+            const place = studios.find((item) => item.name === card.studioName)?.short ?? card.studioName;
+            const tags = course ? `${course.level} · 强度${course.intensity}` : "";
+            return (
+              <li key={card.id}>
+                <button
+                  type="button"
+                  onClick={() => setActive(card)}
+                  data-session-id={card.id}
+                  data-status={card.status}
+                  data-course={card.courseName}
+                  data-coach={card.coachName}
+                  data-price={card.price}
+                  data-remaining={card.remaining}
+                  className="flex h-full w-full gap-3 border border-border bg-card p-3 text-left transition-colors hover:border-persimmon"
+                >
+                  <img src={image.src} alt="" className="size-16 shrink-0 object-cover" />
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-start justify-between gap-2">
+                      <span className="font-heading text-xl leading-tight">{card.courseName}</span>
+                      {card.status !== "open" ? (
+                        <span className="shrink-0 bg-muted px-1.5 py-0.5 text-[11px] text-muted-foreground">{card.statusLabel}</span>
+                      ) : null}
                     </span>
-                    {card.status !== "open" ? (
-                      <span className="shrink-0 rounded bg-[#f5a623] px-1.5 py-0.5 text-[10px] font-medium text-black">
-                        {card.statusLabel}
-                      </span>
-                    ) : null}
+                    <span className="mt-0.5 block text-xs tracking-wide text-muted-foreground uppercase">{course?.englishName}</span>
+                    <span className="mt-2 block text-sm">
+                      {formatClockRange(card.start, card.end)}{" "}
+                      <span className="font-medium text-persimmon">{card.price === 0 ? "免费" : `¥${card.price}`}</span>
+                    </span>
+                    <span className="mt-1 block text-xs text-muted-foreground">
+                      {card.coachName} · {tags}
+                      {tags ? " · " : ""}
+                      {place} · 余 {card.remaining}
+                    </span>
                   </span>
-                  <span className="mt-1 block text-sm text-white/80">
-                    {formatClockRange(card.start, card.end)}{" "}
-                    <span className="text-[#f6c445]">{card.price === 0 ? "免费" : `¥${card.price}`}</span>
-                  </span>
-                  <span className="mt-1 block text-xs text-white/40">
-                    {tags}
-                    {tags ? " · " : ""}
-                    {place} · 余 {card.remaining}
-                  </span>
-                </span>
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-      {rows.length === 0 ? <p className="mt-8 text-center text-sm text-white/45">这一天没有团课</p> : null}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
       {active ? <GroupBookSheet session={active} onClose={() => setActive(null)} /> : null}
     </div>
   );
@@ -271,16 +247,14 @@ function Filter({
   onChange: (value: string) => void;
   options: { value: string; label: string }[];
 }) {
-  const current = options.find((option) => option.value === value);
-  const text = !current || current.value === "全部" ? label : current.label;
   return (
-    <label className="relative flex h-8 shrink-0 items-center rounded-full bg-[#2a2a2a] pr-7 pl-3">
-      <span className="max-w-24 truncate">{text}</span>
+    <label className="block">
+      <span className="sr-only">{label}</span>
       <select
         aria-label={label}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="absolute inset-0 cursor-pointer opacity-0"
+        className="h-10 w-full border border-border bg-card px-3 text-sm outline-none focus-visible:border-ring"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -288,7 +262,6 @@ function Filter({
           </option>
         ))}
       </select>
-      <ChevronDown className="pointer-events-none absolute right-2 size-3.5 text-white/60" />
     </label>
   );
 }
