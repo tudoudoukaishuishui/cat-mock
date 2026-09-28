@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import { BookDialog } from "@/components/book-dialog";
 import { GroupBookSheet } from "@/components/group-book-sheet";
 import { Button } from "@/components/ui/button";
 import { localExtra } from "@/lib/local-bookings";
@@ -76,16 +75,10 @@ export function SessionTicket({ session }: { session: SessionView }) {
         />
       </dl>
       <div className="mt-4">
-        {view.section === "group" ? (
-          <>
-            <Button type="button" className="h-10 px-4" onClick={() => setSheet(true)}>
-              {view.status === "open" ? "预约此场次" : "查看场次"}
-            </Button>
-            {sheet ? <GroupBookSheet session={view} onClose={() => setSheet(false)} /> : null}
-          </>
-        ) : (
-          <BookDialog session={view} />
-        )}
+        <Button type="button" className="h-10 px-4" onClick={() => setSheet(true)}>
+          {view.status === "open" ? "预约此场次" : "查看场次"}
+        </Button>
+        {sheet ? <GroupBookSheet session={view} onClose={() => setSheet(false)} /> : null}
       </div>
     </article>
   );

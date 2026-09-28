@@ -48,7 +48,7 @@ function unique(values: string[]) {
   return [...new Set(values)];
 }
 
-export function GroupTimetable({ sessions }: { sessions: SessionView[] }) {
+export function GroupTimetable({ sessions, sectionName }: { sessions: SessionView[]; sectionName: string }) {
   const [cards, setCards] = useState(sessions);
   const [city, setCity] = useState("全部");
   const [store, setStore] = useState("全部");
@@ -183,7 +183,7 @@ export function GroupTimetable({ sessions }: { sessions: SessionView[] }) {
 
       {rows.length === 0 ? (
         <div className="mt-4 border border-dashed border-border p-8">
-          <p className="font-medium">这一天没有团课</p>
+          <p className="font-medium">这一天没有{sectionName}</p>
           <p className="mt-1 text-sm text-muted-foreground">换一天，或放宽城市、门店和课程筛选。</p>
         </div>
       ) : (

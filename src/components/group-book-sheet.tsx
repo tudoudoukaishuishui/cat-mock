@@ -39,7 +39,8 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
     };
   }, [onClose]);
 
-  const quote = classTotal("group", session.price, party);
+  const personal = session.section === "personal";
+  const quote = classTotal(session.section, session.price, party);
   const bookable = session.status === "open" && session.remaining > 0;
 
   if (!mounted) return null;
@@ -147,7 +148,7 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                     sessionId: session.id,
                     name,
                     phone,
-                    partySize: party,
+                    partySize: personal ? 1 : party,
                     companions: party,
                     agreed: true,
                   });
@@ -160,10 +161,10 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                 }}
               >
                 <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border py-4">
-                  <span>人数</span>
+                  <span>{personal ? "一起报名" : "人数"}</span>
                   <div className="flex gap-2">
                     {[1, 2, 3].map((count) => {
-                      const disabled = !bookable || count > session.remaining;
+                      const disabled = !bookable || (!personal && count > session.remaining);
                       return (
                         <button
                           key={count}
@@ -196,12 +197,12 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                 </div>
                 <p className="text-xs text-muted-foreground">
                   本场剩余 {session.remaining} 个名额 · {session.statusLabel}
+                  {personal ? "。这一场只占 1 个名额，2 人或 3 人一起报名时这一节打 9 折。" : ""}
                 </p>
 
                 <div className="mt-4 text-sm leading-6 text-muted-foreground">
                   <p className="text-foreground">退课须知</p>
-                  <p>距离开课时间大于 6 小时取消预约，支持全额退款。</p>
-                  <p>距离开课时间不满 6 小时取消预约，不支持退款。</p>
+                  <p>{session.cancelRule}</p>
                 </div>
 
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
