@@ -35,6 +35,15 @@ const kind: Record<string, string> = {
   "pt-fat": "hiit",
   "open-intro": "intro",
   "open-assess": "intro",
+  bodypump: "strength",
+  trx: "strength",
+  "battle-rope": "hiit",
+  medball: "hiit",
+  rebound: "hiit",
+  barre: "dance",
+  hyrox: "hiit",
+  "pt-muscle": "strength",
+  "pt-performance": "hiit",
 };
 
 const kindAlt: Record<string, string> = {

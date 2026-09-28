@@ -43,6 +43,9 @@ export type Course = {
   description: string;
   durationMinutes: number;
   level: Level;
+  levelDetail?: string;
+  audience?: string;
+  tags?: string[];
   intensity: Intensity;
   calories: string;
   goals: string[];

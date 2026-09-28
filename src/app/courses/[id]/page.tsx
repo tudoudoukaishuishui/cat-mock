@@ -44,7 +44,9 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
     板块: section.name,
     课程内容介绍: course.description,
     时长分钟: course.durationMinutes,
-    课程等级: course.level,
+    课程等级: course.levelDetail ? `${course.level}，${course.levelDetail}` : course.level,
+    用户画像: course.audience ?? "",
+    匹配标签: course.tags ?? [],
     强度: course.intensity,
     预计消耗: course.calories,
     价格区间: view.priceLabel,
@@ -108,7 +110,11 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
         </div>
         <dl className="grid content-start gap-3 border border-border bg-card p-4 text-sm">
           <Fact label="时长" value={`${course.durationMinutes} 分钟`} field="duration" />
-          <Fact label="课程等级" value={course.level} field="course-level" />
+          <Fact
+            label="课程等级"
+            value={course.levelDetail ? `${course.level}，${course.levelDetail}` : course.level}
+            field="course-level"
+          />
           <Fact label="强度" value={course.intensity} field="intensity" />
           <Fact label="价格" value={view.priceLabel} field="price-range" />
           <Fact label="预计消耗" value={course.calories} field="calories" />
@@ -122,6 +128,21 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
             <p data-field="description" className="mt-3 max-w-3xl leading-7">
               {course.description}
             </p>
+            {course.audience ? (
+              <div className="mt-6">
+                <h3 className="font-medium">用户画像</h3>
+                <p className="mt-2 max-w-3xl leading-7">{course.audience}</p>
+              </div>
+            ) : null}
+            {course.tags && course.tags.length > 0 ? (
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {course.tags.map((tag) => (
+                  <li key={tag} className="bg-muted px-2 py-1 text-xs">
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </section>
 
           <section>
