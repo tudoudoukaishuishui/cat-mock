@@ -35,11 +35,7 @@ export function SessionTicket({ session }: { session: SessionView }) {
       <dl className="mt-3">
         <Field label="教练" field="coach" value={view.coachLine} />
         <Field label="等级" field="level" value={view.level} />
-        <Field
-          label="时间"
-          field="time"
-          value={`${view.timeLabel}（${view.durationMinutes ? `${view.durationMinutes} 分钟` : "时长待确认"}）`}
-        />
+        <Field label="时间" field="time" value={`${view.timeLabel}（${view.durationMinutes} 分钟）`} />
         <Field
           label="地址"
           field="address"
@@ -80,7 +76,7 @@ export function SessionTicket({ session }: { session: SessionView }) {
       </dl>
       <div className="mt-4">
         <Button type="button" className="h-10 px-4" onClick={() => setSheet(true)}>
-          {view.status === "open" ? view.actionLabel : "查看场次"}
+          {view.status === "open" ? "预约此场次" : "查看场次"}
         </Button>
         {sheet ? <GroupBookSheet session={view} onClose={() => setSheet(false)} /> : null}
       </div>

@@ -138,13 +138,7 @@ export function createLocalBooking(input: BookInput): BookOk | BookErr {
   if (duplicated) return { ok: false, error: "此手机号已预约该场次，请到我的运动查看" };
 
   const cardHolder = section.slug === "group" && hasCard(phone);
-  const unpriced = Boolean(session.priceStatus);
-  const quote = unpriced
-    ? {
-        total: 0,
-        note: session.priceStatus === "consult" ? "咨询报名，价格与报名资格待确认" : "当前场次价待确认",
-      }
-    : classTotal(section.slug, session.price, section.slug === "personal" ? companions : partySize, cardHolder);
+  const quote = classTotal(section.slug, session.price, section.slug === "personal" ? companions : partySize, cardHolder);
   const pointsAwarded = awardClassPoints(section.slug, phone, seats);
   const created: BookingRecord = {
     id: `BK-${state.nextNumber}`,

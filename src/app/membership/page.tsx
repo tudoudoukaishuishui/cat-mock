@@ -29,9 +29,9 @@ export default function MembershipPage() {
       <section className="mt-8 grid gap-4 md:grid-cols-3">
         <article className="border border-border bg-card p-5">
           <h2 className="font-heading text-2xl">团课</h2>
-          <p className="mt-3 font-heading text-4xl">官网 {GROUP_FROM_PRICE} 元/节起</p>
+          <p className="mt-3 font-heading text-4xl">¥{GROUP_FROM_PRICE} 起</p>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            这是品牌官网的全国口径，不是各门店的保证价，也不能据此认为成都有 69 元课程。北京、上海的历史参考是 89—179 元/节，当前场次价待确认。
+            每节价格按城市和课程不同。课表里有瘦身塑形、拳击、舞蹈、瑜伽等课程，以当场标价为准。
           </p>
         </article>
         <article className="border border-border bg-card p-5">

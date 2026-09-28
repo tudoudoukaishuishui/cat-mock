@@ -25,16 +25,13 @@ export function shanghaiDateKey(iso: string) {
 export function formatClockRange(startIso: string, endIso: string) {
   const start = parts(new Date(startIso));
   const end = parts(new Date(endIso));
-  if (start.hour === end.hour && start.minute === end.minute) return `${start.hour}:${start.minute}`;
   return `${start.hour}:${start.minute}-${end.hour}:${end.minute}`;
 }
 
 export function formatSheetWhen(startIso: string, endIso: string) {
   const start = longParts(new Date(startIso));
   const end = parts(new Date(endIso));
-  const endClock =
-    start.hour === end.hour && start.minute === end.minute ? "时长待确认" : `${end.hour}:${end.minute}`;
-  return `${start.month.padStart(2, "0")}月${start.day.padStart(2, "0")}日 ${start.weekday} ${start.hour}:${start.minute} - ${endClock}`;
+  return `${start.month.padStart(2, "0")}月${start.day.padStart(2, "0")}日 ${start.weekday} ${start.hour}:${start.minute} - ${end.hour}:${end.minute}`;
 }
 
 function longParts(date: Date) {
@@ -57,11 +54,7 @@ function longParts(date: Date) {
 export function formatSessionTime(startIso: string, endIso: string) {
   const start = parts(new Date(startIso));
   const end = parts(new Date(endIso));
-  const clock =
-    start.hour === end.hour && start.minute === end.minute
-      ? `${start.hour}:${start.minute}`
-      : `${start.hour}:${start.minute}–${end.hour}:${end.minute}`;
-  return `${start.year}年${start.month}月${start.day}日 ${start.weekday} ${clock}`;
+  return `${start.year}年${start.month}月${start.day}日 ${start.weekday} ${start.hour}:${start.minute}–${end.hour}:${end.minute}`;
 }
 
 export function formatDateTime(iso: string) {

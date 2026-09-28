@@ -1,8 +1,6 @@
 export type SectionSlug = "group" | "personal" | "open";
 
-export type Level = "入门" | "初中级" | "中级" | "中高级";
-
-export type PriceStatus = "pending" | "consult";
+export type Level = "入门" | "初级" | "中级" | "高级";
 
 export type Intensity = "低" | "中" | "中高" | "高";
 
@@ -49,10 +47,6 @@ export type Course = {
   calories: string;
   goals: string[];
   outline: OutlineBlock[];
-  levelNote: string;
-  audience: string;
-  tags: string[];
-  priceNote: string;
   suitableFor: string[];
   notSuitableFor: string[];
   equipmentProvided: string[];
@@ -74,7 +68,6 @@ export type Session = {
   capacity: number;
   booked: number;
   price: number;
-  priceStatus?: PriceStatus;
   notes: string[];
 };
 
@@ -119,9 +112,7 @@ export type SessionView = {
   booked: number;
   remaining: number;
   price: number;
-  priceStatus?: PriceStatus;
   priceLabel: string;
-  actionLabel: string;
   priceIncludes: string;
   notes: string[];
   cancelRule: string;

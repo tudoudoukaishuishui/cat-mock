@@ -93,9 +93,7 @@ export function getSessionView(
     booked,
     remaining: Math.max(session.capacity - booked, 0),
     price: session.price,
-    priceStatus: session.priceStatus,
-    priceLabel: priceText(session),
-    actionLabel: session.priceStatus === "consult" ? "咨询报名" : "预约此场次",
+    priceLabel: formatPrice(session.price),
     priceIncludes: course.priceIncludes,
     notes: [...course.generalNotes, ...session.notes],
     cancelRule: course.cancelRule,
@@ -109,17 +107,7 @@ export function listSessionViews(now = Date.now()) {
   return sessions.map((session) => getSessionView(session, now, extras));
 }
 
-function priceText(session: { price: number; priceStatus?: "pending" | "consult" }) {
-  if (session.priceStatus === "consult") return "价格待确认";
-  if (session.priceStatus === "pending") return "当前场次价待确认";
-  return formatPrice(session.price);
-}
-
-function priceLabelFor(views: SessionView[]) {
-  if (views.length > 0 && views.every((view) => view.priceStatus)) {
-    return views.every((view) => view.priceStatus === "consult") ? "价格待确认" : "当前场次价待确认";
-  }
-  const prices = views.map((view) => view.price);
+function priceLabelFor(prices: number[]) {
   const min = Math.min(...prices);
   const max = Math.max(...prices);
   return formatPriceRange(min, max);
@@ -144,6 +132,7 @@ function toListItem(course: Course, now: number, extras: Map<string, number>): C
     .filter((session) => session.courseId === course.id)
     .map((session) => getSessionView(session, now, extras))
     .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+  const prices = views.map((view) => view.price);
   const levels = [...new Set(views.map((view) => view.level))];
   const next = views.find((view) => view.status === "open") ?? null;
 
@@ -156,9 +145,9 @@ function toListItem(course: Course, now: number, extras: Map<string, number>): C
     level: course.level,
     durationMinutes: course.durationMinutes,
     intensity: course.intensity,
-    minPrice: views.length ? Math.min(...views.map((view) => view.price)) : 0,
-    maxPrice: views.length ? Math.max(...views.map((view) => view.price)) : 0,
-    priceLabel: priceLabelFor(views),
+    minPrice: Math.min(...prices),
+    maxPrice: Math.max(...prices),
+    priceLabel: priceLabelFor(prices),
     sessionCount: views.length,
     bookableCount: views.filter((view) => view.status === "open").length,
     mixedLevels: levels.length > 1,
@@ -182,14 +171,16 @@ export function getCourseView(courseId: string, now = Date.now()): CourseView | 
   const coachIds = new Set(
     sessions.filter((session) => session.courseId === course.id).map((session) => session.coachId),
   );
+  const prices = sessionViews.map((view) => view.price);
+
   return {
     course,
     section,
     sessions: sessionViews,
     coaches: coaches.filter((coach) => coachIds.has(coach.id)),
-    minPrice: sessionViews.length ? Math.min(...sessionViews.map((view) => view.price)) : 0,
-    maxPrice: sessionViews.length ? Math.max(...sessionViews.map((view) => view.price)) : 0,
-    priceLabel: priceLabelFor(sessionViews),
+    minPrice: Math.min(...prices),
+    maxPrice: Math.max(...prices),
+    priceLabel: priceLabelFor(prices),
   };
 }
 
@@ -207,6 +198,7 @@ export function homeData(now = Date.now()) {
   const plates = sections.map((section) => {
     const items = listCourseItems(section.slug, now);
     const sectionSessions = all.filter((session) => session.section === section.slug);
+    const prices = sectionSessions.map((session) => session.price);
     const next = sectionSessions
       .filter((session) => session.status === "open")
       .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())[0];
@@ -216,7 +208,7 @@ export function homeData(now = Date.now()) {
       courseCount: items.length,
       sessionCount: sectionSessions.length,
       bookableCount: sectionSessions.filter((session) => session.status === "open").length,
-      priceLabel: priceLabelFor(sectionSessions),
+      priceLabel: priceLabelFor(prices),
       next: next ?? null,
       highlights: items.slice(0, 3).map((item) => ({ id: item.id, name: item.name, summary: item.summary })),
     };

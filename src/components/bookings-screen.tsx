@@ -145,12 +145,11 @@ export function BookingsScreen() {
                             <p className="text-sm">{booking.statusLabel}</p>
                           </div>
                           <p className="mt-1 text-sm text-muted-foreground">
-                            {booking.timeLabel} · {booking.durationMinutes ? `${booking.durationMinutes} 分钟` : "时长待确认"} · {booking.sectionName}
+                            {booking.timeLabel} · {booking.durationMinutes} 分钟 · {booking.sectionName}
                           </p>
                           <p className="mt-1 text-sm text-muted-foreground">
-                            {booking.name} · {booking.phone} · {booking.partySize} 人 ·{" "}
-                            {booking.totalPrice === 0 && booking.discountNote ? booking.discountNote : `¥${booking.totalPrice}`}
-                            {booking.totalPrice > 0 && booking.discountNote ? ` · ${booking.discountNote}` : ""}
+                            {booking.name} · {booking.phone} · {booking.partySize} 人 · ¥{booking.totalPrice}
+                            {booking.discountNote ? ` · ${booking.discountNote}` : ""}
                           </p>
                           <p className="mt-1 text-sm text-muted-foreground">{booking.addressLine}</p>
                           <p className="mt-1 text-xs text-muted-foreground">
