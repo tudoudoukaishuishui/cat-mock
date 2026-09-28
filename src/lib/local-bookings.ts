@@ -76,6 +76,8 @@ function toView(record: BookingRecord): BookingView {
     timeLabel: view?.timeLabel ?? "",
     coachLine: view?.coachLine ?? "",
     addressLine: view?.addressLine ?? "",
+    start: view?.start ?? record.createdAt,
+    durationMinutes: view?.durationMinutes ?? 0,
     statusLabel,
     canCancel: !record.cancelledAt && !ended && !groupLocked,
   };
@@ -133,7 +135,7 @@ export function createLocalBooking(input: BookInput): BookOk | BookErr {
   const duplicated = state.bookings.some(
     (booking) => booking.sessionId === session.id && booking.phone === phone && booking.cancelledAt === null,
   );
-  if (duplicated) return { ok: false, error: "此手机号已预约该场次，请到我的预约查看" };
+  if (duplicated) return { ok: false, error: "此手机号已预约该场次，请到我的运动查看" };
 
   const cardHolder = section.slug === "group" && hasCard(phone);
   const quote = classTotal(section.slug, session.price, section.slug === "personal" ? companions : partySize, cardHolder);

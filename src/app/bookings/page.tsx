@@ -4,8 +4,8 @@ import { Suspense } from "react";
 import { BookingsScreen } from "@/components/bookings-screen";
 
 export const metadata: Metadata = {
-  title: "我的预约",
-  description: "查看、取消超级猫咪的演示预约。预约保存在本机浏览器里。",
+  title: "我的运动",
+  description: "查看累计训练天数、次数和每月预约记录。",
 };
 
 export default function BookingsPage() {

@@ -58,7 +58,7 @@ export function ResetBookingsButton() {
         </Button>
       ) : (
         <Button type="button" variant="outline" className="h-10 px-4" onClick={() => setArmed(true)}>
-          清空演示预约
+          清空预约记录
         </Button>
       )}
       {armed ? (

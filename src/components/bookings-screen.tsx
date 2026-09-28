@@ -3,16 +3,39 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { UserRound } from "lucide-react";
 
 import { CancelBookingButton, ResetBookingsButton } from "@/components/booking-actions";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime, shanghaiDateKey } from "@/lib/format";
+import { courseImage, heroImage } from "@/lib/images";
 import { listLocalBookings } from "@/lib/local-bookings";
 import type { BookingView } from "@/lib/types";
+import { cn } from "cn";
+
+function monthKey(iso: string) {
+  return shanghaiDateKey(iso).slice(0, 7);
+}
+
+function monthTitle(key: string, current: string) {
+  if (key === current) return "本月";
+  const [year, month] = key.split("-");
+  return `${year}年${Number(month)}月`;
+}
+
+function summarize(items: BookingView[]) {
+  const active = items.filter((item) => !item.cancelledAt);
+  return {
+    count: active.length,
+    days: new Set(active.map((item) => shanghaiDateKey(item.start))).size,
+    minutes: active.reduce((sum, item) => sum + item.durationMinutes, 0),
+  };
+}
 
 export function BookingsScreen() {
   const params = useSearchParams();
   const phone = params.get("phone")?.trim() ?? "";
   const [bookings, setBookings] = useState<BookingView[] | null>(null);
+  const [openMonth, setOpenMonth] = useState<string | null>(null);
 
   useEffect(() => {
     const apply = () => setBookings(listLocalBookings(phone || undefined));
@@ -21,136 +44,170 @@ export function BookingsScreen() {
     return () => window.removeEventListener("super-cat-bookings", apply);
   }, [phone]);
 
+  const currentMonth = monthKey(new Date().toISOString());
+  const active = (bookings ?? []).filter((item) => !item.cancelledAt);
+  const total = summarize(active);
+  const grouped = new Map<string, BookingView[]>();
+  for (const booking of bookings ?? []) {
+    const key = monthKey(booking.start);
+    grouped.set(key, [...(grouped.get(key) ?? []), booking]);
+  }
+  if (!grouped.has(currentMonth)) grouped.set(currentMonth, []);
+  const months = [...grouped.entries()].sort((a, b) => b[0].localeCompare(a[0]));
+  const shownMonth =
+    openMonth === null ? (months.find(([, items]) => items.length > 0)?.[0] ?? currentMonth) : openMonth;
+
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-8">
       <nav aria-label="面包屑" className="text-sm text-muted-foreground">
         <Link href="/" className="hover:text-foreground">
           首页
         </Link>
-        <span> / 我的预约</span>
+        <span> / 我的运动</span>
       </nav>
-      <h1 className="mt-4 font-heading text-5xl">我的预约</h1>
-      <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-        预约保存在这台浏览器里。可以用手机号筛选。取消后，对应场次的已预约人数会减少。清空只影响本机记录，课表上原来的占位人数还在。
-      </p>
+      <h1 className="mt-4 text-center font-heading text-4xl md:text-5xl">我的运动</h1>
 
-      <form action="" className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-end">
-        <label className="grid gap-1 text-sm">
-          手机号
-          <input
-            name="phone"
-            defaultValue={phone}
-            inputMode="numeric"
-            placeholder="留空查看全部"
-            className="h-10 w-full rounded-lg border border-input bg-card px-2.5 sm:w-64"
-          />
-        </label>
-        <button type="submit" className="h-10 rounded-lg bg-primary px-4 text-sm text-primary-foreground">
-          筛选
-        </button>
-        {phone ? (
-          <Link href="/bookings" className="inline-flex h-10 items-center text-sm">
-            查看全部
-          </Link>
-        ) : null}
-      </form>
+      <section className="mx-auto mt-8 grid max-w-xl grid-cols-[1fr_auto_1fr] items-center gap-4">
+        <div className="text-center">
+          <p className="font-heading text-5xl text-persimmon">{bookings === null ? "—" : total.days}</p>
+          <p className="mt-1 text-sm text-muted-foreground">累计天数</p>
+        </div>
+        <div className="grid size-20 place-items-center rounded-full border border-border bg-card text-muted-foreground">
+          <UserRound className="size-8" />
+        </div>
+        <div className="text-center">
+          <p className="font-heading text-5xl text-persimmon">{bookings === null ? "—" : total.count}</p>
+          <p className="mt-1 text-sm text-muted-foreground">累计训练/次</p>
+        </div>
+      </section>
+
+      <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:items-end sm:justify-between">
+        <h2 className="font-heading text-2xl">预约记录</h2>
+        <form action="" className="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <label className="text-sm text-muted-foreground">
+            <span className="sr-only">手机号</span>
+            <input
+              name="phone"
+              defaultValue={phone}
+              inputMode="numeric"
+              placeholder="按手机号筛选"
+              className="h-10 w-full border border-border bg-card px-3 sm:w-52"
+            />
+          </label>
+          <button type="submit" className="h-10 bg-primary px-4 text-sm text-primary-foreground">
+            筛选
+          </button>
+          {phone ? (
+            <Link href="/bookings" className="text-sm text-persimmon">
+              查看全部
+            </Link>
+          ) : null}
+        </form>
+      </div>
 
       {bookings === null ? (
-        <p className="mt-8 text-sm text-muted-foreground">正在读取本机预约…</p>
-      ) : bookings.length === 0 ? (
-        <div className="mt-8 border border-dashed border-border p-8">
-          <p className="font-medium">{phone ? "这个手机号没有预约记录" : "还没有预约"}</p>
-          <p className="mt-2 text-sm text-muted-foreground">从团课、私教或公开课挑一场还有名额的课。</p>
-          <div className="mt-4 flex gap-4 text-sm">
-            <Link href="/sections/group" className="text-persimmon">
-              团课
-            </Link>
-            <Link href="/sections/personal" className="text-persimmon">
-              私教
-            </Link>
-            <Link href="/sections/open" className="text-persimmon">
-              公开课
-            </Link>
-          </div>
-        </div>
+        <p className="mt-6 text-sm text-muted-foreground">正在读取本机记录…</p>
       ) : (
-        <ul className="mt-6 space-y-4">
-          {bookings.map((booking) => (
-            <li key={booking.id} data-booking-id={booking.id} className="border border-border bg-card p-4">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h2 className="font-heading text-2xl">
-                  <Link href={`/courses/${booking.courseId}`} className="hover:text-persimmon">
-                    {booking.courseName}
-                  </Link>
-                </h2>
-                <p className="text-sm">{booking.statusLabel}</p>
-              </div>
-              <dl className="mt-3 grid gap-2 text-sm md:grid-cols-2">
-                <div>
-                  <dt className="text-muted-foreground">预约编号</dt>
-                  <dd>{booking.id}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">板块</dt>
-                  <dd>
-                    {booking.sectionName} · {booking.courseCode}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">时间</dt>
-                  <dd>{booking.timeLabel}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">教练</dt>
-                  <dd>{booking.coachLine}</dd>
-                </div>
-                <div className="md:col-span-2">
-                  <dt className="text-muted-foreground">地址</dt>
-                  <dd>{booking.addressLine}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">预约人</dt>
-                  <dd>
-                    {booking.name} · {booking.phone}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">人数与价格</dt>
-                  <dd>
-                    {booking.partySize} 人 · 单价 ¥{booking.unitPrice} · 合计 ¥{booking.totalPrice}
-                    {booking.discountNote ? ` · ${booking.discountNote}` : ""}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">提交时间</dt>
-                  <dd>{formatDateTime(booking.createdAt)}</dd>
-                </div>
-                {booking.cancelledAt ? (
-                  <div>
-                    <dt className="text-muted-foreground">取消时间</dt>
-                    <dd>{formatDateTime(booking.cancelledAt)}</dd>
+        <ul className="mt-4 space-y-4">
+          {months.map(([key, items]) => {
+            const stats = summarize(items);
+            const image = items[0] ? courseImage(items[0].courseId, items[0].courseName) : heroImage;
+            const open = key === shownMonth;
+            return (
+              <li key={key}>
+                <button
+                  type="button"
+                  onClick={() => setOpenMonth(open ? "" : key)}
+                  className={cn("relative w-full overflow-hidden border border-border text-left", open && "border-persimmon")}
+                >
+                  <img src={image.src} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                  <div className="absolute inset-0 bg-background/88" />
+                  <div className="relative grid gap-4 p-5 sm:grid-cols-4 sm:items-end">
+                    <p className="font-heading text-3xl">{monthTitle(key, currentMonth)}</p>
+                    <Stat value={stats.count} label="训练次数" />
+                    <Stat value={stats.days} label="训练天数" />
+                    <Stat value={stats.minutes} label="训练时长/分钟" />
                   </div>
+                </button>
+                {open ? (
+                  items.length === 0 ? (
+                    <p className="border border-t-0 border-border px-5 py-4 text-sm text-muted-foreground">这个月还没有训练。</p>
+                  ) : (
+                    <ul className="border border-t-0 border-border">
+                      {items.map((booking) => (
+                        <li key={booking.id} data-booking-id={booking.id} className="border-t border-border px-5 py-4 first:border-t-0">
+                          <div className="flex flex-wrap items-baseline justify-between gap-2">
+                            <h3 className="font-heading text-2xl">
+                              <Link href={`/courses/${booking.courseId}`} className="hover:text-persimmon">
+                                {booking.courseName}
+                              </Link>
+                            </h3>
+                            <p className="text-sm">{booking.statusLabel}</p>
+                          </div>
+                          <p className="mt-1 text-sm text-muted-foreground">
+                            {booking.timeLabel} · {booking.durationMinutes} 分钟 · {booking.sectionName}
+                          </p>
+                          <p className="mt-1 text-sm text-muted-foreground">
+                            {booking.name} · {booking.phone} · {booking.partySize} 人 · ¥{booking.totalPrice}
+                            {booking.discountNote ? ` · ${booking.discountNote}` : ""}
+                          </p>
+                          <p className="mt-1 text-sm text-muted-foreground">{booking.addressLine}</p>
+                          <p className="mt-1 text-xs text-muted-foreground">
+                            {booking.id} · 提交于 {formatDateTime(booking.createdAt)}
+                            {booking.cancelledAt ? ` · 取消于 ${formatDateTime(booking.cancelledAt)}` : ""}
+                          </p>
+                          {booking.canCancel ? (
+                            <div className="mt-3">
+                              <CancelBookingButton id={booking.id} />
+                            </div>
+                          ) : null}
+                        </li>
+                      ))}
+                    </ul>
+                  )
                 ) : null}
-              </dl>
-              {booking.canCancel ? (
-                <div className="mt-4">
-                  <CancelBookingButton id={booking.id} />
-                </div>
-              ) : null}
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       )}
 
+      {bookings !== null && active.length === 0 ? (
+        <p className="mt-4 text-sm text-muted-foreground">
+          还没有完成的训练。去{" "}
+          <Link href="/sections/group" className="text-persimmon">
+            团课
+          </Link>
+          、
+          <Link href="/sections/personal" className="text-persimmon">
+            私教
+          </Link>
+          或
+          <Link href="/sections/open" className="text-persimmon">
+            公开课
+          </Link>
+          预约一场。
+        </p>
+      ) : null}
+
       <div className="mt-10 border-t border-border pt-6">
-        <h2 className="font-heading text-2xl">重置</h2>
+        <h2 className="font-heading text-2xl">清空记录</h2>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          清空后预约编号从 BK-1001 重新开始。已经写在课表里的初始已预约人数不会被清掉。
+          清空后预约编号从 BK-1001 重新开始。课表上原来的已预约人数不会被清掉。
         </p>
         <div className="mt-4">
           <ResetBookingsButton />
         </div>
       </div>
     </main>
+  );
+}
+
+function Stat({ value, label }: { value: number; label: string }) {
+  return (
+    <div>
+      <p className="font-heading text-3xl">{value}</p>
+      <p className="text-xs text-muted-foreground">{label}</p>
+    </div>
   );
 }

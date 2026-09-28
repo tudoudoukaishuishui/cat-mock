@@ -30,6 +30,8 @@ function toView(record: BookingRecord): BookingView {
     timeLabel: view?.timeLabel ?? "",
     coachLine: view?.coachLine ?? "",
     addressLine: view?.addressLine ?? "",
+    start: view?.start ?? record.createdAt,
+    durationMinutes: view?.durationMinutes ?? 0,
     statusLabel: record.cancelledAt ? (record.lateCancel ? "已取消（超过免费时限）" : "已取消") : "已预约",
     canCancel: !record.cancelledAt,
   };
@@ -103,7 +105,7 @@ export function createBooking(input: BookInput): BookOk | BookErr {
         booking.sessionId === session.id && booking.phone === phone && booking.cancelledAt === null,
     );
     if (duplicated) {
-      failure = { ok: false, status: 409, error: "此手机号已预约该场次，请到我的预约查看" };
+      failure = { ok: false, status: 409, error: "此手机号已预约该场次，请到我的运动查看" };
       return;
     }
 

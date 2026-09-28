@@ -174,6 +174,8 @@ export type BookingView = BookingRecord & {
   timeLabel: string;
   coachLine: string;
   addressLine: string;
+  start: string;
+  durationMinutes: number;
   statusLabel: string;
   canCancel: boolean;
 };

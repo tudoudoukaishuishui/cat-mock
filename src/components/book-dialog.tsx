@@ -118,7 +118,7 @@ export function BookDialog({ session }: { session: SessionView }) {
                 router.push(`/bookings?phone=${result.phone}`);
               }}
             >
-              查看我的预约
+              查看我的运动
             </Button>
           </div>
         ) : (

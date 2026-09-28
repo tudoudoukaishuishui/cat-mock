@@ -10,7 +10,7 @@ const links = [
   { href: "/sections/personal", label: "私教" },
   { href: "/sections/open", label: "公开课" },
   { href: "/membership", label: "会员" },
-  { href: "/bookings", label: "我的预约" },
+  { href: "/bookings", label: "我的运动" },
 ];
 
 export function SiteHeader() {

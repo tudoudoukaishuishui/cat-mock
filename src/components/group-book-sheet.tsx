@@ -134,7 +134,7 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                   {quote.note ? ` · ${quote.note}` : ""}
                 </p>
                 <Link href={`/bookings?phone=${phone}`} className="mt-4 inline-block text-sm text-persimmon">
-                  查看我的预约
+                  查看我的运动
                 </Link>
               </div>
             ) : (
