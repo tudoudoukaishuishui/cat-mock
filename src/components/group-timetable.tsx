@@ -93,8 +93,15 @@ export function GroupTimetable({ sessions, sectionName }: { sessions: SessionVie
   });
 
   const dayKeys = unique(narrowed.map((card) => shanghaiDateKey(card.start))).sort();
+  const nextOpenDay = dayKeys.find(
+    (key) =>
+      key >= today &&
+      narrowed.some((card) => shanghaiDateKey(card.start) === key && card.status === "open"),
+  );
   const selectedDay =
-    pickedDay && dayKeys.includes(pickedDay) ? pickedDay : (dayKeys.find((key) => key >= today) ?? dayKeys[0] ?? "");
+    pickedDay && dayKeys.includes(pickedDay)
+      ? pickedDay
+      : (nextOpenDay ?? dayKeys.find((key) => key >= today) ?? dayKeys[0] ?? "");
   const statusRank = { open: 0, started: 1, full: 2, ended: 3 };
   const rows = narrowed
     .filter((card) => shanghaiDateKey(card.start) === selectedDay)
@@ -222,7 +229,7 @@ export function GroupTimetable({ sessions, sectionName }: { sessions: SessionVie
                     <span className="mt-1 block text-xs text-muted-foreground">
                       {card.coachName} · {tags}
                       {tags ? " · " : ""}
-                      {place} · 余 {card.remaining}
+                      {place} · {card.status === "open" ? `余 ${card.remaining}` : card.statusLabel}
                     </span>
                   </span>
                 </button>
