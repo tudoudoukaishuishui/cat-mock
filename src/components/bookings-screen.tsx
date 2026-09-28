@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { CancelBookingButton, ResetBookingsButton } from "@/components/booking-actions";
+import { CancelBookingButton } from "@/components/booking-actions";
 import { formatDateTime, shanghaiDateKey } from "@/lib/format";
 import { courseImage, heroImage } from "@/lib/images";
 import { listLocalBookings } from "@/lib/local-bookings";
@@ -44,7 +44,6 @@ export function BookingsScreen() {
   }, [phone]);
 
   const currentMonth = monthKey(new Date().toISOString());
-  const active = (bookings ?? []).filter((item) => !item.cancelledAt);
   const grouped = new Map<string, BookingView[]>();
   for (const booking of bookings ?? []) {
     const key = monthKey(booking.start);
@@ -148,21 +147,6 @@ export function BookingsScreen() {
         </ul>
       )}
 
-      {bookings !== null && active.length === 0 ? (
-        <p className="mt-4 text-sm text-muted-foreground">
-          还没有预约。先从上面的减肥匹配里选一节。
-        </p>
-      ) : null}
-
-      <div className="mt-10 border-t border-border pt-6">
-        <h2 className="font-heading text-2xl">清空记录</h2>
-        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          清空后预约编号从 BK-1001 重新开始。课表上原来的已预约人数不会被清掉。
-        </p>
-        <div className="mt-4">
-          <ResetBookingsButton />
-        </div>
-      </div>
     </section>
   );
 }
