@@ -33,7 +33,7 @@ export function AugustTraining() {
               {item.timeLabel} · {item.durationMinutes} 分钟 · {item.sectionName}
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              {item.coachName} · {item.place}
+              {item.coachName} · {item.place} · {item.payLabel}
             </p>
           </li>
         ))}

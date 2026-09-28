@@ -10,7 +10,7 @@ import { augustTrainingSummary } from "@/data/august-training";
 
 export const metadata: Metadata = {
   title: "我的运动",
-  description: "查看累计训练天数、次数，以及上个月的减脂训练记录。",
+  description: "查看北京 8 月的减脂训练，以及超猫卡余额。",
 };
 
 export default function BookingsPage() {
@@ -26,6 +26,15 @@ export default function BookingsPage() {
       </nav>
       <h1 className="mt-4 text-center font-heading text-4xl md:text-5xl">我的运动</h1>
       <TrainingTotals baseCount={august.count} historyDays={august.dayKeys} />
+      <section data-balance className="mx-auto mt-8 max-w-xl border border-border bg-card px-5 py-5 text-center">
+        <p className="text-xs tracking-[0.16em] text-muted-foreground">超猫卡余额</p>
+        <p className="mt-2 font-heading text-5xl text-persimmon">¥{august.balance}</p>
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">
+          8 月 1 日充值 ¥{august.topUp}，赠送 ¥{august.bonus}，到账 ¥{august.credited}。团课 {august.groupCount}{" "}
+          节按持卡 95 折扣 ¥{august.groupPaid}。私教 {august.personalCount} 节共 ¥{august.personalPaid}，按次支付，不从余额扣。积分{" "}
+          {august.points}，{august.tier}。
+        </p>
+      </section>
       <Suspense fallback={<p className="mt-10 text-sm text-muted-foreground">正在读取本机预约…</p>}>
         <BookingsScreen />
       </Suspense>
