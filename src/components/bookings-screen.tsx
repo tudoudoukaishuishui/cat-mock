@@ -3,12 +3,9 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { UserRound } from "lucide-react";
 
 import { CancelBookingButton, ResetBookingsButton } from "@/components/booking-actions";
-import { FatLossMatches } from "@/components/fat-loss-matches";
 import { formatDateTime, shanghaiDateKey } from "@/lib/format";
-import type { FatLossGroup } from "@/lib/fat-loss-plan";
 import { courseImage, heroImage } from "@/lib/images";
 import { listLocalBookings } from "@/lib/local-bookings";
 import type { BookingView } from "@/lib/types";
@@ -33,7 +30,7 @@ function summarize(items: BookingView[]) {
   };
 }
 
-export function BookingsScreen({ plan }: { plan: FatLossGroup[] }) {
+export function BookingsScreen() {
   const params = useSearchParams();
   const phone = params.get("phone")?.trim() ?? "";
   const [bookings, setBookings] = useState<BookingView[] | null>(null);
@@ -48,11 +45,6 @@ export function BookingsScreen({ plan }: { plan: FatLossGroup[] }) {
 
   const currentMonth = monthKey(new Date().toISOString());
   const active = (bookings ?? []).filter((item) => !item.cancelledAt);
-  const bookedByCourse = new Map<string, number>();
-  for (const item of active) {
-    bookedByCourse.set(item.courseId, (bookedByCourse.get(item.courseId) ?? 0) + 1);
-  }
-  const total = summarize(active);
   const grouped = new Map<string, BookingView[]>();
   for (const booking of bookings ?? []) {
     const key = monthKey(booking.start);
@@ -64,32 +56,8 @@ export function BookingsScreen({ plan }: { plan: FatLossGroup[] }) {
     openMonth === null ? (months.find(([, items]) => items.length > 0)?.[0] ?? currentMonth) : openMonth;
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 py-8">
-      <nav aria-label="面包屑" className="text-sm text-muted-foreground">
-        <Link href="/" className="hover:text-foreground">
-          首页
-        </Link>
-        <span> / 我的运动</span>
-      </nav>
-      <h1 className="mt-4 text-center font-heading text-4xl md:text-5xl">我的运动</h1>
-
-      <section className="mx-auto mt-8 grid max-w-xl grid-cols-[1fr_auto_1fr] items-center gap-4">
-        <div className="text-center">
-          <p className="font-heading text-5xl text-persimmon">{bookings === null ? "—" : total.days}</p>
-          <p className="mt-1 text-sm text-muted-foreground">累计天数</p>
-        </div>
-        <div className="grid size-20 place-items-center rounded-full border border-border bg-card text-muted-foreground">
-          <UserRound className="size-8" />
-        </div>
-        <div className="text-center">
-          <p className="font-heading text-5xl text-persimmon">{bookings === null ? "—" : total.count}</p>
-          <p className="mt-1 text-sm text-muted-foreground">累计训练/次</p>
-        </div>
-      </section>
-
-      <FatLossMatches plan={plan} bookedByCourse={bookedByCourse} />
-
-      <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:items-end sm:justify-between">
+    <section className="mt-10">
+      <div className="flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:items-end sm:justify-between">
         <h2 className="font-heading text-2xl">预约记录</h2>
         <form action="" className="flex flex-col gap-2 sm:flex-row sm:items-center">
           <label className="text-sm text-muted-foreground">
@@ -195,7 +163,7 @@ export function BookingsScreen({ plan }: { plan: FatLossGroup[] }) {
           <ResetBookingsButton />
         </div>
       </div>
-    </main>
+    </section>
   );
 }
 

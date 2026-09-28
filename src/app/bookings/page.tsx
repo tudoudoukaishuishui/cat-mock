@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
 
 import { BookingsScreen } from "@/components/bookings-screen";
+import { FatLossMatches } from "@/components/fat-loss-matches";
+import { TrainingTotals } from "@/components/training-totals";
 import { listFatLossPlan } from "@/lib/fat-loss-plan";
 
 export const metadata: Metadata = {
@@ -11,9 +14,21 @@ export const metadata: Metadata = {
 
 export default function BookingsPage() {
   const plan = listFatLossPlan();
+
   return (
-    <Suspense fallback={<p className="mx-auto max-w-6xl px-4 py-8 text-sm">正在读取本机预约…</p>}>
-      <BookingsScreen plan={plan} />
-    </Suspense>
+    <main className="mx-auto w-full max-w-6xl px-4 py-8">
+      <nav aria-label="面包屑" className="text-sm text-muted-foreground">
+        <Link href="/" className="hover:text-foreground">
+          首页
+        </Link>
+        <span> / 我的运动</span>
+      </nav>
+      <h1 className="mt-4 text-center font-heading text-4xl md:text-5xl">我的运动</h1>
+      <TrainingTotals />
+      <FatLossMatches plan={plan} />
+      <Suspense fallback={<p className="mt-10 text-sm text-muted-foreground">正在读取本机预约…</p>}>
+        <BookingsScreen />
+      </Suspense>
+    </main>
   );
 }

@@ -1,18 +1,10 @@
 import Link from "next/link";
 
+import { BookedCourseNote, BookedMatchSummary } from "@/components/booked-course-note";
 import type { FatLossGroup } from "@/lib/fat-loss-plan";
 
-export function FatLossMatches({
-  plan,
-  bookedByCourse,
-}: {
-  plan: FatLossGroup[];
-  bookedByCourse: Map<string, number>;
-}) {
-  const bookedMatches = plan.reduce(
-    (sum, group) => sum + group.courses.filter((course) => (bookedByCourse.get(course.courseId) ?? 0) > 0).length,
-    0,
-  );
+export function FatLossMatches({ plan }: { plan: FatLossGroup[] }) {
+  const courseIds = plan.flatMap((group) => group.courses.map((course) => course.courseId));
 
   return (
     <section data-goal="fat-loss" className="mt-10 border-t border-border pt-6">
@@ -23,7 +15,7 @@ export function FatLossMatches({
         </div>
         <p className="max-w-xl text-sm leading-6 text-muted-foreground">
           按现有团课、私教和公开课来配。一周排 2 节减脂主课、2 节力量、1 节恢复；有氧间歇可以换进主课的位置。价格和时长以各课场次为准。
-          {bookedMatches > 0 ? ` 已约其中 ${bookedMatches} 门。` : ""}
+          <BookedMatchSummary courseIds={courseIds} />
         </p>
       </div>
       <div className="mt-6 space-y-8">
@@ -36,7 +28,6 @@ export function FatLossMatches({
             <p className="mt-1 text-sm text-muted-foreground">{group.detail}</p>
             <ul className="mt-3 grid gap-3 md:grid-cols-2">
               {group.courses.map((course) => {
-                const booked = bookedByCourse.get(course.courseId) ?? 0;
                 return (
                   <li key={course.courseId}>
                     <Link
@@ -50,7 +41,7 @@ export function FatLossMatches({
                           <span>
                             {course.sectionName} · {course.durationMinutes} 分钟 · {course.intensity}
                           </span>
-                          {booked > 0 ? <span className="text-persimmon">已约 {booked} 场</span> : null}
+                          <BookedCourseNote courseId={course.courseId} />
                         </span>
                         <span className="mt-1 block font-heading text-2xl">{course.name}</span>
                         <span className="mt-1 block text-xs tracking-wide text-muted-foreground">{course.englishName}</span>
