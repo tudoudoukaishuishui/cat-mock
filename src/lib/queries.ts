@@ -16,12 +16,10 @@ function loadExtras() {
 }
 
 export function sessionStatus(session: Session, booked: number, now = Date.now()): SessionStatus {
-  const start = new Date(session.start).getTime();
+  if (booked < session.capacity) return "open";
   const end = new Date(session.end).getTime();
   if (now >= end) return "ended";
-  if (now >= start) return "started";
-  if (booked >= session.capacity) return "full";
-  return "open";
+  return "full";
 }
 
 const statusLabel: Record<SessionStatus, string> = {

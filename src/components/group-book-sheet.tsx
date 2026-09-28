@@ -43,7 +43,7 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
   const personal = session.section === "personal";
   const cardHolder = session.section === "group" && hasCard(phone);
   const quote = classTotal(session.section, session.price, party, cardHolder);
-  const bookable = session.status === "open" && session.remaining > 0;
+  const bookable = session.remaining > 0;
 
   if (!mounted) return null;
 
