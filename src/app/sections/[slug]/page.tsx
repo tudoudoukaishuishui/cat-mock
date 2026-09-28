@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { CityReference } from "@/components/city-reference";
 import { GroupTimetable } from "@/components/group-timetable";
 import { MissingPage } from "@/components/missing-page";
 import { sectionImages } from "@/lib/images";
@@ -81,6 +82,7 @@ export default async function SectionPage({ params }: { params: Promise<{ slug: 
           />
         </div>
       </header>
+      <CityReference section={section.slug} />
       <GroupTimetable sessions={sectionSessions} sectionName={section.name} />
     </main>
   );

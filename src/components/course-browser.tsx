@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { courseImage } from "@/lib/images";
 import type { CourseListItem, Level } from "@/lib/types";
 
-const levels: Array<Level | "全部"> = ["全部", "入门", "初级", "中级", "高级"];
+const levels: Array<Level | "全部"> = ["全部", "入门", "初中级", "中级", "中高级"];
 
 export function CourseBrowser({
   items,

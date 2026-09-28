@@ -216,8 +216,9 @@ export function GroupTimetable({ sessions, sectionName }: { sessions: SessionVie
                     </span>
                     <span className="mt-0.5 block text-xs tracking-wide text-muted-foreground uppercase">{course?.englishName}</span>
                     <span className="mt-2 block text-sm">
-                      {formatClockRange(card.start, card.end)}{" "}
-                      <span className="font-medium text-persimmon">{card.price === 0 ? "免费" : `¥${card.price}`}</span>
+                      {formatClockRange(card.start, card.end)}
+                      {card.start === card.end ? " · 时长待确认" : ""}{" "}
+                      <span className="font-medium text-persimmon">{card.priceLabel}</span>
                     </span>
                     <span className="mt-1 block text-xs text-muted-foreground">
                       {card.coachName} · {tags}

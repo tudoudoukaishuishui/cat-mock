@@ -42,8 +42,14 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
 
   const personal = session.section === "personal";
   const cardHolder = session.section === "group" && hasCard(phone);
-  const quote = classTotal(session.section, session.price, party, cardHolder);
+  const unpriced = Boolean(session.priceStatus);
+  const quote = unpriced
+    ? { listTotal: 0, total: 0, note: session.priceLabel }
+    : classTotal(session.section, session.price, party, cardHolder);
+  const amountLabel = unpriced ? session.priceLabel : quote.total === 0 ? "免费" : `${quote.total}元`;
   const bookable = session.status === "open" && session.remaining > 0;
+  const successTitle = session.priceStatus === "consult" ? "已提交咨询" : "预约成功";
+  const submitLabel = session.priceStatus === "consult" ? "提交咨询" : "确认预约";
 
   if (!mounted) return null;
 
@@ -127,11 +133,11 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
 
             {resultId ? (
               <div className="mt-5 border border-border bg-card p-4" data-booking-id={resultId}>
-                <p className="font-medium text-moss">预约成功</p>
+                <p className="font-medium text-moss">{successTitle}</p>
                 <p className="mt-2 text-sm">预约号 {resultId}</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  {party} 人 · {quote.total === 0 ? "免费" : `¥${quote.total}`}
-                  {quote.note ? ` · ${quote.note}` : ""}
+                  {party} 人 · {amountLabel}
+                  {!unpriced && quote.note ? ` · ${quote.note}` : ""}
                 </p>
                 <Link href={`/bookings?phone=${phone}`} className="mt-4 inline-block text-sm text-persimmon">
                   查看我的运动
@@ -193,8 +199,8 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                     {quote.listTotal !== quote.total ? (
                       <span className="mr-2 text-sm text-muted-foreground line-through">¥{quote.listTotal}</span>
                     ) : null}
-                    <span className="font-heading text-2xl">{quote.total === 0 ? "免费" : `${quote.total}元`}</span>
-                    {quote.note ? <span className="mt-1 block text-xs text-persimmon">{quote.note}</span> : null}
+                    <span className="font-heading text-2xl">{amountLabel}</span>
+                    {!unpriced && quote.note ? <span className="mt-1 block text-xs text-persimmon">{quote.note}</span> : null}
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground">
@@ -240,8 +246,8 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
           {resultId ? null : (
             <div className="flex items-center justify-between gap-3 border-t border-border px-5 py-3">
               <div>
-                <p className="text-xs text-muted-foreground">待支付</p>
-                <p className="font-heading text-2xl">{quote.total === 0 ? "免费" : `¥${quote.total}`}</p>
+                <p className="text-xs text-muted-foreground">{unpriced ? "价格" : "待支付"}</p>
+                <p className="font-heading text-2xl">{unpriced ? session.priceLabel : quote.total === 0 ? "免费" : `¥${quote.total}`}</p>
               </div>
               <button
                 type="submit"
@@ -249,7 +255,7 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                 disabled={!bookable || pending}
                 className="h-11 min-w-36 bg-persimmon px-6 text-sm font-medium text-primary-foreground disabled:opacity-40"
               >
-                {bookable ? (pending ? "提交中" : "确认预约") : session.statusLabel}
+                {bookable ? (pending ? "提交中" : submitLabel) : session.statusLabel}
               </button>
             </div>
           )}

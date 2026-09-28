@@ -44,7 +44,10 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
     板块: section.name,
     课程内容介绍: course.description,
     时长分钟: course.durationMinutes,
-    课程等级: course.level,
+    课程等级: course.levelNote,
+    用户画像: course.audience,
+    匹配标签: course.tags,
+    价格说明: course.priceNote,
     强度: course.intensity,
     预计消耗: course.calories,
     价格区间: view.priceLabel,
@@ -107,8 +110,8 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
           <p className="mt-5 max-w-2xl text-lg leading-8">{course.summary}</p>
         </div>
         <dl className="grid content-start gap-3 border border-border bg-card p-4 text-sm">
-          <Fact label="时长" value={`${course.durationMinutes} 分钟`} field="duration" />
-          <Fact label="课程等级" value={course.level} field="course-level" />
+          <Fact label="时长" value={course.durationMinutes ? `${course.durationMinutes} 分钟` : "待确认"} field="duration" />
+          <Fact label="课程等级" value={course.levelNote} field="course-level" />
           <Fact label="强度" value={course.intensity} field="intensity" />
           <Fact label="价格" value={view.priceLabel} field="price-range" />
           <Fact label="预计消耗" value={course.calories} field="calories" />
@@ -122,14 +125,32 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
             <p data-field="description" className="mt-3 max-w-3xl leading-7">
               {course.description}
             </p>
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">{course.levelNote}</p>
+          </section>
+
+          <section>
+            <h2 className="font-heading text-3xl">用户画像</h2>
+            <p className="mt-3 max-w-3xl leading-7">{course.audience}</p>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {course.tags.map((tag) => (
+                <li key={tag} className="bg-muted px-2 py-1 text-xs">
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="font-heading text-3xl">价格说明</h2>
+            <p className="mt-3 max-w-3xl text-sm leading-6">{course.priceNote}</p>
           </section>
 
           <section>
             <h2 className="font-heading text-3xl">课程结构</h2>
             <ol className="mt-4 space-y-3">
               {course.outline.map((block) => (
-                <li key={block.minutes} className="grid gap-1 border-t border-border pt-3 sm:grid-cols-[6rem_1fr]">
-                  <p className="text-sm text-muted-foreground">{block.minutes} 分钟</p>
+                <li key={block.title} className="grid gap-1 border-t border-border pt-3 sm:grid-cols-[6rem_1fr]">
+                  <p className="text-sm text-muted-foreground">{block.minutes}</p>
                   <div>
                     <p className="font-medium">{block.title}</p>
                     <p className="text-sm leading-6 text-muted-foreground">{block.detail}</p>
