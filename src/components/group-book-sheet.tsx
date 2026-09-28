@@ -25,6 +25,7 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
   const [pending, setPending] = useState(false);
   const [resultId, setResultId] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [justBooked, setJustBooked] = useState(0);
 
   useEffect(() => {
     setMounted(true);
@@ -43,7 +44,9 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
   const personal = session.section === "personal";
   const cardHolder = session.section === "group" && hasCard(phone);
   const quote = classTotal(session.section, session.price, party, cardHolder);
-  const bookable = session.remaining > 0;
+  const bookable = session.remaining > justBooked;
+  const signedUp = session.booked + justBooked;
+  const seatsLeft = Math.max(session.remaining - justBooked, 0);
 
   if (!mounted) return null;
 
@@ -125,6 +128,21 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
               </div>
             </dl>
 
+            <div className="mt-4 grid grid-cols-2 border-t border-border">
+              <div className="py-4 pr-3">
+                <p className="text-sm text-muted-foreground">报名人数</p>
+                <p data-field="signup-count" className="mt-1 font-heading text-3xl">
+                  {signedUp} 人
+                </p>
+              </div>
+              <div className="border-l border-border py-4 pl-4">
+                <p className="text-sm text-muted-foreground">剩余人数</p>
+                <p data-field="remaining-count" className="mt-1 font-heading text-3xl">
+                  {seatsLeft} 人
+                </p>
+              </div>
+            </div>
+
             {resultId ? (
               <div className="mt-5 border border-border bg-card p-4" data-booking-id={resultId}>
                 <p className="font-medium text-moss">预约成功</p>
@@ -159,6 +177,7 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                     setError(data.error);
                     return;
                   }
+                  setJustBooked(personal ? 1 : party);
                   setResultId(data.booking.id);
                 }}
               >
@@ -166,7 +185,7 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                   <span>{personal ? "一起报名" : "人数"}</span>
                   <div className="flex gap-2">
                     {[1, 2, 3].map((count) => {
-                      const disabled = !bookable || (!personal && count > session.remaining);
+                      const disabled = !bookable || (!personal && count > seatsLeft);
                       return (
                         <button
                           key={count}
@@ -198,7 +217,7 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  本场剩余 {session.remaining} 个名额 · {session.statusLabel}
+                  {session.statusLabel}
                   {personal ? "。这一场只占 1 个名额，2 人或 3 人一起报名时这一节打 9 折。" : ""}
                 </p>
 
