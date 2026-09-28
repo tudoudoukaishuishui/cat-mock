@@ -12,7 +12,7 @@ export function SiteFooter() {
           <p className="font-heading text-base text-foreground">超级猫咪</p>
           <p className="mt-2">
             <Link href="/membership" className="text-foreground">
-              会员：月卡、季卡、半年卡、年卡。课程也可以按场次单独买。
+              会员：按次付费。充值超猫卡后，预约团课享 95 折。
             </Link>
           </p>
         </div>

@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { MembershipJoin } from "@/components/membership-join";
-import { EARLY_BIRD_OFF, earlyBirdPrice, plans } from "@/data/membership";
+import { GROUP_FROM_PRICE, GYM_HOUR_PRICE, pointRates, tiers } from "@/data/membership";
 
 export const metadata: Metadata = {
   title: "会员",
-  description: "超级猫咪月卡、季卡、半年卡和年卡。课程也可以按场次单独购买。",
+  description: "超级猫咪按次付费。团课和自助健身舱按单次或按小时计费，充值超猫卡后预约团课享 95 折。",
 };
 
 export default function MembershipPage() {
@@ -22,42 +22,76 @@ export default function MembershipPage() {
         <p className="text-xs tracking-[0.16em] text-muted-foreground">MEMBERSHIP</p>
         <h1 className="mt-2 font-heading text-5xl">会员</h1>
         <p className="mt-4 leading-7">
-          会员有月卡、季卡、半年卡和年卡。有效期内可以预约团课和公开课，每场仍受名额限制。私教不包含在会籍里。不想办卡的话，每一节课都可以单独购买。
+          按次付费，没有年卡。团课和自助健身都按单次或按小时支付。超猫卡是储值余额，充值后预约团课享 95 折。
         </p>
       </header>
 
-      <section className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {plans.map((plan) => (
-          <article key={plan.id} className="flex flex-col border border-border bg-card p-5">
-            <h2 className="font-heading text-3xl">{plan.name}</h2>
-            <p className="mt-1 text-sm text-muted-foreground">{plan.days} 天</p>
-            <p className="mt-4 text-sm text-muted-foreground line-through">标价 ¥{plan.price}</p>
-            <p className="mt-1 font-heading text-4xl">¥{earlyBirdPrice(plan.price)}</p>
-            <p className="mt-1 text-sm">新会员早鸟价，立减 ¥{EARLY_BIRD_OFF}</p>
-            <p className="mt-4 text-sm leading-6 text-muted-foreground">{plan.note}</p>
-          </article>
-        ))}
+      <section className="mt-8 grid gap-4 md:grid-cols-3">
+        <article className="border border-border bg-card p-5">
+          <h2 className="font-heading text-2xl">团课</h2>
+          <p className="mt-3 font-heading text-4xl">¥{GROUP_FROM_PRICE} 起</p>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">
+            每节价格按城市和课程不同。课表里有瘦身塑形、拳击、舞蹈、瑜伽等课程，以当场标价为准。
+          </p>
+        </article>
+        <article className="border border-border bg-card p-5">
+          <h2 className="font-heading text-2xl">自助健身舱</h2>
+          <p className="mt-3 font-heading text-4xl">¥{GYM_HOUR_PRICE}/小时</p>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">
+            24 小时无人值守。进舱按小时计费，约 ¥{GYM_HOUR_PRICE}/小时，用超猫卡余额支付。
+          </p>
+        </article>
+        <article className="border border-border bg-card p-5">
+          <h2 className="font-heading text-2xl">怎么预约</h2>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">
+            团课、私教和公开课在本站课表预约。也可以在微信公众号或小程序里查看场次、改约和看余额。
+          </p>
+        </article>
       </section>
 
-      <section className="mt-10 grid gap-6 border-t border-border pt-8 md:grid-cols-3">
-        <div>
-          <h2 className="font-heading text-2xl">单独买课</h2>
-          <p className="mt-2 text-sm leading-6">
-            团课、私教、公开课都可以不办卡，按场次付款。价格、教练和名额以课程页上的那一场为准。
-          </p>
+      <section className="mt-10">
+        <h2 className="font-heading text-3xl">会员等级</h2>
+        <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+          上课积累积分，集满后兑换权益。充值只增加余额，不直接升级。
+        </p>
+        <div className="mt-4 overflow-x-auto border border-border">
+          <table className="w-full min-w-[36rem] text-left text-sm">
+            <thead className="bg-card text-muted-foreground">
+              <tr>
+                <th className="px-4 py-3 font-medium">等级</th>
+                <th className="px-4 py-3 font-medium">积分</th>
+                <th className="px-4 py-3 font-medium">可兑换</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tiers.map((tier) => (
+                <tr key={tier.name} className="border-t border-border">
+                  <td className="px-4 py-3 font-medium">{tier.name}</td>
+                  <td className="px-4 py-3">{tier.points === 0 ? "开始累计" : `${tier.points} 起`}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{tier.perk}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <div>
-          <h2 className="font-heading text-2xl">新会员早鸟</h2>
-          <p className="mt-2 text-sm leading-6">
-            这个手机号第一次办卡，在对应标价上减 ¥{EARLY_BIRD_OFF}。已经办过卡的手机号再办，按标价。
-          </p>
-        </div>
-        <div>
-          <h2 className="font-heading text-2xl">两人及以上</h2>
-          <p className="mt-2 text-sm leading-6">
-            团课一次报名 2 人或 3 人，这一单打 9 折。私教注明一起报名 2 人及以上，这一节打 9 折；私教场次仍然只占 1 个名额。公开课和免费场次不参加这个折扣。
-          </p>
-        </div>
+        <ul className="mt-4 grid gap-2 text-sm sm:grid-cols-2 lg:grid-cols-4">
+          {pointRates.map((item) => (
+            <li key={item.name} className="border border-border bg-card px-3 py-2">
+              <span className="text-muted-foreground">{item.name}</span>
+              <span className="mt-1 block font-medium">{item.rate}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-10 max-w-3xl text-sm leading-6 text-muted-foreground">
+        <h2 className="font-heading text-2xl text-foreground">会员卡用户协议</h2>
+        <p className="mt-2">
+          超猫卡是储值余额，不是期限卡。余额用于按次支付团课，以及按小时支付自助健身舱。首次充值可选 ¥288；¥2000 赠送 ¥100，¥5000 赠送 ¥250，赠送金额计入余额。持卡预约团课享 95 折。两人及以上报名团课或私教，仍按 9 折，可与持卡折扣同时计算。
+        </p>
+        <p className="mt-2">
+          积分只在持卡上课后增加。团课 10 分/节，私教 20 分/节，公开课 5 分/节，自助健身 8 分/小时。取消预约后，这次加上的积分会扣回。余额和积分保存在当前浏览器里。
+        </p>
       </section>
 
       <MembershipJoin />

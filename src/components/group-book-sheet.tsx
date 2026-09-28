@@ -7,6 +7,7 @@ import { Clock3, MapPin, UserRound, X } from "lucide-react";
 
 import { courses } from "@/data/catalog";
 import { classTotal } from "@/data/membership";
+import { hasCard } from "@/lib/local-memberships";
 import { formatSheetWhen } from "@/lib/format";
 import { courseImage } from "@/lib/images";
 import { createLocalBooking } from "@/lib/local-bookings";
@@ -40,7 +41,8 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
   }, [onClose]);
 
   const personal = session.section === "personal";
-  const quote = classTotal(session.section, session.price, party);
+  const cardHolder = session.section === "group" && hasCard(phone);
+  const quote = classTotal(session.section, session.price, party, cardHolder);
   const bookable = session.status === "open" && session.remaining > 0;
 
   if (!mounted) return null;

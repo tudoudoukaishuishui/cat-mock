@@ -1,5 +1,6 @@
 import { courses, sections, sessions } from "@/data/catalog";
 import { classTotal } from "@/data/membership";
+import { addPoints, awardClassPoints, hasCard } from "@/lib/local-memberships";
 import { getSessionView, withExtraBookings } from "@/lib/queries";
 import type { BookingRecord, BookingView } from "@/lib/types";
 
@@ -134,7 +135,9 @@ export function createLocalBooking(input: BookInput): BookOk | BookErr {
   );
   if (duplicated) return { ok: false, error: "此手机号已预约该场次，请到我的预约查看" };
 
-  const quote = classTotal(section.slug, session.price, section.slug === "personal" ? companions : partySize);
+  const cardHolder = section.slug === "group" && hasCard(phone);
+  const quote = classTotal(section.slug, session.price, section.slug === "personal" ? companions : partySize, cardHolder);
+  const pointsAwarded = awardClassPoints(section.slug, phone, seats);
   const created: BookingRecord = {
     id: `BK-${state.nextNumber}`,
     sessionId: session.id,
@@ -148,6 +151,7 @@ export function createLocalBooking(input: BookInput): BookOk | BookErr {
     createdAt: new Date().toISOString(),
     cancelledAt: null,
     lateCancel: false,
+    pointsAwarded,
   };
   writeState({ nextNumber: state.nextNumber + 1, bookings: [...state.bookings, created] });
   return { ok: true, booking: toView(created) };
@@ -173,6 +177,7 @@ export function cancelLocalBooking(id: string): BookOk | BookErr {
   if (section.slug === "group" && late) {
     return { ok: false, error: "距离开课不满 6 小时，不支持退款，不能取消。" };
   }
+  if (existing.pointsAwarded) addPoints(existing.phone, -existing.pointsAwarded);
   const bookings = state.bookings.map((booking) =>
     booking.id === id ? { ...booking, cancelledAt: new Date().toISOString(), lateCancel: late } : booking,
   );

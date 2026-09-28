@@ -1,115 +1,179 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Award, BarChart3, Cake, Check, Clock3, Compass, Gift, RefreshCcw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { EARLY_BIRD_OFF, earlyBirdPrice, plans, type PlanId } from "@/data/membership";
+import { benefits, tierFor, topUps, type TopUpId } from "@/data/membership";
 import { formatDateTime } from "@/lib/format";
-import { joinMembership, listMemberships, type MembershipRecord } from "@/lib/local-memberships";
+import { accountFor, listAccounts, topUpCard, type Account } from "@/lib/local-memberships";
+import { cn } from "cn";
+
+const benefitIcons = [Award, Gift, Clock3, Compass, BarChart3, Cake, RefreshCcw];
 
 export function MembershipJoin() {
-  const [planId, setPlanId] = useState<PlanId>("month");
+  const [topUpId, setTopUpId] = useState<TopUpId>("288");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState<MembershipRecord | null>(null);
-  const [records, setRecords] = useState<MembershipRecord[]>([]);
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [done, setDone] = useState<string | null>(null);
 
   useEffect(() => {
-    const apply = () => setRecords(listMemberships());
+    const apply = () => setAccounts(listAccounts());
     apply();
     window.addEventListener("super-cat-memberships", apply);
     return () => window.removeEventListener("super-cat-memberships", apply);
   }, []);
 
-  const plan = plans.find((item) => item.id === planId) ?? plans[0];
+  const option = topUps.find((item) => item.id === topUpId) ?? topUps[0];
+  const current = accountFor(phone);
+  useEffect(() => {
+    if (current && topUpId === "288") setTopUpId("500");
+  }, [current, topUpId]);
+  const balance = current?.balance ?? 0;
+  const points = current?.points ?? 0;
+  const tier = tierFor(points);
+  const firstUsed = current !== null;
 
   return (
-    <div className="mt-10 grid gap-8 border-t border-border pt-8 lg:grid-cols-[1fr_1fr]">
+    <div className="mt-10 grid gap-8 border-t border-border pt-8 lg:grid-cols-[0.9fr_1.1fr]">
       <form
-        className="space-y-4"
+        className="border border-border bg-card p-4 sm:p-5"
         onSubmit={(event) => {
           event.preventDefault();
           setError(null);
-          const result = joinMembership({ planId, name, phone });
+          const result = topUpCard({ topUpId, name, phone, agreed });
           if (!result.ok) {
             setError(result.error);
             return;
           }
-          setDone(result.membership);
-          setName("");
-          setPhone("");
+          setDone(result.topUpId);
         }}
       >
-        <h2 className="font-heading text-3xl">办理会员</h2>
-        <p className="text-sm leading-6 text-muted-foreground">
-          这个手机号第一次办卡，按早鸟价，立减 ¥{EARLY_BIRD_OFF}。办过卡的手机号按标价。
+        <div className="flex items-end justify-between gap-3 border border-border bg-background p-4">
+          <div>
+            <p className="text-xs tracking-[0.16em] text-muted-foreground">超猫卡</p>
+            <p className="mt-1 font-heading text-3xl">超猫卡</p>
+          </div>
+          <p className="font-heading text-4xl">¥{balance}</p>
+        </div>
+        <p className="mt-3 border border-border bg-accent px-3 py-2 text-sm">充值预约团课享 95 折权益</p>
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          {topUps.map((item) => {
+            const selected = item.id === topUpId;
+            const locked = item.firstOnly && firstUsed;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                disabled={locked}
+                onClick={() => {
+                  setTopUpId(item.id);
+                  setDone(null);
+                }}
+                className={cn(
+                  "relative min-h-24 border px-3 py-4 text-center disabled:opacity-40",
+                  selected ? "border-persimmon bg-background" : "border-border bg-background",
+                )}
+              >
+                {item.badge ? (
+                  <span className="absolute top-0 left-0 bg-persimmon px-1.5 py-0.5 text-[11px] text-primary-foreground">
+                    {item.badge}
+                  </span>
+                ) : null}
+                {selected ? <Check className="absolute top-2 right-2 size-4 text-persimmon" /> : null}
+                <span className="mt-3 block font-heading text-3xl">¥{item.amount}</span>
+                {item.bonus > 0 ? <span className="mt-1 block text-xs text-muted-foreground">赠送 ¥{item.bonus}</span> : null}
+              </button>
+            );
+          })}
+        </div>
+        <p className="mt-3 text-xs text-muted-foreground">
+          {current ? `${current.name} · ${tier.name} · ${points} 积分` : "未充值，余额 ¥0"}
+          {firstUsed ? "。首充专享已使用。" : ""}
         </p>
-        <div className="grid gap-2 sm:grid-cols-2">
-          {plans.map((item) => (
-            <label key={item.id} className="flex cursor-pointer items-start gap-2 border border-border bg-card p-3 text-sm">
-              <input
-                type="radio"
-                name="plan"
-                className="mt-1"
-                checked={planId === item.id}
-                onChange={() => setPlanId(item.id)}
-              />
-              <span>
-                <span className="font-medium">{item.name}</span>
-                <span className="mt-1 block text-muted-foreground">
-                  标价 ¥{item.price} · 早鸟 ¥{earlyBirdPrice(item.price)} · {item.days} 天
+
+        <h3 className="mt-6 text-center font-heading text-xl">充值开通享会员权益</h3>
+        <ul className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-4 text-center">
+          {benefits.map((benefit, index) => {
+            const Icon = benefitIcons[index] ?? Award;
+            return (
+              <li key={benefit.title} className="w-16">
+                <span className="mx-auto grid size-10 place-items-center rounded-full border border-border text-persimmon">
+                  <Icon className="size-4" />
                 </span>
-              </span>
-            </label>
-          ))}
+                <span className="mt-1 block text-xs">{benefit.title}</span>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="mt-5 grid gap-3">
+          <label className="grid gap-1 text-sm">
+            <Label htmlFor="member-name">姓名</Label>
+            <Input id="member-name" value={name} onChange={(event) => setName(event.target.value)} placeholder="例如 林小满" className="h-10" required />
+          </label>
+          <label className="grid gap-1 text-sm">
+            <Label htmlFor="member-phone">手机号</Label>
+            <Input
+              id="member-phone"
+              value={phone}
+              onChange={(event) => {
+                setPhone(event.target.value);
+                setDone(null);
+              }}
+              inputMode="numeric"
+              placeholder="11 位手机号"
+              className="h-10"
+              required
+            />
+          </label>
+          <label className="flex items-start gap-2 text-sm">
+            <input type="checkbox" className="mt-1" checked={agreed} onChange={(event) => setAgreed(event.target.checked)} required />
+            <span>我已阅读并同意《会员卡用户协议》</span>
+          </label>
         </div>
-        <div className="space-y-1.5">
-          <Label htmlFor="member-name">姓名</Label>
-          <Input id="member-name" value={name} onChange={(event) => setName(event.target.value)} placeholder="例如 林小满" className="h-10" required />
-        </div>
-        <div className="space-y-1.5">
-          <Label htmlFor="member-phone">手机号</Label>
-          <Input id="member-phone" value={phone} onChange={(event) => setPhone(event.target.value)} inputMode="numeric" placeholder="11 位手机号" className="h-10" required />
-        </div>
-        <p className="text-sm">
-          当前选择 {plan.name}。新会员支付 <span className="font-medium">¥{earlyBirdPrice(plan.price)}</span>
-          ，老会员支付 ¥{plan.price}。
-        </p>
-        {error ? (
-          <p role="alert" className="text-sm text-destructive">
-            {error}
-          </p>
-        ) : null}
+        {error ? <p className="mt-3 text-sm text-destructive">{error}</p> : null}
         {done ? (
-          <p className="text-sm text-moss">
-            办理成功，编号 {done.id}。{done.planName} {done.days} 天，实付 ¥{done.paid}
-            {done.earlyBird ? "（新会员早鸟价）" : "（标价）"}。
+          <p className="mt-3 text-sm text-moss">
+            充值成功，编号 {done}。到账 ¥{option.amount + option.bonus}
+            {option.bonus ? `（含赠送 ¥${option.bonus}）` : ""}。
           </p>
         ) : null}
-        <Button type="submit" className="h-10 px-4">
-          确认办理
+        <Button type="submit" className="mt-4 h-11 w-full">
+          立即充值 ¥{option.amount}
         </Button>
       </form>
 
       <div>
-        <h2 className="font-heading text-3xl">本机已办的卡</h2>
-        {records.length === 0 ? (
-          <p className="mt-4 text-sm text-muted-foreground">还没有办理记录。</p>
+        <h2 className="font-heading text-3xl">本机充值记录</h2>
+        {accounts.length === 0 ? (
+          <p className="mt-4 text-sm text-muted-foreground">还没有充值。余额和积分保存在这台浏览器里。</p>
         ) : (
           <ul className="mt-4 space-y-3">
-            {records.map((item) => (
-              <li key={item.id} className="border border-border bg-card p-3 text-sm">
+            {accounts.map((account) => (
+              <li key={account.phone} className="border border-border bg-card p-4 text-sm">
                 <p className="font-medium">
-                  {item.planName} · {item.id}
+                  {account.name} · {account.phone}
                 </p>
-                <p className="mt-1 text-muted-foreground">
-                  {item.name} · {item.phone} · {item.days} 天 · 实付 ¥{item.paid}
-                  {item.earlyBird ? " · 早鸟价" : ""}
+                <p className="mt-1">
+                  余额 ¥{account.balance} · {tierFor(account.points).name} · {account.points} 积分
                 </p>
-                <p className="mt-1 text-muted-foreground">{formatDateTime(item.createdAt)}</p>
+                <ul className="mt-2 space-y-1 text-muted-foreground">
+                  {account.topUps
+                    .slice()
+                    .reverse()
+                    .map((entry) => (
+                      <li key={entry.id}>
+                        {entry.id} · 充值 ¥{entry.amount}
+                        {entry.bonus ? `，赠送 ¥${entry.bonus}` : ""} · {formatDateTime(entry.createdAt)}
+                      </li>
+                    ))}
+                </ul>
               </li>
             ))}
           </ul>

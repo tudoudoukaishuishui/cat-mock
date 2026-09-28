@@ -164,6 +164,7 @@ export type BookingRecord = {
   createdAt: string;
   cancelledAt: string | null;
   lateCancel: boolean;
+  pointsAwarded?: number;
 };
 
 export type BookingView = BookingRecord & {

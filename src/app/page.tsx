@@ -29,7 +29,7 @@ export default function HomePage() {
           <p className="text-sm tracking-[0.18em] text-muted-foreground">SUPER CAT</p>
           <h1 className="mt-3 font-heading text-5xl leading-none md:text-7xl">超级猫咪</h1>
           <p className="mt-5 max-w-xl text-lg leading-8">
-            按次上课，不办卡。首页三个板块：团课、私教、公开课。点进去看课程列表，再点一门课，看这一场的教练、等级、时间、地址、名额和价格。
+            按次上课。首页三个板块：团课、私教、公开课。点进去看课表，再点一场课，看教练、等级、时间、地址、名额和价格。
           </p>
           <dl className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm">
             <div>
@@ -66,9 +66,9 @@ export default function HomePage() {
       <section className="mt-8 flex flex-col gap-3 border border-border bg-card p-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs tracking-[0.16em] text-muted-foreground">会员</p>
-          <h2 className="mt-1 font-heading text-3xl">月卡、季卡、半年卡、年卡</h2>
+          <h2 className="mt-1 font-heading text-3xl">按次付费，充值超猫卡</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-            有效期内预约团课和公开课。课程也可以按场次单独买。新会员早鸟立减 ¥20。团课或私教两人及以上报名打 9 折。
+            没有年卡。团课从 ¥69 起，自助健身舱约 ¥50/小时。充值后预约团课享 95 折，上课积累积分。
           </p>
         </div>
         <Link href="/membership" className={cn(buttonVariants(), "h-10 shrink-0 px-4")}>
