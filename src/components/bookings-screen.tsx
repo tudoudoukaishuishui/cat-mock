@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 import { UserRound } from "lucide-react";
 
 import { CancelBookingButton, ResetBookingsButton } from "@/components/booking-actions";
+import { FatLossMatches } from "@/components/fat-loss-matches";
 import { formatDateTime, shanghaiDateKey } from "@/lib/format";
+import type { FatLossGroup } from "@/lib/fat-loss-plan";
 import { courseImage, heroImage } from "@/lib/images";
 import { listLocalBookings } from "@/lib/local-bookings";
 import type { BookingView } from "@/lib/types";
@@ -31,7 +33,7 @@ function summarize(items: BookingView[]) {
   };
 }
 
-export function BookingsScreen() {
+export function BookingsScreen({ plan }: { plan: FatLossGroup[] }) {
   const params = useSearchParams();
   const phone = params.get("phone")?.trim() ?? "";
   const [bookings, setBookings] = useState<BookingView[] | null>(null);
@@ -46,6 +48,10 @@ export function BookingsScreen() {
 
   const currentMonth = monthKey(new Date().toISOString());
   const active = (bookings ?? []).filter((item) => !item.cancelledAt);
+  const bookedByCourse = new Map<string, number>();
+  for (const item of active) {
+    bookedByCourse.set(item.courseId, (bookedByCourse.get(item.courseId) ?? 0) + 1);
+  }
   const total = summarize(active);
   const grouped = new Map<string, BookingView[]>();
   for (const booking of bookings ?? []) {
@@ -80,6 +86,8 @@ export function BookingsScreen() {
           <p className="mt-1 text-sm text-muted-foreground">累计训练/次</p>
         </div>
       </section>
+
+      <FatLossMatches plan={plan} bookedByCourse={bookedByCourse} />
 
       <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:items-end sm:justify-between">
         <h2 className="font-heading text-2xl">预约记录</h2>
@@ -174,19 +182,7 @@ export function BookingsScreen() {
 
       {bookings !== null && active.length === 0 ? (
         <p className="mt-4 text-sm text-muted-foreground">
-          还没有完成的训练。去{" "}
-          <Link href="/sections/group" className="text-persimmon">
-            团课
-          </Link>
-          、
-          <Link href="/sections/personal" className="text-persimmon">
-            私教
-          </Link>
-          或
-          <Link href="/sections/open" className="text-persimmon">
-            公开课
-          </Link>
-          预约一场。
+          还没有预约。先从上面的减肥匹配里选一节。
         </p>
       ) : null}
 
