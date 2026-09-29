@@ -82,7 +82,7 @@ export function BookingsScreen() {
       </div>
 
       {bookings === null ? (
-        <p className="mt-6 text-sm text-muted-foreground">正在读取本机记录…</p>
+        <p className="mt-6 text-sm text-muted-foreground">正在读取记录…</p>
       ) : (
         <ul className="mt-4 space-y-4">
           {months.map(([key, items]) => {
@@ -124,7 +124,7 @@ export function BookingsScreen() {
                             {booking.timeLabel} · {booking.durationMinutes} 分钟 · {booking.sectionName}
                           </p>
                           <p className="mt-1 text-sm text-muted-foreground">
-                            {booking.name} · {booking.phone} · {booking.partySize} 人 · 模拟应付 ¥{booking.totalPrice}
+                            {booking.name} · {booking.phone} · {booking.partySize} 人 · 应付 ¥{booking.totalPrice}
                             {booking.pointsAwarded && !booking.cancelledAt
                               ? ` · ${new Date(booking.start).getTime() + booking.durationMinutes * 60 * 1000 <= Date.now() ? "已入账" : "待入账"} ${formatBananas(booking.pointsAwarded)} 根香蕉`
                               : ""}

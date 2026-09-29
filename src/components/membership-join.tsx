@@ -72,7 +72,7 @@ export function MembershipJoin() {
           <p className="font-heading text-4xl">¥{balance}</p>
         </div>
         <p className="mt-3 border border-border bg-accent px-3 py-2 text-sm">
-          模拟充值后，团课按 95 折计算模拟应付。确认预约不从余额扣款。
+          充值后，团课按持卡 95 折计算应付金额。确认预约不从余额扣款。
         </p>
         <div className="mt-4 grid grid-cols-2 gap-3">
           {topUps.map((item) => {
@@ -154,19 +154,19 @@ export function MembershipJoin() {
         {error ? <p className="mt-3 text-sm text-destructive">{error}</p> : null}
         {done ? (
           <p className="mt-3 text-sm text-moss">
-            模拟充值已记入这台浏览器，编号 {done}，不发生真实资金交易。记入 ¥{option.amount + option.bonus}
+            充值成功，编号 {done}。入账 ¥{option.amount + option.bonus}
             {option.bonus ? `（含赠送 ¥${option.bonus}）` : ""}。
           </p>
         ) : null}
         <Button type="submit" className="mt-4 h-11 w-full">
-          模拟充值 ¥{option.amount}
+          充值 ¥{option.amount}
         </Button>
       </form>
 
       <div>
-        <h2 className="font-heading text-3xl">本机充值记录</h2>
+        <h2 className="font-heading text-3xl">充值记录</h2>
         {accounts.length === 0 ? (
-          <p className="mt-4 text-sm text-muted-foreground">还没有模拟充值。余额只保存在这台浏览器里，清掉网站数据后会消失。</p>
+          <p className="mt-4 text-sm text-muted-foreground">还没有充值记录。</p>
         ) : (
           <ul className="mt-4 space-y-3">
             {accounts.map((account) => (
@@ -183,7 +183,7 @@ export function MembershipJoin() {
                     .reverse()
                     .map((entry) => (
                       <li key={entry.id}>
-                        {entry.id} · 模拟充值 ¥{entry.amount}
+                        {entry.id} · 充值 ¥{entry.amount}
                         {entry.bonus ? `，赠送 ¥${entry.bonus}` : ""} · {formatDateTime(entry.createdAt)}
                       </li>
                     ))}

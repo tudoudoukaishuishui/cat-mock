@@ -14,7 +14,7 @@ export function AugustTraining() {
         <img src={summary.image.src} alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-background/88" />
         <div className="relative grid gap-4 p-5 sm:grid-cols-4 sm:items-end">
-          <p className="font-heading text-3xl">2026年8月 · 示例</p>
+          <p className="font-heading text-3xl">2026年8月</p>
           <Stat value={summary.count} label="训练次数" />
           <Stat value={summary.days} label="训练天数" />
           <Stat value={summary.minutes} label="训练时长/分钟" />

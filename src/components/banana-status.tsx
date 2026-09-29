@@ -21,8 +21,8 @@ export function BananaStatus({ earned, detail }: { earned: number; detail: strin
       <p className="text-xs tracking-[0.16em] text-muted-foreground">剩余香蕉</p>
       <p className="mt-2 font-heading text-5xl text-persimmon">{formatBananas(account.bananas)} 根香蕉</p>
       <p className="mt-3 text-sm leading-6 text-muted-foreground">
-        这是示例历史，不是本机账户。8 月{detail}，共 {formatBananas(account.earned)} 根香蕉。每 8 根兑换 1 张 10 元优惠券，已兑换{" "}
-        {account.couponsIssued} 张。手上还有 {account.couponsLeft} 张可用，兑换后剩 {formatBananas(account.bananas)} 根香蕉。
+        8 月{detail}，共 {formatBananas(account.earned)} 根香蕉。每 8 根兑换 1 张 10 元优惠券，已兑换 {account.couponsIssued}{" "}
+        张。当前可用 {account.couponsLeft} 张，兑换后剩余 {formatBananas(account.bananas)} 根。
       </p>
     </section>
   );

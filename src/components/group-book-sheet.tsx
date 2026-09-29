@@ -162,14 +162,14 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
 
             {result ? (
               <div className="mt-5 border border-border bg-card p-4" data-booking-id={result.id}>
-                <p className="font-medium text-moss">模拟预约已记下</p>
+                <p className="font-medium text-moss">预约成功</p>
                 <p className="mt-2 text-sm">预约号 {result.id}</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  占用 {result.seats} 个名额 · {payable === 0 ? "免费" : `模拟应付 ¥${payable}`}
+                  占用 {result.seats} 个名额 · {payable === 0 ? "免费" : `应付 ¥${payable}`}
                   {priceNote ? ` · ${priceNote}` : ""}
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  不发生真实扣款，也不从超猫卡余额里扣。
+                  {payable === 0 ? "本场免费，名额已占用。" : "名额已占用。应付金额不从超猫卡余额扣除。"}
                   {result.points > 0
                     ? new Date(session.end).getTime() <= Date.now()
                       ? ` 已入账 ${formatBananas(result.points)} 根香蕉，这场已经结束，记在这个手机号上。`
@@ -276,7 +276,7 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                   </label>
                 ) : null}
                 <div className="flex items-baseline justify-between border-t border-border py-4">
-                  <span>模拟应付</span>
+                  <span>应付</span>
                   <span className="text-right">
                     {quote.listTotal !== payable ? (
                       <span className="mr-2 text-sm text-muted-foreground line-through">¥{quote.listTotal}</span>
@@ -328,7 +328,7 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
           {result ? null : (
             <div className="flex items-center justify-between gap-3 border-t border-border px-5 py-3">
               <div>
-                <p className="text-xs text-muted-foreground">模拟应付</p>
+                <p className="text-xs text-muted-foreground">应付</p>
                 <p className="font-heading text-2xl">{payable === 0 ? "免费" : `¥${payable}`}</p>
               </div>
               <button

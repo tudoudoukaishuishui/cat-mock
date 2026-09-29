@@ -200,7 +200,7 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
       <section className="mt-12" aria-label="场次">
         <h2 className="font-heading text-3xl">场次</h2>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-          已预约人数含课表初始占位，以及你在这台浏览器里新约的人数。每场的教练、等级、时间和价格以这一栏为准。
+          已预约人数包含场次里已经占位的人数，以及新提交的预约。每场的教练、等级、时间和价格以这一栏为准。
         </p>
         <div className="mt-5 space-y-5">
           {sessions.map((session) => (

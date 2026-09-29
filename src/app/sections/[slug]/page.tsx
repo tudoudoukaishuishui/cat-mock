@@ -66,7 +66,7 @@ export default async function SectionPage({ params }: { params: Promise<{ slug: 
           <p className="mt-3 text-sm leading-6 text-muted-foreground">{section.bookingRule}</p>
           {section.slug === "group" ? null : (
             <p className="mt-2 text-sm text-muted-foreground">
-              免费取消需要在开课前满 {section.cancelHours} 小时。逾期仍可在本站取消并释放名额，记录会标明已超过免费时限。
+              免费取消需要在开课前满 {section.cancelHours} 小时。超过这个时间仍可取消并释放名额，记录会标明已超过免费时限。
             </p>
           )}
         </div>

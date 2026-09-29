@@ -19,11 +19,11 @@ export const topUps = [
 export type TopUpId = (typeof topUps)[number]["id"];
 
 export const tiers = [
-  { name: "新会员", points: 0, perk: "完课后开始累计香蕉。本站不能兑换权益。" },
-  { name: "银卡", points: 20, perk: "说明中有一张 ¥10 团课抵扣券。本站不能兑换，也不扣香蕉。" },
-  { name: "金卡", points: 80, perk: "说明中有 1 小时自助健身。本站不能兑换。" },
-  { name: "铂金", points: 200, perk: "说明中有生日券和满员候补。本站不能发放，也不能排队。" },
-  { name: "钻石", points: 500, perk: "说明中有换课。仍受该课取消时限约束，本站不能代为改期。" },
+  { name: "新会员", points: 0, perk: "完课后开始累计香蕉。" },
+  { name: "银卡", points: 20, perk: "一张 ¥10 团课抵扣券。" },
+  { name: "金卡", points: 80, perk: "1 小时自助健身。" },
+  { name: "铂金", points: 200, perk: "生日券，满员场次可候补。" },
+  { name: "钻石", points: 500, perk: "可换课，仍受该课 6 小时或 24 小时取消时限约束。" },
 ] as const;
 
 export const benefits = [
@@ -40,7 +40,7 @@ export const bananaRates = [
   { name: "团课", rate: "1 根香蕉 / 人，完课后入账" },
   { name: "私教", rate: "1.5 根香蕉 / 节，固定 1 人" },
   { name: "公开课", rate: "完课不获得香蕉" },
-  { name: "自助健身", rate: "0.5 根香蕉 / 小时，本站不能预约" },
+  { name: "自助健身", rate: "0.5 根香蕉 / 小时，到店进舱" },
 ] as const;
 
 export function tierFor(points: number) {

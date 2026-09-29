@@ -13,7 +13,7 @@ export function TrainingTotals({
         <p className="font-heading text-5xl text-persimmon" data-total="days">
           {historyDays.length}
         </p>
-        <p className="mt-1 text-sm text-muted-foreground">示例天数</p>
+        <p className="mt-1 text-sm text-muted-foreground">训练天数</p>
       </div>
       <div className="grid size-20 place-items-center rounded-full border border-border bg-card text-muted-foreground">
         <UserRound className="size-8" />
@@ -22,7 +22,7 @@ export function TrainingTotals({
         <p className="font-heading text-5xl text-persimmon" data-total="count">
           {baseCount}
         </p>
-        <p className="mt-1 text-sm text-muted-foreground">示例训练/次</p>
+        <p className="mt-1 text-sm text-muted-foreground">训练次数</p>
       </div>
     </section>
   );
