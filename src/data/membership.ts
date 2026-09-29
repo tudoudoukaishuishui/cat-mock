@@ -19,16 +19,16 @@ export const topUps = [
 export type TopUpId = (typeof topUps)[number]["id"];
 
 export const tiers = [
-  { name: "新会员", points: 0, perk: "完课后开始累计等级积分。本站不能兑换权益。" },
-  { name: "银卡", points: 200, perk: "说明中有一张 ¥10 团课抵扣券。本站不能兑换，也不扣等级积分。" },
-  { name: "金卡", points: 800, perk: "说明中有 1 小时自助健身。本站不能兑换。" },
-  { name: "铂金", points: 2000, perk: "说明中有生日券和满员候补。本站不能发放，也不能排队。" },
-  { name: "钻石", points: 5000, perk: "说明中有换课。仍受该课取消时限约束，本站不能代为改期。" },
+  { name: "新会员", points: 0, perk: "完课后开始累计香蕉。本站不能兑换权益。" },
+  { name: "银卡", points: 20, perk: "说明中有一张 ¥10 团课抵扣券。本站不能兑换，也不扣香蕉。" },
+  { name: "金卡", points: 80, perk: "说明中有 1 小时自助健身。本站不能兑换。" },
+  { name: "铂金", points: 200, perk: "说明中有生日券和满员候补。本站不能发放，也不能排队。" },
+  { name: "钻石", points: 500, perk: "说明中有换课。仍受该课取消时限约束，本站不能代为改期。" },
 ] as const;
 
 export const benefits = [
   { title: "训练成就", detail: "上课打卡，点亮成就" },
-  { title: "训练奖励", detail: "积分兑换券和课时" },
+  { title: "训练奖励", detail: "香蕉兑换券和课时" },
   { title: "满员等候", detail: "满员场次可以排队" },
   { title: "新课体验", detail: "新课上线优先试听" },
   { title: "训练排名", detail: "按城市查看上课排名" },
@@ -36,20 +36,21 @@ export const benefits = [
   { title: "无忧换课", detail: "改约仍受 6 小时或 24 小时时限约束" },
 ] as const;
 
-export const pointRates = [
-  { name: "团课", rate: "10 积分 / 人，完课后入账" },
-  { name: "私教", rate: "20 积分 / 节，固定 1 人" },
-  { name: "公开课", rate: "5 积分 / 人，完课后入账" },
-  { name: "自助健身", rate: "8 积分 / 小时，本站不能预约" },
+export const bananaRates = [
+  { name: "团课", rate: "1 根香蕉 / 人，完课后入账" },
+  { name: "私教", rate: "1.5 根香蕉 / 节，固定 1 人" },
+  { name: "公开课", rate: "完课不获得香蕉" },
+  { name: "自助健身", rate: "0.5 根香蕉 / 小时，本站不能预约" },
 ] as const;
 
 export function tierFor(points: number) {
   return [...tiers].reverse().find((tier) => points >= tier.points) ?? tiers[0];
 }
 
-export function classPoints(section: "group" | "personal" | "open", seats: number) {
-  const unit = section === "personal" ? 20 : section === "group" ? 10 : 5;
-  return unit * (section === "personal" ? 1 : seats);
+export function classBananas(section: "group" | "personal" | "open", seats: number) {
+  if (section === "personal") return 1.5;
+  if (section === "group") return seats;
+  return 0;
 }
 
 export function classTotal(

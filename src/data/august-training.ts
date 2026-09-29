@@ -1,6 +1,5 @@
 import { coaches, courses, sections, studios } from "@/data/catalog";
-import { earnsBanana } from "@/data/bananas";
-import { classPoints, classTotal, tierFor } from "@/data/membership";
+import { classBananas, classTotal, tierFor } from "@/data/membership";
 import { formatSessionTime, shanghaiDateKey } from "@/lib/format";
 import { courseImage } from "@/lib/images";
 
@@ -38,6 +37,7 @@ export type AugustWorkout = {
   listPrice: number;
   paid: number;
   payLabel: string;
+  bananas: number;
 };
 
 function weekdayOf(iso: string) {
@@ -90,6 +90,7 @@ export function listAugustWorkouts(): AugustWorkout[] {
         listPrice: row.price,
         paid: quote.total,
         payLabel: course.section === "group" ? `持卡 ¥${quote.total}` : `¥${quote.total}`,
+        bananas: classBananas(course.section, 1),
       };
     })
     .sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime());
@@ -102,7 +103,7 @@ export function augustTrainingSummary() {
   const groupPaid = group.reduce((sum, item) => sum + item.paid, 0);
   const personalPaid = personal.reduce((sum, item) => sum + item.paid, 0);
   const credited = TOP_UP + BONUS;
-  const points = group.length * classPoints("group", 1) + personal.length * classPoints("personal", 1);
+  const bananasEarned = items.reduce((sum, item) => sum + item.bananas, 0);
   return {
     count: items.length,
     days: new Set(items.map((item) => shanghaiDateKey(item.start))).size,
@@ -117,8 +118,8 @@ export function augustTrainingSummary() {
     groupPaid,
     personalPaid,
     balance: credited - groupPaid,
-    points,
-    tier: tierFor(points).name,
-    bananasEarned: items.filter((item) => earnsBanana(item.courseId)).length,
+    points: bananasEarned,
+    tier: tierFor(bananasEarned).name,
+    bananasEarned,
   };
 }

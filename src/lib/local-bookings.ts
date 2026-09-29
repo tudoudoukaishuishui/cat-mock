@@ -1,5 +1,5 @@
 import { listAugustWorkouts } from "@/data/august-training";
-import { COUPON_YUAN, bananaAccount, couponMark, earnsBanana } from "@/data/bananas";
+import { COUPON_YUAN, bananaAccount, couponMark } from "@/data/bananas";
 import { courses, sections, sessions } from "@/data/catalog";
 import { classTotal } from "@/data/membership";
 import { awardClassPoints, hasCard } from "@/lib/local-memberships";
@@ -144,7 +144,7 @@ export function createLocalBooking(input: BookInput): BookOk | BookErr {
     return { ok: false, error: "这门课不支持使用优惠券" };
   }
   if (useCoupon && session.price <= 0) return { ok: false, error: "免费课不能使用优惠券" };
-  const earned = listAugustWorkouts().filter((item) => earnsBanana(item.courseId)).length;
+  const earned = listAugustWorkouts().reduce((sum, item) => sum + item.bananas, 0);
   if (useCoupon && bananaAccount(earned, usedCoupons()).couponsLeft < 1) {
     return { ok: false, error: "没有可用的10元优惠券" };
   }

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { MembershipJoin } from "@/components/membership-join";
 import { hotCourseNames } from "@/data/bananas";
-import { GROUP_FROM_PRICE, GYM_HOUR_PRICE, pointRates, tiers } from "@/data/membership";
+import { GROUP_FROM_PRICE, GYM_HOUR_PRICE, bananaRates, tiers } from "@/data/membership";
 
 export const metadata: Metadata = {
   title: "会员",
@@ -51,14 +51,16 @@ export default function MembershipPage() {
       </section>
 
       <section className="mt-10" data-banana-rules>
-        <h2 className="font-heading text-3xl">积分规则</h2>
+        <h2 className="font-heading text-3xl">香蕉规则</h2>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
           <article className="border border-border bg-card p-5">
-            <h3 className="font-heading text-2xl">积分获取</h3>
-            <p className="mt-3 text-sm leading-6">每完成 1 节参与活动的课程，可获得 1 根香蕉。</p>
+            <h3 className="font-heading text-2xl">香蕉获取</h3>
+            <p className="mt-3 text-sm leading-6">
+              团课完课 1 根香蕉。私教完课 1.5 根香蕉。公开课不获得香蕉。自助健身 0.5 根香蕉/小时。
+            </p>
           </article>
           <article className="border border-border bg-card p-5">
-            <h3 className="font-heading text-2xl">积分兑换</h3>
+            <h3 className="font-heading text-2xl">香蕉兑换</h3>
             <p className="mt-3 text-sm leading-6">累计 8 根香蕉，可兑换 1 张 10 元课程优惠券。</p>
           </article>
           <article className="border border-border bg-card p-5">
@@ -69,21 +71,21 @@ export default function MembershipPage() {
           </article>
         </div>
         <p className="mt-4 max-w-3xl text-sm leading-6 text-muted-foreground">
-          付费课都参与活动。热门课完成同样获得 1 根香蕉，但不能使用优惠券：{hotCourseNames.join("、")}。其余付费课可使用 10 元优惠券。免费公开课不参与。课程卡片上会标明。
+          团课按上课人数计算，热门团课完课也是 1 根，但不能使用优惠券：{hotCourseNames.join("、")}。私教固定 1.5 根，可以使用优惠券。公开课完课没有香蕉。课程卡片上会标明能不能用券。
         </p>
       </section>
 
       <section className="mt-10">
         <h2 className="font-heading text-3xl">会员等级</h2>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-          等级积分是累计值，不是可花掉的余额。充值只增加模拟余额，不直接升级。预约时先显示待入账，场次结束且未取消后才计入等级。本站不能兑换下表里的券、小时、候补或换课，所以兑换不会扣分，也不会因此降级。
+          等级按香蕉累计，不是可花掉的余额。原来的 200、800、2000、5000 分，按团课 10 分换成 1 根，现在是 20、80、200、500 根。充值只增加模拟余额，不直接升级。预约时先显示待入账香蕉，场次结束且未取消后才计入等级。本站不能兑换下表里的券、小时、候补或换课，所以兑换不会扣香蕉，也不会因此降级。
         </p>
         <div className="mt-4 overflow-x-auto border border-border">
           <table className="w-full min-w-[36rem] text-left text-sm">
             <thead className="bg-card text-muted-foreground">
               <tr>
                 <th className="px-4 py-3 font-medium">等级</th>
-                <th className="px-4 py-3 font-medium">积分</th>
+                <th className="px-4 py-3 font-medium">香蕉</th>
                 <th className="px-4 py-3 font-medium">可兑换</th>
               </tr>
             </thead>
@@ -91,7 +93,7 @@ export default function MembershipPage() {
               {tiers.map((tier) => (
                 <tr key={tier.name} className="border-t border-border">
                   <td className="px-4 py-3 font-medium">{tier.name}</td>
-                  <td className="px-4 py-3">{tier.points === 0 ? "开始累计" : `${tier.points} 起`}</td>
+                  <td className="px-4 py-3">{tier.points === 0 ? "开始累计" : `${tier.points} 根起`}</td>
                   <td className="px-4 py-3 text-muted-foreground">{tier.perk}</td>
                 </tr>
               ))}
@@ -99,7 +101,7 @@ export default function MembershipPage() {
           </table>
         </div>
         <ul className="mt-4 grid gap-2 text-sm sm:grid-cols-2 lg:grid-cols-4">
-          {pointRates.map((item) => (
+          {bananaRates.map((item) => (
             <li key={item.name} className="border border-border bg-card px-3 py-2">
               <span className="text-muted-foreground">{item.name}</span>
               <span className="mt-1 block font-medium">{item.rate}</span>
@@ -120,7 +122,7 @@ export default function MembershipPage() {
           模拟充值只改这台浏览器里的余额数字。确认预约只记下模拟应付，不从余额扣款，也不发起支付。名额在确认时占用，没有未付款再保留一段时间的步骤。
         </p>
         <p className="mt-2">
-          持卡预约会先记待入账积分：团课 10 分/人，公开课 5 分/人，都记在本单手机号上，不拆给同行人；私教 20 分，固定 1 人。场次结束且预约未取消后才变成已入账。取消未完成的预约会撤销待入账。本站没有签到。无忧换课仍受该课 6 小时或 24 小时取消时限约束，不处理差价。余额、积分和预约只保存在当前浏览器里，清掉网站数据或换设备后会消失。
+          持卡预约会先记待入账香蕉：团课 1 根/人，私教 1.5 根/节，都记在本单手机号上，不拆给同行人。公开课不获得香蕉。自助健身按 0.5 根/小时，本站不能预约。场次结束且预约未取消后才变成已入账。取消未完成的预约会撤销待入账。本站没有签到。无忧换课仍受该课 6 小时或 24 小时取消时限约束，不处理差价。余额、香蕉和预约只保存在当前浏览器里，清掉网站数据或换设备后会消失。
         </p>
       </section>
 

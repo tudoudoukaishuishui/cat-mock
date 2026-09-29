@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { CancelBookingButton } from "@/components/booking-actions";
+import { formatBananas } from "@/data/bananas";
 import { formatDateTime, shanghaiDateKey } from "@/lib/format";
 import { courseImage, heroImage } from "@/lib/images";
 import { listLocalBookings } from "@/lib/local-bookings";
@@ -125,7 +126,7 @@ export function BookingsScreen() {
                           <p className="mt-1 text-sm text-muted-foreground">
                             {booking.name} · {booking.phone} · {booking.partySize} 人 · 模拟应付 ¥{booking.totalPrice}
                             {booking.pointsAwarded && !booking.cancelledAt
-                              ? ` · ${new Date(booking.start).getTime() + booking.durationMinutes * 60 * 1000 <= Date.now() ? "已入账" : "待入账"} ${booking.pointsAwarded} 积分`
+                              ? ` · ${new Date(booking.start).getTime() + booking.durationMinutes * 60 * 1000 <= Date.now() ? "已入账" : "待入账"} ${formatBananas(booking.pointsAwarded)} 根香蕉`
                               : ""}
                             {booking.discountNote ? ` · ${booking.discountNote}` : ""}
                           </p>

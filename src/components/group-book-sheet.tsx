@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Clock3, MapPin, UserRound, X } from "lucide-react";
 
 import { listAugustWorkouts } from "@/data/august-training";
-import { COUPON_YUAN, bananaAccount, couponMark, earnsBanana } from "@/data/bananas";
+import { COUPON_YUAN, bananaAccount, couponMark, formatBananas } from "@/data/bananas";
 import { courses } from "@/data/catalog";
 import { classTotal } from "@/data/membership";
 import { subscribeCoupons, usedCoupons } from "@/lib/banana-wallet";
@@ -55,7 +55,7 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
   const cardHolder = session.section === "group" && hasCard(phone);
   const quote = classTotal(session.section, session.price, party, cardHolder);
   const mark = couponMark(session.courseId);
-  const earned = listAugustWorkouts().filter((item) => earnsBanana(item.courseId)).length;
+  const earned = listAugustWorkouts().reduce((sum, item) => sum + item.bananas, 0);
   const couponsLeft = bananaAccount(earned, usedCouponCount).couponsLeft;
   const canUseCoupon = mark === "coupon" && couponsLeft > 0 && session.price > 0;
   const couponOff = canUseCoupon && applyCoupon ? COUPON_YUAN : 0;
@@ -170,7 +170,11 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
                   不发生真实扣款，也不从超猫卡余额里扣。
-                  {result.points > 0 ? ` 待入账 ${result.points} 积分，记在这个手机号上，场次结束后才计入等级。` : ""}
+                  {result.points > 0
+                    ? new Date(session.end).getTime() <= Date.now()
+                      ? ` 已入账 ${formatBananas(result.points)} 根香蕉，这场已经结束，记在这个手机号上。`
+                      : ` 待入账 ${formatBananas(result.points)} 根香蕉，记在这个手机号上，场次结束后才计入等级。`
+                    : ""}
                 </p>
                 <Link href={`/bookings?phone=${phone}`} className="mt-4 inline-block text-sm text-persimmon">
                   查看我的运动

@@ -6,6 +6,7 @@ import { Award, BarChart3, Cake, Check, Clock3, Compass, Gift, RefreshCcw } from
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { formatBananas } from "@/data/bananas";
 import { benefits, tierFor, topUps, type TopUpId } from "@/data/membership";
 import { formatDateTime } from "@/lib/format";
 import { pointLedger } from "@/lib/local-bookings";
@@ -105,7 +106,7 @@ export function MembershipJoin() {
         </div>
         <p className="mt-3 text-xs text-muted-foreground">
           {current
-            ? `${current.name} · ${tier.name} · 已入账 ${ledger.posted} · 待入账 ${ledger.pending}`
+            ? `${current.name} · ${tier.name} · 已入账 ${formatBananas(ledger.posted)} 根香蕉 · 待入账 ${formatBananas(ledger.pending)} 根香蕉`
             : "未充值，余额 ¥0"}
           {firstUsed ? "。首充专享已使用。" : ""}
         </p>
@@ -174,7 +175,7 @@ export function MembershipJoin() {
                   {account.name} · {account.phone}
                 </p>
                 <p className="mt-1">
-                  余额 ¥{account.balance} · {tierFor(pointLedger(account.phone).posted).name} · 已入账 {pointLedger(account.phone).posted} · 待入账 {pointLedger(account.phone).pending}
+                  余额 ¥{account.balance} · {tierFor(pointLedger(account.phone).posted).name} · 已入账 {formatBananas(pointLedger(account.phone).posted)} 根香蕉 · 待入账 {formatBananas(pointLedger(account.phone).pending)} 根香蕉
                 </p>
                 <ul className="mt-2 space-y-1 text-muted-foreground">
                   {account.topUps
