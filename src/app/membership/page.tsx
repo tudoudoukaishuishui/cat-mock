@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { MembershipJoin } from "@/components/membership-join";
+import { hotCourseNames } from "@/data/bananas";
 import { GROUP_FROM_PRICE, GYM_HOUR_PRICE, pointRates, tiers } from "@/data/membership";
 
 export const metadata: Metadata = {
@@ -47,6 +48,29 @@ export default function MembershipPage() {
             团课、私教和公开课在本站课表预约。也可以在微信公众号或小程序里查看场次、改约和看余额。
           </p>
         </article>
+      </section>
+
+      <section className="mt-10" data-banana-rules>
+        <h2 className="font-heading text-3xl">积分规则</h2>
+        <div className="mt-4 grid gap-4 md:grid-cols-3">
+          <article className="border border-border bg-card p-5">
+            <h3 className="font-heading text-2xl">积分获取</h3>
+            <p className="mt-3 text-sm leading-6">每完成 1 节参与活动的课程，可获得 1 根香蕉。</p>
+          </article>
+          <article className="border border-border bg-card p-5">
+            <h3 className="font-heading text-2xl">积分兑换</h3>
+            <p className="mt-3 text-sm leading-6">累计 8 根香蕉，可兑换 1 张 10 元课程优惠券。</p>
+          </article>
+          <article className="border border-border bg-card p-5">
+            <h3 className="font-heading text-2xl">优惠券使用</h3>
+            <p className="mt-3 text-sm leading-6">
+              使用兑换的优惠券购买参与活动的课程，可抵扣 10 元课程费用。
+            </p>
+          </article>
+        </div>
+        <p className="mt-4 max-w-3xl text-sm leading-6 text-muted-foreground">
+          付费课都参与活动。热门课完成同样获得 1 根香蕉，但不能使用优惠券：{hotCourseNames.join("、")}。其余付费课可使用 10 元优惠券。免费公开课不参与。课程卡片上会标明。
+        </p>
       </section>
 
       <section className="mt-10">

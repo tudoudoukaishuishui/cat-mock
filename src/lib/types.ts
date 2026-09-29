@@ -168,6 +168,7 @@ export type BookingRecord = {
   cancelledAt: string | null;
   lateCancel: boolean;
   pointsAwarded?: number;
+  couponYuan?: number;
 };
 
 export type BookingView = BookingRecord & {

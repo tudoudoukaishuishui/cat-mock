@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+import { CouponMark } from "@/components/coupon-mark";
 import { GroupBookSheet } from "@/components/group-book-sheet";
+import { couponLabel } from "@/data/bananas";
 import { Button } from "@/components/ui/button";
 import { localExtra } from "@/lib/local-bookings";
 import { withExtraBookings } from "@/lib/queries";
@@ -51,6 +53,9 @@ export function SessionTicket({ session }: { session: SessionView }) {
         <Field label="最多人数" field="capacity" value={`${view.capacity} 人`} />
         <Field label="已预约" field="booked" value={`${view.booked} 人`} />
         <Field label="剩余名额" field="remaining" value={`${view.remaining} 人`} />
+        {couponLabel(view.courseId) ? (
+          <Field label="优惠券" field="coupon" value={<CouponMark courseId={view.courseId} />} />
+        ) : null}
         <Field
           label="价格"
           field="price"

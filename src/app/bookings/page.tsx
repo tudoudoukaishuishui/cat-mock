@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 import { AugustTraining } from "@/components/august-training";
+import { BananaStatus } from "@/components/banana-status";
 import { ResetBookingsButton } from "@/components/booking-actions";
 import { BookingsScreen } from "@/components/bookings-screen";
 import { TrainingTotals } from "@/components/training-totals";
@@ -31,10 +32,11 @@ export default function BookingsPage() {
         <p className="mt-2 font-heading text-5xl text-persimmon">¥{august.balance}</p>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">
           8 月 1 日充值 ¥{august.topUp}，赠送 ¥{august.bonus}，到账 ¥{august.credited}。团课 {august.groupCount}{" "}
-          节按持卡 95 折扣 ¥{august.groupPaid}。私教 {august.personalCount} 节共 ¥{august.personalPaid}，按次支付，不从余额扣。积分{" "}
+          节按持卡 95 折扣 ¥{august.groupPaid}。私教 {august.personalCount} 节共 ¥{august.personalPaid}，按次支付，不从余额扣。等级积分{" "}
           {august.points}，{august.tier}。
         </p>
       </section>
+      <BananaStatus earned={august.bananasEarned} />
       <Suspense fallback={<p className="mt-10 text-sm text-muted-foreground">正在读取本机预约…</p>}>
         <BookingsScreen />
       </Suspense>

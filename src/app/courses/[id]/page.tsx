@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MissingPage } from "@/components/missing-page";
 import { SessionTicket } from "@/components/session-ticket";
 import { courses } from "@/data/catalog";
+import { couponLabel } from "@/data/bananas";
 import { courseImage } from "@/lib/images";
 import { getCourseView } from "@/lib/queries";
 
@@ -117,6 +118,7 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
           />
           <Fact label="强度" value={course.intensity} field="intensity" />
           <Fact label="价格" value={view.priceLabel} field="price-range" />
+          {couponLabel(course.id) ? <Fact label="优惠券" value={couponLabel(course.id)} field="coupon" /> : null}
           <Fact label="预计消耗" value={course.calories} field="calories" />
         </dl>
       </header>

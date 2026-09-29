@@ -1,4 +1,5 @@
 import { coaches, courses, sections, studios } from "@/data/catalog";
+import { earnsBanana } from "@/data/bananas";
 import { classPoints, classTotal, tierFor } from "@/data/membership";
 import { formatSessionTime, shanghaiDateKey } from "@/lib/format";
 import { courseImage } from "@/lib/images";
@@ -118,5 +119,6 @@ export function augustTrainingSummary() {
     balance: credited - groupPaid,
     points,
     tier: tierFor(points).name,
+    bananasEarned: items.filter((item) => earnsBanana(item.courseId)).length,
   };
 }

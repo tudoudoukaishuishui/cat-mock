@@ -5,8 +5,11 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Clock3, MapPin, UserRound, X } from "lucide-react";
 
+import { listAugustWorkouts } from "@/data/august-training";
+import { COUPON_YUAN, bananaAccount, couponMark, earnsBanana } from "@/data/bananas";
 import { courses } from "@/data/catalog";
 import { classTotal } from "@/data/membership";
+import { subscribeCoupons, usedCoupons } from "@/lib/banana-wallet";
 import { hasCard } from "@/lib/local-memberships";
 import { formatSheetWhen } from "@/lib/format";
 import { courseImage } from "@/lib/images";
@@ -26,6 +29,8 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
   const [resultId, setResultId] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const [justBooked, setJustBooked] = useState(0);
+  const [usedCouponCount, setUsedCouponCount] = useState(0);
+  const [applyCoupon, setApplyCoupon] = useState(true);
 
   useEffect(() => {
     setMounted(true);
@@ -35,15 +40,26 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
       if (event.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKey);
+    const applyCoupons = () => setUsedCouponCount(usedCoupons());
+    applyCoupons();
+    const unsubscribe = subscribeCoupons(applyCoupons);
     return () => {
       document.body.style.overflow = previous;
       window.removeEventListener("keydown", onKey);
+      unsubscribe();
     };
   }, [onClose]);
 
   const personal = session.section === "personal";
   const cardHolder = session.section === "group" && hasCard(phone);
   const quote = classTotal(session.section, session.price, party, cardHolder);
+  const mark = couponMark(session.courseId);
+  const earned = listAugustWorkouts().filter((item) => earnsBanana(item.courseId)).length;
+  const couponsLeft = bananaAccount(earned, usedCouponCount).couponsLeft;
+  const canUseCoupon = mark === "coupon" && couponsLeft > 0 && session.price > 0;
+  const couponOff = canUseCoupon && applyCoupon ? COUPON_YUAN : 0;
+  const payable = Math.max(0, quote.total - couponOff);
+  const priceNote = [quote.note, couponOff ? `${couponOff}元优惠券` : ""].filter(Boolean).join("；");
   const bookable = session.remaining > justBooked;
   const signedUp = session.booked + justBooked;
   const seatsLeft = Math.max(session.remaining - justBooked, 0);
@@ -148,8 +164,8 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                 <p className="font-medium text-moss">预约成功</p>
                 <p className="mt-2 text-sm">预约号 {resultId}</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  {party} 人 · {quote.total === 0 ? "免费" : `¥${quote.total}`}
-                  {quote.note ? ` · ${quote.note}` : ""}
+                  {party} 人 · {payable === 0 ? "免费" : `¥${payable}`}
+                  {priceNote ? ` · ${priceNote}` : ""}
                 </p>
                 <Link href={`/bookings?phone=${phone}`} className="mt-4 inline-block text-sm text-persimmon">
                   查看我的运动
@@ -171,6 +187,7 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                     partySize: personal ? 1 : party,
                     companions: party,
                     agreed: true,
+                    useCoupon: couponOff > 0,
                   });
                   setPending(false);
                   if (!data.ok) {
@@ -206,14 +223,24 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
                     })}
                   </div>
                 </div>
+                {canUseCoupon ? (
+                  <label className="flex items-center gap-2 border-t border-border py-4 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={applyCoupon}
+                      onChange={(event) => setApplyCoupon(event.target.checked)}
+                    />
+                    使用 10 元优惠券，抵扣 10 元
+                  </label>
+                ) : null}
                 <div className="flex items-baseline justify-between border-t border-border py-4">
                   <span>总价</span>
                   <span className="text-right">
-                    {quote.listTotal !== quote.total ? (
+                    {quote.listTotal !== payable ? (
                       <span className="mr-2 text-sm text-muted-foreground line-through">¥{quote.listTotal}</span>
                     ) : null}
-                    <span className="font-heading text-2xl">{quote.total === 0 ? "免费" : `${quote.total}元`}</span>
-                    {quote.note ? <span className="mt-1 block text-xs text-persimmon">{quote.note}</span> : null}
+                    <span className="font-heading text-2xl">{payable === 0 ? "免费" : `${payable}元`}</span>
+                    {priceNote ? <span className="mt-1 block text-xs text-persimmon">{priceNote}</span> : null}
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground">
@@ -260,7 +287,7 @@ export function GroupBookSheet({ session, onClose }: { session: SessionView; onC
             <div className="flex items-center justify-between gap-3 border-t border-border px-5 py-3">
               <div>
                 <p className="text-xs text-muted-foreground">待支付</p>
-                <p className="font-heading text-2xl">{quote.total === 0 ? "免费" : `¥${quote.total}`}</p>
+                <p className="font-heading text-2xl">{payable === 0 ? "免费" : `¥${payable}`}</p>
               </div>
               <button
                 type="submit"

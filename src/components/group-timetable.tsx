@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { GroupBookSheet } from "@/components/group-book-sheet";
+import { CouponMark } from "@/components/coupon-mark";
 import { courses, studios } from "@/data/catalog";
 import { formatClockRange, shanghaiDateKey } from "@/lib/format";
 import { courseImage } from "@/lib/images";
@@ -222,6 +223,7 @@ export function GroupTimetable({ sessions, sectionName }: { sessions: SessionVie
                       ) : null}
                     </span>
                     <span className="mt-0.5 block text-xs tracking-wide text-muted-foreground uppercase">{course?.englishName}</span>
+                    <CouponMark courseId={card.courseId} />
                     <span className="mt-2 block text-sm">
                       {formatClockRange(card.start, card.end)}{" "}
                       <span className="font-medium text-persimmon">{card.price === 0 ? "免费" : `¥${card.price}`}</span>

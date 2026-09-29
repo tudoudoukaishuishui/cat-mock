@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { CouponMark } from "@/components/coupon-mark";
 import { augustTrainingSummary, listAugustWorkouts } from "@/data/august-training";
 
 export function AugustTraining() {
@@ -33,8 +34,9 @@ export function AugustTraining() {
               {item.timeLabel} · {item.durationMinutes} 分钟 · {item.sectionName}
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              {item.coachName} · {item.place} · {item.payLabel}
+              {item.coachName} · {item.place} · {item.payLabel} · 计 1 根香蕉
             </p>
+            <CouponMark courseId={item.courseId} />
           </li>
         ))}
       </ul>

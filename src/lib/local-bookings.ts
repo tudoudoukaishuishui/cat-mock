@@ -1,6 +1,9 @@
+import { listAugustWorkouts } from "@/data/august-training";
+import { COUPON_YUAN, bananaAccount, couponMark, earnsBanana } from "@/data/bananas";
 import { courses, sections, sessions } from "@/data/catalog";
 import { classTotal } from "@/data/membership";
 import { addPoints, awardClassPoints, hasCard } from "@/lib/local-memberships";
+import { consumeCoupon, releaseCoupon, resetCoupons, usedCoupons } from "@/lib/banana-wallet";
 import { getSessionView, withExtraBookings } from "@/lib/queries";
 import type { BookingRecord, BookingView } from "@/lib/types";
 
@@ -18,6 +21,7 @@ export type BookInput = {
   partySize: number;
   companions?: number;
   agreed: boolean;
+  useCoupon?: boolean;
 };
 
 type BookOk = { ok: true; booking: BookingView };
@@ -139,6 +143,19 @@ export function createLocalBooking(input: BookInput): BookOk | BookErr {
 
   const cardHolder = section.slug === "group" && hasCard(phone);
   const quote = classTotal(section.slug, session.price, section.slug === "personal" ? companions : partySize, cardHolder);
+  const useCoupon = Boolean(input.useCoupon);
+  if (useCoupon && couponMark(course.id) !== "coupon") {
+    return { ok: false, error: "这门课不支持使用优惠券" };
+  }
+  if (useCoupon && session.price <= 0) return { ok: false, error: "免费课不能使用优惠券" };
+  const earned = listAugustWorkouts().filter((item) => earnsBanana(item.courseId)).length;
+  if (useCoupon && bananaAccount(earned, usedCoupons()).couponsLeft < 1) {
+    return { ok: false, error: "没有可用的10元优惠券" };
+  }
+  if (useCoupon) consumeCoupon();
+  const couponYuan = useCoupon ? COUPON_YUAN : 0;
+  const totalPrice = Math.max(0, quote.total - couponYuan);
+  const discountNote = [quote.note, couponYuan ? `${couponYuan}元优惠券` : ""].filter(Boolean).join("；") || null;
   const pointsAwarded = awardClassPoints(section.slug, phone, seats);
   const created: BookingRecord = {
     id: `BK-${state.nextNumber}`,
@@ -148,8 +165,9 @@ export function createLocalBooking(input: BookInput): BookOk | BookErr {
     phone,
     partySize: seats,
     unitPrice: session.price,
-    totalPrice: quote.total,
-    discountNote: quote.note || null,
+    totalPrice,
+    discountNote,
+    couponYuan,
     createdAt: new Date().toISOString(),
     cancelledAt: null,
     lateCancel: false,
@@ -180,6 +198,7 @@ export function cancelLocalBooking(id: string): BookOk | BookErr {
     return { ok: false, error: "距离开课不满 6 小时，不支持退款，不能取消。" };
   }
   if (existing.pointsAwarded) addPoints(existing.phone, -existing.pointsAwarded);
+  if (existing.couponYuan) releaseCoupon();
   const bookings = state.bookings.map((booking) =>
     booking.id === id ? { ...booking, cancelledAt: new Date().toISOString(), lateCancel: late } : booking,
   );
@@ -191,4 +210,5 @@ export function cancelLocalBooking(id: string): BookOk | BookErr {
 
 export function resetLocalBookings() {
   writeState(emptyState());
+  resetCoupons();
 }
