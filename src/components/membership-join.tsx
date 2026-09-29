@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Award, BarChart3, Cake, Check, Clock3, Compass, Gift, RefreshCcw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { benefits, tierFor, topUps, type TopUpId } from "@/data/membership";
 import { formatDateTime } from "@/lib/format";
+import { pointLedger } from "@/lib/local-bookings";
 import { accountFor, listAccounts, topUpCard, type Account } from "@/lib/local-memberships";
 import { cn } from "cn";
 
@@ -22,11 +23,19 @@ export function MembershipJoin() {
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [done, setDone] = useState<string | null>(null);
 
+  const [ledgerTick, setLedgerTick] = useState(0);
   useEffect(() => {
-    const apply = () => setAccounts(listAccounts());
+    const apply = () => {
+      setAccounts(listAccounts());
+      setLedgerTick((value) => value + 1);
+    };
     apply();
     window.addEventListener("super-cat-memberships", apply);
-    return () => window.removeEventListener("super-cat-memberships", apply);
+    window.addEventListener("super-cat-bookings", apply);
+    return () => {
+      window.removeEventListener("super-cat-memberships", apply);
+      window.removeEventListener("super-cat-bookings", apply);
+    };
   }, []);
 
   const option = topUps.find((item) => item.id === topUpId) ?? topUps[0];
@@ -35,8 +44,8 @@ export function MembershipJoin() {
     if (current && topUpId === "288") setTopUpId("500");
   }, [current, topUpId]);
   const balance = current?.balance ?? 0;
-  const points = current?.points ?? 0;
-  const tier = tierFor(points);
+  const ledger = useMemo(() => pointLedger(phone), [phone, ledgerTick]);
+  const tier = tierFor(ledger.posted);
   const firstUsed = current !== null;
 
   return (
@@ -61,7 +70,9 @@ export function MembershipJoin() {
           </div>
           <p className="font-heading text-4xl">¥{balance}</p>
         </div>
-        <p className="mt-3 border border-border bg-accent px-3 py-2 text-sm">充值预约团课享 95 折权益</p>
+        <p className="mt-3 border border-border bg-accent px-3 py-2 text-sm">
+          模拟充值后，团课按 95 折计算模拟应付。确认预约不从余额扣款。
+        </p>
         <div className="mt-4 grid grid-cols-2 gap-3">
           {topUps.map((item) => {
             const selected = item.id === topUpId;
@@ -93,7 +104,9 @@ export function MembershipJoin() {
           })}
         </div>
         <p className="mt-3 text-xs text-muted-foreground">
-          {current ? `${current.name} · ${tier.name} · ${points} 积分` : "未充值，余额 ¥0"}
+          {current
+            ? `${current.name} · ${tier.name} · 已入账 ${ledger.posted} · 待入账 ${ledger.pending}`
+            : "未充值，余额 ¥0"}
           {firstUsed ? "。首充专享已使用。" : ""}
         </p>
 
@@ -140,19 +153,19 @@ export function MembershipJoin() {
         {error ? <p className="mt-3 text-sm text-destructive">{error}</p> : null}
         {done ? (
           <p className="mt-3 text-sm text-moss">
-            充值成功，编号 {done}。到账 ¥{option.amount + option.bonus}
+            模拟充值已记入这台浏览器，编号 {done}，不发生真实资金交易。记入 ¥{option.amount + option.bonus}
             {option.bonus ? `（含赠送 ¥${option.bonus}）` : ""}。
           </p>
         ) : null}
         <Button type="submit" className="mt-4 h-11 w-full">
-          立即充值 ¥{option.amount}
+          模拟充值 ¥{option.amount}
         </Button>
       </form>
 
       <div>
         <h2 className="font-heading text-3xl">本机充值记录</h2>
         {accounts.length === 0 ? (
-          <p className="mt-4 text-sm text-muted-foreground">还没有充值。余额和积分保存在这台浏览器里。</p>
+          <p className="mt-4 text-sm text-muted-foreground">还没有模拟充值。余额只保存在这台浏览器里，清掉网站数据后会消失。</p>
         ) : (
           <ul className="mt-4 space-y-3">
             {accounts.map((account) => (
@@ -161,7 +174,7 @@ export function MembershipJoin() {
                   {account.name} · {account.phone}
                 </p>
                 <p className="mt-1">
-                  余额 ¥{account.balance} · {tierFor(account.points).name} · {account.points} 积分
+                  余额 ¥{account.balance} · {tierFor(pointLedger(account.phone).posted).name} · 已入账 {pointLedger(account.phone).posted} · 待入账 {pointLedger(account.phone).pending}
                 </p>
                 <ul className="mt-2 space-y-1 text-muted-foreground">
                   {account.topUps
@@ -169,7 +182,7 @@ export function MembershipJoin() {
                     .reverse()
                     .map((entry) => (
                       <li key={entry.id}>
-                        {entry.id} · 充值 ¥{entry.amount}
+                        {entry.id} · 模拟充值 ¥{entry.amount}
                         {entry.bonus ? `，赠送 ¥${entry.bonus}` : ""} · {formatDateTime(entry.createdAt)}
                       </li>
                     ))}

@@ -72,6 +72,7 @@ export type Session = {
   booked: number;
   price: number;
   notes: string[];
+  hostCancel?: "weather";
 };
 
 export type SectionInfo = {
@@ -85,7 +86,7 @@ export type SectionInfo = {
   cancelHours: number;
 };
 
-export type SessionStatus = "open" | "full" | "started" | "ended";
+export type SessionStatus = "open" | "full" | "started" | "ended" | "host-cancelled";
 
 export type SessionView = {
   id: string;

@@ -45,7 +45,8 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
     板块: section.name,
     课程内容介绍: course.description,
     时长分钟: course.durationMinutes,
-    课程等级: course.levelDetail ? `${course.level}，${course.levelDetail}` : course.level,
+    技术难度: course.level,
+    准入与退阶: course.levelDetail ?? "",
     用户画像: course.audience ?? "",
     匹配标签: course.tags ?? [],
     强度: course.intensity,
@@ -111,11 +112,8 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
         </div>
         <dl className="grid content-start gap-3 border border-border bg-card p-4 text-sm">
           <Fact label="时长" value={`${course.durationMinutes} 分钟`} field="duration" />
-          <Fact
-            label="课程等级"
-            value={course.levelDetail ? `${course.level}，${course.levelDetail}` : course.level}
-            field="course-level"
-          />
+          <Fact label="技术难度" value={course.level} field="course-level" />
+          {course.levelDetail ? <Fact label="准入与退阶" value={course.levelDetail} field="admission" /> : null}
           <Fact label="强度" value={course.intensity} field="intensity" />
           <Fact label="价格" value={view.priceLabel} field="price-range" />
           {couponLabel(course.id) ? <Fact label="优惠券" value={couponLabel(course.id)} field="coupon" /> : null}

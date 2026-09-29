@@ -36,15 +36,13 @@ export function BookDialog({ session }: { session: SessionView }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [partySize, setPartySize] = useState(1);
-  const [companions, setCompanions] = useState(1);
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [result, setResult] = useState<BookingResult | null>(null);
 
   const maxParty = session.section === "personal" ? 1 : Math.min(3, session.remaining);
-  const headcount = session.section === "personal" ? companions : partySize;
-  const quote = classTotal(session.section, session.price, headcount);
+  const quote = classTotal(session.section, session.price, partySize);
 
   if (session.status !== "open") {
     return (
@@ -133,7 +131,6 @@ export function BookDialog({ session }: { session: SessionView }) {
                 name,
                 phone,
                 partySize,
-                companions,
                 agreed,
               });
               if (!data.ok) {
@@ -174,24 +171,7 @@ export function BookDialog({ session }: { session: SessionView }) {
             </div>
             <div className="space-y-1.5">
               {session.section === "personal" ? (
-                <>
-                  <p className="text-sm">这一场只占 1 个名额。</p>
-                  <label className="mt-3 grid gap-1 text-sm">
-                    一起报名人数
-                    <select
-                      value={companions}
-                      onChange={(event) => setCompanions(Number(event.target.value))}
-                      className="h-10 w-full rounded-lg border border-input bg-card px-2.5 text-sm"
-                    >
-                      <option value={1}>1 人，原价</option>
-                      <option value={2}>2 人一起报名，本节 9 折</option>
-                      <option value={3}>3 人一起报名，本节 9 折</option>
-                    </select>
-                  </label>
-                  <p className="text-sm text-muted-foreground">
-                    选 2 人或 3 人时，这一节打 9 折。同行的人需要再各自预约自己的私教场次。
-                  </p>
-                </>
+                <p className="text-sm">本场 1 人。不能加朋友一起练，也没有多人 9 折。</p>
               ) : (
                 <select
                   id={`${session.id}-party`}

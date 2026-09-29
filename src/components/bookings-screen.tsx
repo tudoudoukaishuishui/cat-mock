@@ -123,7 +123,10 @@ export function BookingsScreen() {
                             {booking.timeLabel} · {booking.durationMinutes} 分钟 · {booking.sectionName}
                           </p>
                           <p className="mt-1 text-sm text-muted-foreground">
-                            {booking.name} · {booking.phone} · {booking.partySize} 人 · ¥{booking.totalPrice}
+                            {booking.name} · {booking.phone} · {booking.partySize} 人 · 模拟应付 ¥{booking.totalPrice}
+                            {booking.pointsAwarded && !booking.cancelledAt
+                              ? ` · ${new Date(booking.start).getTime() + booking.durationMinutes * 60 * 1000 <= Date.now() ? "已入账" : "待入账"} ${booking.pointsAwarded} 积分`
+                              : ""}
                             {booking.discountNote ? ` · ${booking.discountNote}` : ""}
                           </p>
                           <p className="mt-1 text-sm text-muted-foreground">{booking.addressLine}</p>

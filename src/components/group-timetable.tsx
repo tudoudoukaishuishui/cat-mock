@@ -103,7 +103,7 @@ export function GroupTimetable({ sessions, sectionName }: { sessions: SessionVie
     pickedDay && dayKeys.includes(pickedDay)
       ? pickedDay
       : (nextOpenDay ?? dayKeys.find((key) => key >= today) ?? dayKeys[0] ?? "");
-  const statusRank = { open: 0, started: 1, full: 2, ended: 3 };
+  const statusRank = { open: 0, started: 1, full: 2, ended: 3, "host-cancelled": 4 };
   const rows = narrowed
     .filter((card) => shanghaiDateKey(card.start) === selectedDay)
     .sort((a, b) => statusRank[a.status] - statusRank[b.status] || a.start.localeCompare(b.start));
