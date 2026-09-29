@@ -7,7 +7,6 @@ import { BananaStatus } from "@/components/banana-status";
 import { ResetBookingsButton } from "@/components/booking-actions";
 import { BookingsScreen } from "@/components/bookings-screen";
 import { TrainingTotals } from "@/components/training-totals";
-import { formatBananas } from "@/data/bananas";
 import { augustTrainingSummary } from "@/data/august-training";
 
 export const metadata: Metadata = {
@@ -34,15 +33,8 @@ export default function BookingsPage() {
       <section data-balance className="mx-auto mt-8 max-w-xl border border-border bg-card px-5 py-5 text-center">
         <p className="text-xs tracking-[0.16em] text-muted-foreground">超猫卡余额</p>
         <p className="mt-2 font-heading text-5xl text-persimmon">¥{august.balance}</p>
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">
-          8 月 1 日充值 ¥{august.topUp}，赠送 ¥{august.bonus}，到账 ¥{august.credited}。团课 {august.groupCount}{" "}
-          节按持卡 95 折，合计 ¥{august.groupPaid}，从余额扣除。私教 {august.personalCount} 节共 ¥{august.personalPaid}，按次支付，不从余额扣除。累计 {formatBananas(august.bananasEarned)} 根香蕉，当前为{august.tier}。兑换优惠券后，等级仍按累计香蕉计算。
-        </p>
       </section>
-      <BananaStatus
-        earned={august.bananasEarned}
-        detail={`团课 ${august.groupCount} 节各 1 根，私教 ${august.personalCount} 节各 1.5 根`}
-      />
+      <BananaStatus earned={august.bananasEarned} />
       <Suspense fallback={<p className="mt-10 text-sm text-muted-foreground">正在读取预约…</p>}>
         <BookingsScreen />
       </Suspense>

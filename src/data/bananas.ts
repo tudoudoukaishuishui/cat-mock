@@ -34,10 +34,11 @@ export const hotCourseNames = courses.filter((course) => hotCourseIds.has(course
 export function bananaAccount(earned: number, usedCoupons = 0) {
   const halves = Math.round(earned * 2);
   const couponHalves = BANANAS_PER_COUPON * 2;
-  const couponsIssued = Math.floor(halves / couponHalves);
+  const kept = Math.min(halves, couponHalves);
+  const couponsIssued = Math.floor((halves - kept) / couponHalves);
   return {
     earned,
-    bananas: (halves % couponHalves) / 2,
+    bananas: (halves - couponsIssued * couponHalves) / 2,
     couponsIssued,
     couponsLeft: Math.max(0, couponsIssued - usedCoupons),
   };
