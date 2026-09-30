@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>超级猫咪</title>
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --card: #fbf8f2;
+      --ink: #2d261f;
+      --muted: #74685c;
+      --line: #e2d6c6;
+      --persimmon: #c2410c;
+      --moss: #2f6b57;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.7 "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    }
+    h1, h2, h3, h4 { font-family: "Songti SC", "Noto Serif SC", serif; font-weight: 650; line-height: 1.25; }
+    a { color: inherit; }
+    header.bar {
+      position: sticky; top: 0; z-index: 2;
+      display: flex; gap: 16px; align-items: center;
+      padding: 12px 20px; border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--bg) 92%, white);
+    }
+    header.bar strong { font-family: "Songti SC", "Noto Serif SC", serif; font-size: 20px; }
+    nav { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+    nav a { text-decoration: none; padding: 4px 12px; border-radius: 999px; font-size: 14px; }
+    nav a:hover { background: #efe6d8; }
+    main { max-width: 1080px; margin: 0 auto; padding: 24px 16px 80px; }
+    .home { display: grid; gap: 12px; }
+    @media (min-width: 800px) { .home { grid-template-columns: repeat(3, 1fr); } }
+    .home a {
+      position: relative; display: block; min-height: 280px; overflow: hidden;
+      color: white; text-decoration: none;
+    }
+    .home img, article > img, .hero img { width: 100%; height: 220px; object-fit: cover; display: block; }
+    .home img { position: absolute; inset: 0; height: 100%; }
+    .home span { position: absolute; left: 0; right: 0; bottom: 0; padding: 20px; background: linear-gradient(transparent, rgba(30,22,16,.82)); }
+    .home strong { display: block; font-family: "Songti SC", "Noto Serif SC", serif; font-size: 40px; }
+    section { margin-top: 48px; }
+    .hero, article {
+      display: grid; gap: 16px; margin-top: 28px;
+      background: var(--card); border: 1px solid var(--line);
+    }
+    @media (min-width: 800px) {
+      .hero, article { grid-template-columns: 280px 1fr; }
+      .hero img, article > img { height: 100%; min-height: 220px; }
+    }
+    .hero > div, article > div { padding: 8px 18px 18px; }
+    .eyebrow { letter-spacing: .14em; color: var(--muted); font-size: 12px; }
+    h2 { font-size: 40px; margin: 0 0 8px; }
+    h3 { font-size: 28px; margin: 0; }
+    h3 span { display: block; color: var(--muted); font-size: 14px; letter-spacing: .08em; }
+    h4 { margin: 18px 0 6px; font-size: 18px; }
+    .lead { font-size: 18px; }
+    .stats, .rates, .money { display: grid; gap: 12px; }
+    @media (min-width: 700px) {
+      .stats { grid-template-columns: repeat(3, 1fr); }
+      .rates { grid-template-columns: repeat(4, 1fr); }
+      .money { grid-template-columns: 1fr 1fr; }
+    }
+    .card { background: var(--card); border: 1px solid var(--line); padding: 16px; text-align: center; }
+    .card b { display: block; color: var(--persimmon); font-family: "Songti SC", "Noto Serif SC", serif; font-size: 42px; font-weight: 650; }
+    .card span, .rates strong { display: block; }
+    dl { display: grid; gap: 8px; margin: 12px 0; }
+    dl div { display: grid; grid-template-columns: 7rem 1fr; gap: 8px; border-top: 1px solid var(--line); padding-top: 8px; }
+    dt { color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { border-top: 1px solid var(--line); text-align: left; padding: 8px; vertical-align: top; }
+    th { color: var(--muted); font-weight: 500; }
+    .table-wrap { overflow-x: auto; }
+    ul, ol { margin: 6px 0 0; padding-left: 1.2rem; }
+    .moss { color: var(--moss); }
+  </style>
+</head>
+<body>
+  <header class="bar">
+    <strong>超级猫咪</strong>
+    <nav>
+      <a href="#home">首页</a>
+      <a href="#group">团课</a>
+      <a href="#personal">私教</a>
+      <a href="#open">公开课</a>
+      <a href="#membership">会员</a>
+      <a href="#training">我的运动</a>
+    </nav>
+  </header>
+  <main>
+    <section id="home">
+      <h1 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden">超级猫咪</h1>
+      <div class="home">
+        <a href="#group"><img src="images/section-group.jpg" alt="团课现场，教练带十几位学员一起深蹲"><span><strong>团课</strong>教练带整班。当前课表 ¥89–179/人</span></a><a href="#personal"><img src="images/section-personal.jpg" alt="私教站在一旁，学员把壶铃举在胸前，两人直立站好"><span><strong>私教</strong>一对一。¥420–560/节，不是都接受零基础</span></a><a href="#open"><img src="images/section-open.jpg" alt="清晨公园草坪上的公开拉伸课"><span><strong>公开课</strong>免费及付费体验。¥0 或 ¥49</span></a>
+      </div>
+    </section>
+
+    <section id="group">
+    <header class="hero">
+      <img src="images/section-group.jpg" alt="团课现场，教练带十几位学员一起深蹲">
+      <div>
+        <p class="eyebrow">01 · Group</p>
+        <h2>团课</h2>
+        <p class="lead">教练带整班。当前课表 ¥89–179/人</p>
+        <p>团课按场次购买。持有超猫卡时，按当场标价计算应付金额，再打 95 折。余额没有使用期限，95 折没有单独到期日，也没有自动续费。同一门课在不同门店、时段的价格和名额以场次为准。</p>
+        <p>单次可预约 1–3 人，且不能超过该场剩余名额。同一订单 2 人或 3 人打 9 折。同一手机号不能重复预约同一场次。距开课不少于 6 小时可以取消并退回应付金额；不足 6 小时不能取消。</p>
+      </div>
+    </header>
+    <article id="boxing-fit">
+    <img src="images/course-boxing.jpg" alt="燃脂搏击：戴拳套的学员对着手靶出拳">
+    <div>
+      <p class="eyebrow">SC-GRP-01</p>
+      <h3>燃脂搏击 <span>BODYCOMBAT</span></h3>
+      <p>跟随音乐的拳击、踢腿有氧，没有人与人之间的对打。</p>
+      <p>结合拳击、踢腿等武术风格动作，跟随音乐完成连续有氧。侧重心肺耐力、身体协调和压力释放，不属于实战格斗教学。前半段对空气出拳。脚靶段由同伴轮流持靶，教练不替每个人持靶，而是逐组改动作。新手可以只打空气，告诉教练即可，不必持靶，也不必和陌生人配对。零基础可以上入门场；午间场按初级节奏，默认做过至少 1 次入门搏击，组合比晚间少两组。</p>
+      <dl>
+        <div><dt>时长</dt><dd>60 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>入门</dd></div>
+        <div><dt>强度</dt><dd>中高</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重、本节平均心率估算约 480–650 kcal。体重和间歇完成度不同，差值可以超过 30%。</dd></div>
+        <div><dt>准入与退阶</dt><dd>准入看这一场：入门场接受零基础；午间初级场默认做过至少 1 次入门搏击。低冲击退阶是改踏步，脚靶段可以只打空气。低冲击不等于低强度。</dd></div>
+        <div><dt>适合谁</dt><dd>希望下班后释放压力、提高心肺能力的人。喜欢强节奏音乐和集体跟练，不想独自重复跑步。没有格斗基础也可以上低冲击版本，但这节课不是用来学实战对抗的。</dd></div>
+        <div><dt>优惠券</dt><dd>热门课程，不支持优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–8 热身</strong> 开合跳或踏步、肩环绕、空绳 2 分钟。膝盖不适改踏步。</li><li><strong>8–18 空击</strong> 刺拳、后手直拳、前手勾拳，每记 4×8 拍，再合成 1-2、1-2-3。</li><li><strong>18–38 脚靶</strong> 4 组，每组击打 3 分钟，组间休息 45 秒。同伴轮流持靶，教练逐组改动作。新手可以继续空击。</li><li><strong>38–50 步法</strong> 前后滑步和左右躲闪，配合 1-2。不要求速度。</li><li><strong>50–56 核心</strong> 死虫式 2 组、登山者 40 秒。腰部不适只做死虫式。</li><li><strong>56–60 拉伸</strong> 前臂、胸肌、髋屈肌，各 30 秒。</li></ol>
+      <h4>训练目标</h4><ul><li>提高心率</li><li>熟悉三记基本拳</li><li>完成 4 组脚靶</li></ul>
+      <h4>适合</h4><ul><li>可以连续快走 20 分钟的人</li><li>想出汗、但不想对打的人</li><li>零基础，入门场会拆解动作</li></ul>
+      <h4>不适合</h4><ul><li>孕期</li><li>未控制的高血压或医生禁止中高强度运动</li><li>视网膜脱落病史</li><li>手腕、肩、膝急性疼痛</li></ul>
+      <h4>场馆提供</h4><ul><li>8 oz 公用拳套</li><li>绑带</li><li>脚靶</li><li>饮用水</li></ul>
+      <h4>请自带</h4><ul><li>运动服和室内运动鞋</li><li>自有拳套可带来。签到时按人减 ¥10，到店核销，不计入预约应付</li></ul>
+      <h4>费用包含</h4><p>含教练课时、教室、公用拳套和绑带。自带拳套按人减 ¥10，到店签到核销，不计入预约应付；取消预约不在线上返还这 10 元。</p>
+      <h4>注意事项</h4><p>请提前 15 分钟到前台，报预约手机号后 4 位签到。</p><p>迟到超过 10 分钟不可入场，费用不退，名额不顺延。</p><p>课前 2 小时内不要大量进食。</p><p>公用拳套尺码为 S/M/L，数量有限，自备更稳妥。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月26日 周六 18:30–19:30</td>
+        <td>林晓岚</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>搏击馆 A</td>
+        <td>入门</td>
+        <td>8 / 18</td>
+        <td>10</td>
+        <td>¥129 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年9月28日 周一 19:00–20:00</td>
+        <td>顾言</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>搏击馆</td>
+        <td>入门</td>
+        <td>6 / 16</td>
+        <td>10</td>
+        <td>¥129 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年9月30日 周三 12:15–13:15</td>
+        <td>林晓岚</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>搏击馆 B</td>
+        <td>初级</td>
+        <td>7 / 18</td>
+        <td>11</td>
+        <td>¥119 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月3日 周六 11:00–12:00</td>
+        <td>顾言</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>搏击馆</td>
+        <td>入门</td>
+        <td>9 / 20</td>
+        <td>11</td>
+        <td>¥129 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="yin-yoga">
+    <img src="images/course-stretch.jpg" alt="阴瑜伽：学员在垫子上做坐姿前屈拉伸">
+    <div>
+      <p class="eyebrow">SC-GRP-02</p>
+      <h3>阴瑜伽 <span>Yin Yoga</span></h3>
+      <p>阴瑜伽，八个体式长时间停留。这是瑜伽类别里偏舒缓的一门，不是全部瑜伽的代表。</p>
+      <p>通过呼吸和长时间停留练习活动度、柔韧和身体感受。课上做髋部、大腿后侧和胸椎的被动牵拉，每个体式停留 3–5 分钟，用鼻子呼吸，不追求手脚触地。这是门店瑜伽课里的舒缓课，不能据此认为所有瑜伽或普拉提都是低强度，也不包含大器械普拉提。</p>
+      <dl>
+        <div><dt>时长</dt><dd>75 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>入门</dd></div>
+        <div><dt>强度</dt><dd>低</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 90–150 kcal。这是拉伸课，不以消耗为目标。</dd></div>
+        <div><dt>准入与退阶</dt><dd>入门；具体瑜伽或普拉提课还要再看课名。</dd></div>
+        <div><dt>适合谁</dt><dd>久坐之后想增加活动、练习呼吸和身体控制的人，以及希望给力量或有氧补一点活动度的人。更在意动作质量和身体感受。如果只想要舒缓课，请选这门，不要默认所有瑜伽、普拉提都一样轻松。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–8 呼吸</strong> 仰卧，吸气 4 拍、呼气 6 拍。</li><li><strong>8–68 八个体式</strong> 蝴蝶、蜻蜓、半鞍式、毛毛虫、开书、扭转、婴儿式、卧松。每式提供瑜伽砖退阶。</li><li><strong>68–75 休息</strong> 摊尸式，灯光调暗，不做口令。</li></ol>
+      <h4>训练目标</h4><ul><li>放松髋和胸椎</li><li>完成 8 个长停留体式</li><li>最后仰卧休息 7 分钟</li></ul>
+      <h4>适合</h4><ul><li>久坐办公</li><li>想上低强度课的人</li><li>团课新手</li></ul>
+      <h4>不适合</h4><ul><li>腰椎间盘突出急性发作</li><li>膝关节不能弯曲到体式要求且拒绝使用辅具</li><li>孕晚期不适合仰卧超过 3 分钟者</li></ul>
+      <h4>场馆提供</h4><ul><li>瑜伽垫</li><li>瑜伽砖 2 块</li><li>伸展带</li><li>毛毯</li></ul>
+      <h4>请自带</h4><ul><li>舒适的长袖或长裤，方便停留</li></ul>
+      <h4>费用包含</h4><p>含教练课时、教室和辅具。</p>
+      <h4>注意事项</h4><p>请提前 15 分钟签到。</p><p>迟到超过 5 分钟不可入场，以免打扰已经开始的体式。</p><p>课中可以随时退出某个体式，坐着休息即可。</p><p>课名不限午后。19:30 场也是这门阴瑜伽，筛选时间以场次为准。</p><p>开课前 2 小时内刚吃完正餐，可以上课并减轻幅度。若要改约，仍按团课规则：不少于 6 小时才能取消并退回应付金额，不足 6 小时不能取消。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月27日 周日 15:00–16:15</td>
+        <td>周宁</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>瑜伽室 A</td>
+        <td>入门</td>
+        <td>4 / 14</td>
+        <td>10</td>
+        <td>¥109 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年9月29日 周二 19:30–20:45</td>
+        <td>周宁</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>瑜伽室</td>
+        <td>入门</td>
+        <td>6 / 12</td>
+        <td>6</td>
+        <td>¥109 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月2日 周五 12:00–13:15</td>
+        <td>周宁</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>瑜伽室 B</td>
+        <td>入门</td>
+        <td>6 / 14</td>
+        <td>8</td>
+        <td>¥109 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月6日 周二 18:40–19:55</td>
+        <td>唐小满</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>瑜伽室</td>
+        <td>入门</td>
+        <td>3 / 14</td>
+        <td>11</td>
+        <td>¥109 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="power-loop">
+    <img src="images/course-strength.jpg" alt="力量循环：学员用哑铃和杠铃做力量训练">
+    <div>
+      <p class="eyebrow">SC-GRP-03</p>
+      <h3>力量循环 <span>Strength Circuit</span></h3>
+      <p>多个力量和体能动作轮换，兼顾肌耐力和综合体能。</p>
+      <p>把不同力量和体能动作排成循环，用多个动作或训练站练全身。兼顾基础力量、肌耐力和综合体能，器械和编排以当堂为准。这间教室是深蹲、划船、推举、臀桥、农夫行走五个站，每站 40 秒、移动 15 秒，做完五站休息 60 秒。常规场做 4 圈，晨间场做 3 圈，晨间价格更低。重量自己选。选中哪一场，就按那一场的圈数完成。</p>
+      <dl>
+        <div><dt>时长</dt><dd>50 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>初级</dd></div>
+        <div><dt>强度</dt><dd>中高</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 320–450 kcal。</dd></div>
+        <div><dt>准入与退阶</dt><dd>准入：会徒手深蹲。技术难度是初级到中级。退阶：重量自选；晨间场做 3 圈，常规场做 4 圈。</dd></div>
+        <div><dt>适合谁</dt><dd>已经会基础动作，希望一节课里同时练到力量和体能的人。不喜欢长时间重复同一个动作，更喜欢多站点、多器械。愿意按自己的能力改重量和速度。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–8 热身</strong> 髋铰链、肩胛推墙、徒手深蹲各 8 次。</li><li><strong>8–40 循环</strong> 高脚杯深蹲、单臂划船、站姿推举、哑铃臀桥、农夫行走。常规场 4 圈，晨间场 3 圈。</li><li><strong>40–46 核心</strong> 侧平板每侧 20 秒，2 组。</li><li><strong>46–50 拉伸</strong> 髋屈肌和胸肌。</li></ol>
+      <h4>训练目标</h4><ul><li>常规场完成 4 圈，晨间场完成 3 圈</li><li>深蹲膝与脚尖方向一致</li><li>推举时肋骨不外翻</li></ul>
+      <h4>适合</h4><ul><li>会做徒手深蹲的人</li><li>想做力量但不想上私教的人</li></ul>
+      <h4>不适合</h4><ul><li>孕期</li><li>医生禁止负重</li><li>急性腰痛</li></ul>
+      <h4>场馆提供</h4><ul><li>哑铃 2/4/6/8/10 kg</li><li>瑜伽垫</li><li>训练凳</li></ul>
+      <h4>请自带</h4><ul><li>室内运动鞋，不要赤脚</li><li>训练手套可选</li></ul>
+      <h4>费用包含</h4><p>含教练课时、哑铃和教室。</p>
+      <h4>注意事项</h4><p>请提前 15 分钟签到，用来选重量和调整凳高。</p><p>迟到超过 8 分钟不可入场。</p><p>教室同时最多容纳课表上的人数，不加塞。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月26日 周六 14:00–14:50</td>
+        <td>陈予安</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>力量房</td>
+        <td>初级</td>
+        <td>2 / 12</td>
+        <td>10</td>
+        <td>¥119 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年9月29日 周二 07:10–08:00</td>
+        <td>陈予安</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>力量房</td>
+        <td>初级</td>
+        <td>5 / 12</td>
+        <td>7</td>
+        <td>¥99 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月1日 周四 19:10–20:00</td>
+        <td>陈予安</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>力量房</td>
+        <td>初级</td>
+        <td>4 / 12</td>
+        <td>8</td>
+        <td>¥119 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月5日 周一 18:30–19:20</td>
+        <td>陈予安</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>力量房</td>
+        <td>初级</td>
+        <td>4 / 10</td>
+        <td>6</td>
+        <td>¥119 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="ride">
+    <img src="images/course-ride.jpg" alt="燃脂骑行：暖色灯光下的室内骑行课">
+    <div>
+      <p class="eyebrow">SC-GRP-04</p>
+      <h3>燃脂骑行 <span>RPM</span></h3>
+      <p>室内单车跟随音乐调节节奏和阻力，含爬坡和间歇。</p>
+      <p>在室内单车上跟随音乐完成不同节奏和阻力，模拟平路和爬坡，主要练心肺和下肢肌耐力，阻力可以自己调。车位固定，开课前把车座调到髋骨高度。结构是热身、坐姿爬坡、间歇和放松。教练用 1–10 的阻力口令。不要求锁鞋，场馆提供脚套。第一次来请提前让教练帮忙调车。</p>
+      <dl>
+        <div><dt>时长</dt><dd>45 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>入门</dd></div>
+        <div><dt>强度</dt><dd>高</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 400–550 kcal。阻力跟不上时可降档，消耗会少一截。</dd></div>
+        <div><dt>准入与退阶</dt><dd>准入：膝盖可以完成自行车画圆，不要求骑行经验。技术难度是初中级到中级。高强度指心率和阻力，不是高冲击。退阶：把阻力降到还能听清口令。</dd></div>
+        <div><dt>适合谁</dt><dd>想提升心肺、喜欢骑行和音乐，但不想学复杂舞步的人。希望不受天气影响地完成有氧，并且愿意自己调节阻力、留意车座和骑行姿势。</dd></div>
+        <div><dt>优惠券</dt><dd>热门课程，不支持优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–8 热身</strong> 阻力 3–4，踏频约 90。</li><li><strong>8–20 爬坡</strong> 坐姿，阻力 6–8，踏频 60–70。</li><li><strong>20–35 间歇</strong> 20 秒阻力 8、40 秒阻力 4，共 8 轮，大约 8 分钟。其余时间用来加阻力、喝水和回到坐姿。</li><li><strong>35–45 放松</strong> 阻力 2–3，下车拉伸髋屈肌。</li></ol>
+      <h4>训练目标</h4><ul><li>完成爬坡段</li><li>间歇段做满 8 轮中的至少 6 轮</li><li>骑行中仍能听清口令</li></ul>
+      <h4>适合</h4><ul><li>膝盖可以完成自行车画圆的人</li><li>想要高消耗、低冲击的人</li></ul>
+      <h4>不适合</h4><ul><li>孕期</li><li>未控制的高血压</li><li>坐骨或会阴急性疼痛</li></ul>
+      <h4>场馆提供</h4><ul><li>动感单车</li><li>脚套</li><li>运动汗巾一张，不提供浴巾</li></ul>
+      <h4>请自带</h4><ul><li>骑行裤可选</li><li>锁鞋可选，脚踏兼容 Look 和 SPD</li></ul>
+      <h4>费用包含</h4><p>含车位、脚套和教练课时。</p>
+      <h4>注意事项</h4><p>请提前 15 分钟到单车房调座垫和把手。</p><p>迟到超过 8 分钟不可入场，车位不保留。</p><p>头晕立刻停踩并举手，教练会下来看。</p><p>本课提供一张运动汗巾。门店通用说明里的「不提供毛巾」指浴巾，两处不是同一件物品。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月26日 周六 09:30–10:15</td>
+        <td>马洲</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>单车房</td>
+        <td>入门</td>
+        <td>12 / 24</td>
+        <td>12</td>
+        <td>¥99 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年9月28日 周一 19:15–20:00</td>
+        <td>马洲</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>单车房</td>
+        <td>入门</td>
+        <td>10 / 22</td>
+        <td>12</td>
+        <td>¥99 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月4日 周日 10:00–10:45</td>
+        <td>马洲</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>单车房</td>
+        <td>入门</td>
+        <td>6 / 20</td>
+        <td>14</td>
+        <td>¥99 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月7日 周三 18:45–19:30</td>
+        <td>马洲</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>单车房</td>
+        <td>入门</td>
+        <td>2 / 18</td>
+        <td>16</td>
+        <td>¥99 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="dance">
+    <img src="images/course-dance.jpg" alt="舞蹈有氧：镜子前一起跳有氧舞蹈的学员">
+    <div>
+      <p class="eyebrow">SC-GRP-05</p>
+      <h3>舞蹈有氧 <span>BODYJAM</span></h3>
+      <p>跟随音乐学习和串联舞蹈组合，协调要求高于单纯踏步。</p>
+      <p>跟随音乐学习并串联舞蹈动作，在重复里练节奏、协调和心肺。整节课学一支约 1 分 30 秒的组合，拆成 6 个 4×8 拍。每段先慢速、再合音乐。没有对错评分，跟不上可以只走脚步。不要求第一次就完全跟上。</p>
+      <dl>
+        <div><dt>时长</dt><dd>55 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>入门</dd></div>
+        <div><dt>强度</dt><dd>中</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 280–420 kcal。</dd></div>
+        <div><dt>准入与退阶</dt><dd>初中级至中级；编舞和协调要求高于单纯基础有氧。</dd></div>
+        <div><dt>适合谁</dt><dd>喜欢舞蹈、流行音乐和集体氛围，希望把运动变成兴趣的人。愿意反复学动作组合。更看重节奏、表达和乐趣，而不是固定器械。</dd></div>
+        <div><dt>优惠券</dt><dd>热门课程，不支持优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–8 热身</strong> 踏步、髋环绕、手臂波浪。</li><li><strong>8–45 编舞</strong> 6 段动作，每段慢速两遍、音乐一到两遍。</li><li><strong>45–52 合排</strong> 完整跳两遍，第二遍自愿参加。</li><li><strong>52–55 拉伸</strong> 小腿和前侧髋。</li></ol>
+      <h4>训练目标</h4><ul><li>记住脚步</li><li>合上副歌</li><li>中间喝水一次</li></ul>
+      <h4>适合</h4><ul><li>想跟着音乐动</li><li>没有舞蹈基础</li></ul>
+      <h4>不适合</h4><ul><li>膝、踝急性伤</li><li>不能接受镜面教室</li></ul>
+      <h4>场馆提供</h4><ul><li>音响</li><li>饮用水</li></ul>
+      <h4>请自带</h4><ul><li>室内运动鞋，不要赤脚或只穿袜子</li><li>宽松上衣</li></ul>
+      <h4>费用包含</h4><p>含教练课时和教室。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟签到，在后排或前排自行站位。</p><p>迟到超过 8 分钟不可入场。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月26日 周六 16:00–16:55</td>
+        <td>苏晚</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>舞蹈室</td>
+        <td>入门</td>
+        <td>8 / 20</td>
+        <td>12</td>
+        <td>¥119 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月2日 周五 19:00–19:55</td>
+        <td>苏晚</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>舞蹈室</td>
+        <td>入门</td>
+        <td>8 / 18</td>
+        <td>10</td>
+        <td>¥119 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月4日 周日 14:10–15:05</td>
+        <td>苏晚</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>舞蹈室</td>
+        <td>入门</td>
+        <td>4 / 20</td>
+        <td>16</td>
+        <td>¥119 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="pilates">
+    <img src="images/course-pilates.jpg" alt="核心普拉提：学员在垫子上做普拉提核心动作">
+    <div>
+      <p class="eyebrow">SC-GRP-06</p>
+      <h3>核心普拉提 <span>Core Pilates</span></h3>
+      <p>垫上普拉提小班，练核心稳定和动作控制，不是大器械普拉提。</p>
+      <p>用呼吸配合控制性动作，练习核心稳定、活动度和身体觉察。以呼吸带动骨盆和肩胛，动作包括百次拍击、单腿伸展、侧卧抬腿和游泳式。成都太古里的一场人数降到 8 人，价格高 ¥10。这是垫上小班，不包含大器械普拉提，也不能默认所有普拉提都是低强度。</p>
+      <dl>
+        <div><dt>时长</dt><dd>50 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>初级</dd></div>
+        <div><dt>强度</dt><dd>中</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 180–260 kcal。</dd></div>
+        <div><dt>准入与退阶</dt><dd>初级到中级，取决于具体场次。</dd></div>
+        <div><dt>适合谁</dt><dd>想把呼吸、核心控制和动作质量练清楚的人，也包括希望给力量或有氧补活动度的人。偏好舒缓节奏时，请再确认是不是基础或舒缓场次。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–8 呼吸</strong> 仰卧骨盆时钟和胸式呼吸。</li><li><strong>8–28 仰卧系列</strong> 百次、单腿伸展、双腿伸展。颈部累了头放下。</li><li><strong>28–42 侧卧</strong> 抬腿、画圆、蚌式，每侧一组。</li><li><strong>42–50 俯卧和拉伸</strong> 游泳式 5 次，然后儿童式。</li></ol>
+      <h4>训练目标</h4><ul><li>呼气时肋骨下沉</li><li>完成侧卧系列</li><li>颈肩不借力</li></ul>
+      <h4>适合</h4><ul><li>想练核心控制</li><li>能仰卧 10 分钟</li></ul>
+      <h4>不适合</h4><ul><li>孕期</li><li>急性腰痛</li><li>医生禁止卷腹</li></ul>
+      <h4>场馆提供</h4><ul><li>瑜伽垫</li><li>小垫枕</li><li>弹力带</li></ul>
+      <h4>请自带</h4><ul><li>贴身但可活动的衣服</li><li>可以赤脚</li></ul>
+      <h4>费用包含</h4><p>含教练课时、垫上教室和小器械。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟签到并铺垫。</p><p>迟到超过 5 分钟不可入场。</p><p>小班不加塞，容量以该场次为准。</p><p>孕期不适合这门课，也不要改约到产后核心恢复。产后课只接收已经分娩、并且满足周数和医生允许条件的人。是否适合运动由专业人员评估。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月27日 周日 11:00–11:50</td>
+        <td>何清和</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>普拉提室</td>
+        <td>初级</td>
+        <td>2 / 10</td>
+        <td>8</td>
+        <td>¥139 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年9月30日 周三 18:20–19:10</td>
+        <td>何清和</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>普拉提室</td>
+        <td>初级</td>
+        <td>3 / 10</td>
+        <td>7</td>
+        <td>¥139 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月6日 周二 12:10–13:00</td>
+        <td>何清和</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>普拉提室</td>
+        <td>初级</td>
+        <td>2 / 8</td>
+        <td>6</td>
+        <td>¥149 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="hiit">
+    <img src="images/course-hiit.jpg" alt="间歇燃脂：学员做波比跳和跳蹲的间歇训练">
+    <div>
+      <p class="eyebrow">SC-GRP-07</p>
+      <h3>间歇燃脂 <span>HIIT 40</span></h3>
+      <p>40 分钟间歇，动作都有低冲击替换。</p>
+      <p>8 个动作各做 30 秒、休息 15 秒，重复 3 轮，轮间休息 60 秒。跳跃动作可以改成踏步。课上心率可能接近最大心率的 85%，跟不上就休息，不要硬撑。</p>
+      <dl>
+        <div><dt>时长</dt><dd>40 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>中级</dd></div>
+        <div><dt>强度</dt><dd>高</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 350–500 kcal。</dd></div>
+        <div><dt>准入与退阶</dt><dd>中级；每个跳跃动作都有低冲击替换。</dd></div>
+        <div><dt>适合谁</dt><dd>已经有运动习惯，想在较短时间里把心率拉起来的人。可以接受间歇，也愿意在跟不上时改成踏步，而不是硬撑完每一轮。</dd></div>
+        <div><dt>优惠券</dt><dd>热门课程，不支持优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–6 热身</strong> 开合、世界最佳拉伸、徒手深蹲。</li><li><strong>6–32 间歇</strong> 开合跳、深蹲跳、登山者、波比、箭步、平板肩触、高抬腿、休息站。3 轮。</li><li><strong>32–40 放松</strong> 步行和大腿前侧拉伸。</li></ol>
+      <h4>训练目标</h4><ul><li>完成 3 轮</li><li>每个动作知道低冲击替换</li><li>结束后能正常说话</li></ul>
+      <h4>适合</h4><ul><li>每周已有 2 次以上运动</li><li>能承受跳跃或愿意改踏步</li></ul>
+      <h4>不适合</h4><ul><li>完全不运动的新手（请改约新手入门体验课）</li><li>孕期</li><li>心血管医生禁止高强度间歇</li><li>膝踝急性伤</li></ul>
+      <h4>场馆提供</h4><ul><li>瑜伽垫</li><li>计时器</li></ul>
+      <h4>请自带</h4><ul><li>缓冲好的运动鞋</li></ul>
+      <h4>费用包含</h4><p>含教练课时和教室。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟签到。</p><p>迟到超过 6 分钟不可入场。</p><p>出现胸痛、明显头晕立刻停下并告诉教练。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月28日 周一 12:20–13:00</td>
+        <td>唐小满</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>多功能厅</td>
+        <td>中级</td>
+        <td>6 / 16</td>
+        <td>10</td>
+        <td>¥109 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月1日 周四 18:00–18:40</td>
+        <td>唐小满</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>多功能厅</td>
+        <td>中级</td>
+        <td>6 / 16</td>
+        <td>10</td>
+        <td>¥109 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月5日 周一 19:30–20:10</td>
+        <td>顾言</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>多功能厅</td>
+        <td>中级</td>
+        <td>6 / 16</td>
+        <td>10</td>
+        <td>¥109 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="fascia">
+    <img src="images/course-stretch.jpg" alt="垫上筋膜放松：学员在垫子上做坐姿前屈拉伸">
+    <div>
+      <p class="eyebrow">SC-GRP-08</p>
+      <h3>垫上筋膜放松 <span>Foam Release</span></h3>
+      <p>泡沫轴和呼吸，心率保持在能说话。</p>
+      <p>按小腿、大腿前侧、臀部、上背的顺序滚动，每个部位 60–90 秒，疼痛超过 7 分（满分 10 分）就减轻压力。最后 8 分钟只做呼吸。这节课用来恢复，不安排力量动作。</p>
+      <dl>
+        <div><dt>时长</dt><dd>45 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>入门</dd></div>
+        <div><dt>强度</dt><dd>低</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 80–120 kcal。</dd></div>
+        <div><dt>准入与退阶</dt><dd>入门恢复课，不安排力量动作。</dd></div>
+        <div><dt>适合谁</dt><dd>练完力量或有氧之后想放松，或者久坐肩背发紧、希望心率保持在能完整说话的人。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–5 呼吸</strong> 仰卧，呼气拉长。</li><li><strong>5–37 滚动</strong> 小腿、股四头肌、臀部、胸椎。两侧分开计时。</li><li><strong>37–45 休息</strong> 腿靠墙或仰卧，自行选择。</li></ol>
+      <h4>训练目标</h4><ul><li>滚完四个部位</li><li>找到可以呼吸的压力</li><li>结束时肩颈轻松一些</li></ul>
+      <h4>适合</h4><ul><li>训练后的恢复</li><li>久坐肩背紧</li></ul>
+      <h4>不适合</h4><ul><li>骨质疏松</li><li>皮肤破损或急性炎症部位</li><li>不能自行上下地</li></ul>
+      <h4>场馆提供</h4><ul><li>泡沫轴</li><li>按摩球</li><li>瑜伽垫</li></ul>
+      <h4>请自带</h4><ul><li>长裤，避免皮肤直接摩擦滚轴</li></ul>
+      <h4>费用包含</h4><p>含教练课时、泡沫轴和按摩球。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟签到。</p><p>迟到超过 8 分钟不可入场。</p><p>滚轴消毒巾在教室门口，用完放回筐内。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月26日 周六 20:10–20:55</td>
+        <td>乔木</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>恢复室</td>
+        <td>入门</td>
+        <td>4 / 12</td>
+        <td>8</td>
+        <td>¥89 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年9月29日 周二 12:30–13:15</td>
+        <td>乔木</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>恢复室</td>
+        <td>入门</td>
+        <td>4 / 12</td>
+        <td>8</td>
+        <td>¥89 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月3日 周六 16:00–16:45</td>
+        <td>乔木</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>恢复室</td>
+        <td>入门</td>
+        <td>1 / 10</td>
+        <td>9</td>
+        <td>¥89 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="bodypump">
+    <img src="images/course-strength.jpg" alt="塑形杠铃：学员用哑铃和杠铃做力量训练">
+    <div>
+      <p class="eyebrow">SC-GRP-09</p>
+      <h3>塑形杠铃 <span>BODYPUMP</span></h3>
+      <p>轻重量杠铃跟随音乐，按部位重复次数，练肌耐力。</p>
+      <p>用固定节奏的轻重量杠铃完成深蹲、推、拉和髋铰链。重量自己选，跟不上可以减片，不要求举起很大的重量。整节课按曲目换动作，中间不讲训练理论。这是团课里的杠铃操，不是一对一力量私教，也不测最大重量。</p>
+      <dl>
+        <div><dt>时长</dt><dd>55 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>初级</dd></div>
+        <div><dt>强度</dt><dd>中高</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 300–450 kcal。片数选得轻，消耗会少一截。</dd></div>
+        <div><dt>准入与退阶</dt><dd>初中级；片数可以减，动作可以改成徒手或更小幅度。</dd></div>
+        <div><dt>适合谁</dt><dd>希望用音乐把力量训练做完、又不想自己排组数的人。适合已经会徒手深蹲、想增加一点负重的人。第一次来请选轻片，让教练看一次动作。</dd></div>
+        <div><dt>优惠券</dt><dd>热门课程，不支持优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–8 热身</strong> 徒手深蹲、肩环绕和髋铰链，再上空杆。</li><li><strong>8–46 分部位曲目</strong> 深蹲、胸部推举、背部下拉或划船、肩推、二头和三头、弓步。每段可以减片或只做空杆。</li><li><strong>46–55 核心和拉伸</strong> 平板支撑或死虫式，然后拉伸髋屈肌和胸肌。</li></ol>
+      <h4>训练目标</h4><ul><li>完成主要曲目</li><li>深蹲时膝与脚尖方向一致</li><li>知道自己下一场该加还是减片</li></ul>
+      <h4>适合</h4><ul><li>会做徒手深蹲</li><li>想跟着音乐做力量</li><li>可以接受重复次数</li></ul>
+      <h4>不适合</h4><ul><li>孕期</li><li>医生禁止负重</li><li>急性腰痛或腕痛</li><li>不能握杠</li></ul>
+      <h4>场馆提供</h4><ul><li>杠铃杆</li><li>小片</li><li>垫子</li><li>饮用水</li></ul>
+      <h4>请自带</h4><ul><li>室内运动鞋</li><li>训练手套可选</li></ul>
+      <h4>费用包含</h4><p>含教练课时、杠铃和教室。场次标价就是这一节的价格，落在团课常见的 89–179 元里。历史档位不是这门课的固定官方价。</p>
+      <h4>注意事项</h4><p>请提前 15 分钟签到，用来选片和调整杠铃。</p><p>迟到超过 8 分钟不可入场。</p><p>片数不够时先保证动作，不要临时加很重的片。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月29日 周二 19:10–20:05</td>
+        <td>陈予安</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>力量房</td>
+        <td>初级</td>
+        <td>9 / 16</td>
+        <td>7</td>
+        <td>¥129 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月3日 周六 10:20–11:15</td>
+        <td>陈予安</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>力量房</td>
+        <td>初级</td>
+        <td>6 / 14</td>
+        <td>8</td>
+        <td>¥109 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="trx">
+    <img src="images/course-strength.jpg" alt="全身塑形：学员用哑铃和杠铃做力量训练">
+    <div>
+      <p class="eyebrow">SC-GRP-10</p>
+      <h3>全身塑形 <span>TRX</span></h3>
+      <p>悬挂带调节难度，练全身稳定和推拉。</p>
+      <p>用悬挂带做划船、推、深蹲和核心。身体越倾斜，动作通常越难，脚的位置可以自己改。教室按站位固定带子，开课前教练会看一次每个人的角度。这节课练的是自重和控制，不使用大重量杠铃。</p>
+      <dl>
+        <div><dt>时长</dt><dd>50 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>初级</dd></div>
+        <div><dt>强度</dt><dd>中高</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 250–400 kcal。</dd></div>
+        <div><dt>准入与退阶</dt><dd>中级；倾斜角度和次数按自己的能力改。</dd></div>
+        <div><dt>适合谁</dt><dd>已经会基础动作，想换一种方式练全身，并且愿意自己调节难度的人。适合不喜欢反复举同一副哑铃、更在意稳定和动作质量的人。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–8 热身和调带</strong> 确认带子高度，做肩胛滑动和徒手深蹲。</li><li><strong>8–40 循环</strong> 悬挂划船、胸部推、辅助深蹲、弓步、平板收腿。做 3 轮，角度不够就站得更直。</li><li><strong>40–50 拉伸</strong> 胸肌、髋屈肌和前臂。</li></ol>
+      <h4>训练目标</h4><ul><li>找到能完成整组的倾斜角度</li><li>划船时肩胛先动</li><li>核心段不塌腰</li></ul>
+      <h4>适合</h4><ul><li>能完成徒手深蹲和靠墙俯卧撑</li><li>想练稳定</li></ul>
+      <h4>不适合</h4><ul><li>肩、腕急性疼痛</li><li>医生禁止悬吊或撑地</li><li>孕期</li></ul>
+      <h4>场馆提供</h4><ul><li>悬挂带</li><li>瑜伽垫</li></ul>
+      <h4>请自带</h4><ul><li>有包裹的室内运动鞋，避免脚从脚套滑出</li></ul>
+      <h4>费用包含</h4><p>含教练课时、悬挂带和教室。场次标价就是这一节的价格。</p>
+      <h4>注意事项</h4><p>请提前 12 分钟签到，用来调带子。</p><p>迟到超过 8 分钟不可入场。</p><p>手腕不适改成拳头撑或停掉撑地动作，告诉教练即可。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月30日 周三 12:10–13:00</td>
+        <td>江澄</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>功能房</td>
+        <td>初级</td>
+        <td>5 / 12</td>
+        <td>7</td>
+        <td>¥119 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月6日 周二 18:40–19:30</td>
+        <td>陈予安</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>功能房</td>
+        <td>初级</td>
+        <td>3 / 12</td>
+        <td>9</td>
+        <td>¥109 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="battle-rope">
+    <img src="images/course-hiit.jpg" alt="热浪战绳：学员做波比跳和跳蹲的间歇训练">
+    <div>
+      <p class="eyebrow">SC-GRP-11</p>
+      <h3>热浪战绳 <span>Battle Rope</span></h3>
+      <p>战绳波浪和间歇，主要练上肢和心肺。</p>
+      <p>以双臂波浪、左右交替和砸绳为主，中间穿插深蹲或踏步，让心率下来再继续。每组时间短，组间可以放下绳子。不要求绳子始终不起伏，动作散了就休息。这是器械有氧，不是格斗课。</p>
+      <dl>
+        <div><dt>时长</dt><dd>45 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>中级</dd></div>
+        <div><dt>强度</dt><dd>高</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 320–480 kcal。</dd></div>
+        <div><dt>准入与退阶</dt><dd>中级；波浪幅度和间歇长度可以自己放慢。</dd></div>
+        <div><dt>适合谁</dt><dd>想要上肢参与更多、又不想只跑步或只骑车的人。适合已经有运动习惯、可以接受短时间喘、也愿意在动作变形时主动休息的人。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–8 热身</strong> 踏步、肩环绕、空绳小幅波浪。</li><li><strong>8–36 间歇</strong> 双臂波浪、交替波浪、砸绳，各 30 秒，休息 30 秒。穿插徒手深蹲或踏步。共 3 轮。</li><li><strong>36–45 放松</strong> 步行，拉伸前臂、肩和髋。</li></ol>
+      <h4>训练目标</h4><ul><li>完成约定组数</li><li>波浪时膝保持微屈</li><li>结束后能正常说话</li></ul>
+      <h4>适合</h4><ul><li>每周已有运动</li><li>肩可以过顶或平举</li></ul>
+      <h4>不适合</h4><ul><li>完全不运动的新手</li><li>孕期</li><li>肩、肘、腰急性疼痛</li><li>医生禁止高强度间歇</li></ul>
+      <h4>场馆提供</h4><ul><li>战绳</li><li>计时器</li><li>饮用水</li></ul>
+      <h4>请自带</h4><ul><li>缓冲好的运动鞋</li><li>可擦汗的衣服</li></ul>
+      <h4>费用包含</h4><p>含教练课时、战绳和教室。场次标价就是这一节的价格。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟签到。</p><p>迟到超过 6 分钟不可入场。</p><p>出现胸痛或明显头晕立刻放下绳子并告诉教练。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月29日 周二 20:10–20:55</td>
+        <td>唐小满</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>有氧房</td>
+        <td>中级</td>
+        <td>4 / 14</td>
+        <td>10</td>
+        <td>¥119 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月2日 周五 19:40–20:25</td>
+        <td>顾言</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>有氧房</td>
+        <td>中级</td>
+        <td>4 / 12</td>
+        <td>8</td>
+        <td>¥129 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="medball">
+    <img src="images/course-hiit.jpg" alt="疯狂药球：学员做波比跳和跳蹲的间歇训练">
+    <div>
+      <p class="eyebrow">SC-GRP-12</p>
+      <h3>疯狂药球 <span>Med Ball</span></h3>
+      <p>药球砸、抛和携带，短间歇练全身。</p>
+      <p>用药球做砸地、胸前抛接、弓步传递和抱球深蹲。球的重量分 3 kg 和 5 kg，开课前自己选，中间可以换轻的。动作对地或对墙，不把球扔向别人。跟不上就改成抱球踏步。</p>
+      <dl>
+        <div><dt>时长</dt><dd>45 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>中级</dd></div>
+        <div><dt>强度</dt><dd>高</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 300–460 kcal。</dd></div>
+        <div><dt>准入与退阶</dt><dd>中级；球重和砸地动作都可以改轻、改慢。</dd></div>
+        <div><dt>适合谁</dt><dd>喜欢短动作、多种器械轮换，希望一节课里同时用到下肢和上肢的人。适合已经会深蹲、想增加一点爆发但还不需要上 HYROX 的人。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–8 热身</strong> 抱球深蹲、转体和肩环绕。先用 3 kg。</li><li><strong>8–36 循环</strong> 砸地、胸前抛墙、弓步传递、抱球深蹲跳或踏步。40 秒做、20 秒换，3 轮。</li><li><strong>36–45 放松</strong> 放下球，拉伸髋和胸。</li></ol>
+      <h4>训练目标</h4><ul><li>选到能连续完成的球重</li><li>砸地时髋先动</li><li>完成 3 轮</li></ul>
+      <h4>适合</h4><ul><li>会做徒手深蹲</li><li>能承受短间歇</li></ul>
+      <h4>不适合</h4><ul><li>孕期</li><li>腕、肩、腰急性疼痛</li><li>医生禁止跳跃或砸地</li><li>完全不运动的新手</li></ul>
+      <h4>场馆提供</h4><ul><li>3 kg 和 5 kg 药球</li><li>瑜伽垫</li></ul>
+      <h4>请自带</h4><ul><li>室内运动鞋</li></ul>
+      <h4>费用包含</h4><p>含教练课时、药球和教室。场次标价就是这一节的价格。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟签到并选球。</p><p>迟到超过 6 分钟不可入场。</p><p>球只砸向地面或指定墙面，不互扔。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年10月1日 周四 19:00–19:45</td>
+        <td>唐小满</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>有氧房</td>
+        <td>中级</td>
+        <td>7 / 14</td>
+        <td>7</td>
+        <td>¥119 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月4日 周日 11:00–11:45</td>
+        <td>江澄</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>功能房</td>
+        <td>中级</td>
+        <td>3 / 12</td>
+        <td>9</td>
+        <td>¥99 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="rebound">
+    <img src="images/course-hiit.jpg" alt="活力蹦床：学员做波比跳和跳蹲的间歇训练">
+    <div>
+      <p class="eyebrow">SC-GRP-13</p>
+      <h3>活力蹦床 <span>Rebound</span></h3>
+      <p>小蹦床有氧。有跳跃限制，不稳定就改踏步。</p>
+      <p>在固定的小蹦床上做踏步、开合和轻跳，用音乐分段。可以全程不离垫，只做踏步。这节课对骨盆底、膝踝和平衡有要求，孕期、产后未恢复和医生禁止跳跃的人不适合。教室蹦床数量就是容量，不加塞。</p>
+      <dl>
+        <div><dt>时长</dt><dd>45 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>初级</dd></div>
+        <div><dt>强度</dt><dd>中高</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 280–420 kcal。只踏步时消耗更低。</dd></div>
+        <div><dt>准入与退阶</dt><dd>初中级；可以全程改成垫上踏步，不做跳跃。</dd></div>
+        <div><dt>适合谁</dt><dd>想用有弹性的器材完成有氧、并且膝踝可以承受轻跳或愿意只踏步的人。喜欢音乐，但不想学完整舞步。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–8 熟悉垫面</strong> 扶把踏步，确认弹性和站位。</li><li><strong>8–36 分段</strong> 踏步、开合、前后点地、可选轻跳。每段 2–3 分钟，段间扶把休息。</li><li><strong>36–45 放松</strong> 下床拉伸小腿和髋。</li></ol>
+      <h4>训练目标</h4><ul><li>在蹦床上保持平衡</li><li>至少完成踏步版本</li><li>知道自己是否适合跳跃版</li></ul>
+      <h4>适合</h4><ul><li>平衡尚可</li><li>可以接受轻跳或愿意只踏步</li></ul>
+      <h4>不适合</h4><ul><li>孕期</li><li>产后未达到医生允许运动的状态</li><li>骨盆底症状明显</li><li>膝踝急性伤</li><li>眩晕</li></ul>
+      <h4>场馆提供</h4><ul><li>小蹦床</li><li>扶把</li><li>饮用水</li></ul>
+      <h4>请自带</h4><ul><li>有包裹的运动鞋，不要赤脚</li></ul>
+      <h4>费用包含</h4><p>含教练课时和小蹦床。场次标价就是这一节的价格。</p>
+      <h4>注意事项</h4><p>请提前 12 分钟签到，用来试垫。</p><p>迟到超过 8 分钟不可入场，蹦床不保留。</p><p>感到漏尿、疼痛或头晕，立刻改踏步或下来告诉教练。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年10月2日 周五 19:20–20:05</td>
+        <td>唐小满</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>蹦床房</td>
+        <td>初级</td>
+        <td>2 / 10</td>
+        <td>8</td>
+        <td>¥129 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月7日 周三 12:30–13:15</td>
+        <td>顾言</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>蹦床房</td>
+        <td>初级</td>
+        <td>2 / 8</td>
+        <td>6</td>
+        <td>¥109 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="barre">
+    <img src="images/course-dance.jpg" alt="活力芭杆：镜子前一起跳有氧舞蹈的学员">
+    <div>
+      <p class="eyebrow">SC-GRP-14</p>
+      <h3>活力芭杆 <span>Barre</span></h3>
+      <p>扶把做小幅度脉冲，练下肢控制和姿态。</p>
+      <p>扶着把杆完成半蹲、抬腿和手臂位置，动作幅度小、次数多，中间用音乐换组合。不要求舞蹈基础，也不排成品舞。跟不上脉冲就做慢速的同一动作。这不是核心普拉提，也不是舞蹈有氧。</p>
+      <dl>
+        <div><dt>时长</dt><dd>50 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>入门</dd></div>
+        <div><dt>强度</dt><dd>中</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 200–320 kcal。</dd></div>
+        <div><dt>准入与退阶</dt><dd>初中级；幅度和扶把都可以按自己的平衡调整。</dd></div>
+        <div><dt>适合谁</dt><dd>喜欢有音乐、有姿态要求，但暂时不想学整支舞的人。希望练下肢控制和身体位置，强度比间歇课低一些。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–8 站姿热身</strong> 扶把做足踝、髋和手臂位置。</li><li><strong>8–40 把杆组合</strong> 半蹲脉冲、侧抬腿、后抬腿、弓步保持。每段给慢速版本。</li><li><strong>40–50 手臂和拉伸</strong> 轻重量或徒手手臂，然后拉伸大腿内侧。</li></ol>
+      <h4>训练目标</h4><ul><li>扶把完成半蹲</li><li>抬腿时骨盆不晃</li><li>知道可以改慢的动作</li></ul>
+      <h4>适合</h4><ul><li>可以站立 40 分钟或中途扶把休息</li><li>想要低冲击</li></ul>
+      <h4>不适合</h4><ul><li>膝、踝急性疼痛且不能改小幅度</li><li>不能扶把站立</li><li>孕期需要医生另行允许的情况</li></ul>
+      <h4>场馆提供</h4><ul><li>把杆</li><li>轻重量</li><li>垫子</li></ul>
+      <h4>请自带</h4><ul><li>有包裹的室内鞋或软底鞋</li></ul>
+      <h4>费用包含</h4><p>含教练课时、把杆和轻重量。场次标价就是这一节的价格。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟签到并站位。</p><p>迟到超过 8 分钟不可入场。</p><p>把杆用来保持平衡，不要求离开把杆。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月30日 周三 19:30–20:20</td>
+        <td>苏晚</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>舞蹈房</td>
+        <td>入门</td>
+        <td>5 / 16</td>
+        <td>11</td>
+        <td>¥119 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月6日 周二 10:40–11:30</td>
+        <td>何清和</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>舞蹈房</td>
+        <td>入门</td>
+        <td>5 / 14</td>
+        <td>9</td>
+        <td>¥109 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="hyrox">
+    <img src="images/course-hiit.jpg" alt="HYROX：学员做波比跳和跳蹲的间歇训练">
+    <div>
+      <p class="eyebrow">SC-GRP-15</p>
+      <h3>HYROX <span>HYROX Conditioning</span></h3>
+      <p>站式体能：跑步或划船穿插推、拉和携带。不是赛事报名。</p>
+      <p>按站轮换跑步机或划船、雪橇推或药球、划船机和农夫行走。每站计时，完不成就减距离或减重量，不要求达到比赛成绩。这是门店里的体能团课，不包含任何赛事名额。价格在团课里偏高，不是会员页上的最低起步价。</p>
+      <dl>
+        <div><dt>时长</dt><dd>60 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>中级</dd></div>
+        <div><dt>强度</dt><dd>高</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 450–650 kcal。减站或减重量后会少一截。</dd></div>
+        <div><dt>准入与退阶</dt><dd>中高级；距离、重量和跑步都可以改慢或改短。</dd></div>
+        <div><dt>适合谁</dt><dd>已经有跑步或力量习惯，想在一节课里把多个体能站连起来的人。愿意接受较高强度，也接受自己的配速和重量跟别人不同。</dd></div>
+        <div><dt>优惠券</dt><dd>热门课程，不支持优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–10 热身</strong> 慢跑或划船，加上深蹲和肩胛活动。</li><li><strong>10–50 轮站</strong> 跑步或划船、药球砸地、划船机、农夫行走。每站之间走动换项。重量和距离开课前说明，可以减。</li><li><strong>50–60 放松</strong> 步行和髋、前臂拉伸。</li></ol>
+      <h4>训练目标</h4><ul><li>按自己的配速走完各站</li><li>推和携带时不塌腰</li><li>知道下一场该减哪一项</li></ul>
+      <h4>适合</h4><ul><li>每周已有 2 次以上运动</li><li>能连续快走或慢跑</li></ul>
+      <h4>不适合</h4><ul><li>团课新手</li><li>孕期</li><li>医生禁止高强度或负重携带</li><li>膝、腰、肩急性疼痛</li></ul>
+      <h4>场馆提供</h4><ul><li>跑步机或划船机</li><li>药球</li><li>农夫行走把手</li><li>饮用水</li></ul>
+      <h4>请自带</h4><ul><li>缓冲好的运动鞋</li><li>毛巾</li></ul>
+      <h4>费用包含</h4><p>含教练课时和站式器械。场次标价就是这一节的价格，按当前课表属于团课里较高的一档。不包含赛事费用。</p>
+      <h4>注意事项</h4><p>请提前 15 分钟签到，用来听每站的减量规则。</p><p>迟到超过 8 分钟不可入场。</p><p>这节课不报名、不计比赛成绩。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 6 小时：不能取消，也不退回应付金额。开课后不能取消。恰好满 6 小时可以取消并退回。主办方取消、教练变更、天气取消会单独标明，不记成逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年10月3日 周六 09:00–10:00</td>
+        <td>陈予安</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>体能区</td>
+        <td>中级</td>
+        <td>3 / 12</td>
+        <td>9</td>
+        <td>¥179 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月7日 周三 19:00–20:00</td>
+        <td>江澄</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>体能区</td>
+        <td>中级</td>
+        <td>2 / 12</td>
+        <td>10</td>
+        <td>¥169 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+  </section>
+<section id="personal">
+    <header class="hero">
+      <img src="images/section-personal.jpg" alt="私教站在一旁，学员把壶铃举在胸前，两人直立站好">
+      <div>
+        <p class="eyebrow">02 · Personal</p>
+        <h2>私教</h2>
+        <p class="lead">一对一。¥420–560/节，不是都接受零基础</p>
+        <p>私教课时从约定的开始时间计算，迟到不补时、不顺延。每场只能 1 人。课程介绍里的 4 周是建议训练节奏，不是已购课包；这一次预约只含 1 节。预约前需要确认身体状况符合该课的不适人群说明。评估类课程当场口头说明结论，不另附书面报告。是否适合运动由专业人员评估。</p>
+        <p>每场只能预约 1 人。不能把朋友加进这一场，也没有多人 9 折；朋友需要另约一场、各自下单。同一手机号不能重复预约同一场次。提交前要勾选已阅读本场限制。</p>
+      </div>
+    </header>
+    <article id="pt-strength">
+    <img src="images/course-strength.jpg" alt="一对一力量私教：学员用哑铃和杠铃做力量训练">
+    <div>
+      <p class="eyebrow">SC-PT-01</p>
+      <h3>一对一力量私教 <span>Solo Strength</span></h3>
+      <p>基础力量方向。60 分钟一对一，围绕深蹲、铰链、推、拉。</p>
+      <p>用来把深蹲、髋铰链、推和拉练到可以自己重复。教练按当天状态排 5–7 个动作，每个动作 3–4 组，重量以动作稳定为准，不按单节热量计价。第一节不测最大重量，先看动作。你可以说明想练的部位，但临时改成完全不同的目标（例如改成拳击或减脂间歇）不在这门课里。增肌和运动表现请另约对应私教。</p>
+      <dl>
+        <div><dt>时长</dt><dd>60 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>初级</dd></div>
+        <div><dt>强度</dt><dd>中高</dd></div>
+        <div><dt>消耗</dt><dd>消耗视动作和组间休息而定，通常低于同等时间的团课间歇。本课不按热量计价。</dd></div>
+        <div><dt>准入与退阶</dt><dd>从基础力量开始；已有器械经验也可以上，第一节仍先看动作。</dd></div>
+        <div><dt>适合谁</dt><dd>想有人看着把基础力量动作做清楚的人，包括刚接触器械和已经会做、但想把重量记下来的人。适合作为私教的起点，而不是单次冲刺减脂或专项测试。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–10 问询和热身</strong> 确认睡眠、酸痛和禁忌，再做针对主项的热身。</li><li><strong>10–50 主项</strong> 深蹲或髋铰链二选一，加上推、拉和一组携带。</li><li><strong>50–60 整理</strong> 记录重量，拉伸主项相关肌群。</li></ol>
+      <h4>训练目标</h4><ul><li>完成约定的主项</li><li>记录一组可重复的重量</li><li>离开时知道下次加重量还是加次数</li></ul>
+      <h4>适合</h4><ul><li>想要有人看动作的人</li><li>已有或没有器械经验都可以，从初级场开始</li></ul>
+      <h4>不适合</h4><ul><li>孕期</li><li>医生禁止力量训练</li><li>当天发烧</li></ul>
+      <h4>场馆提供</h4><ul><li>哑铃、壶铃、杠铃、凳、弹力带</li></ul>
+      <h4>请自带</h4><ul><li>室内运动鞋</li><li>若有旧伤，口头说明即可，不必带影像片</li></ul>
+      <h4>费用包含</h4><p>含教练一对一 60 分钟和私教室器械。不含营养餐和体成分测试。本次购买只含这一节，没有课包。场次标价就是这一节的价格。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟到私教室。</p><p>课时从约定开始时间计算。迟到不补时。</p><p>容量 1 人，不能加朋友一起练。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 24 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 24 小时且尚未开课：仍可取消并释放名额，记录标「已超过免费取消时限」，这一节不退费。开课后不能取消。健康原因、教练变更和主办方取消单独处理，不记逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月27日 周日 10:00–11:00</td>
+        <td>陈予安</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>私教室 1</td>
+        <td>初级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥480 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年9月28日 周一 15:00–16:00</td>
+        <td>陈予安</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>私教室 2</td>
+        <td>初级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥480 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月2日 周五 17:00–18:00</td>
+        <td>陈予安</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>私教室 1</td>
+        <td>初级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥480 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月6日 周二 09:30–10:30</td>
+        <td>陈予安</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>私教室 1</td>
+        <td>初级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥480 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="pt-posture">
+    <img src="images/course-pilates.jpg" alt="体态矫正私教：学员在垫子上做普拉提核心动作">
+    <div>
+      <p class="eyebrow">SC-PT-02</p>
+      <h3>体态矫正私教 <span>Posture Session</span></h3>
+      <p>核心稳定与体态观察。70 分钟，含拍照评估和 3 个纠正练习。</p>
+      <p>前 20 分钟做站立拍照和过顶下蹲、单腿站立、肩屈曲三个筛查。后 50 分钟用呼吸、骨盆和肩胛控制，只练评估里最优先的 3 项，用来提高核心稳定和动作控制。教练说明的是动作观察，不是医学诊断，不会开具治疗方案，也不能替代就医。</p>
+      <dl>
+        <div><dt>时长</dt><dd>70 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>入门</dd></div>
+        <div><dt>强度</dt><dd>中</dd></div>
+        <div><dt>消耗</dt><dd>这节课不以消耗为目标。</dd></div>
+        <div><dt>准入与退阶</dt><dd>入门到按个人调整；负重和动作幅度随筛查结果改。</dd></div>
+        <div><dt>适合谁</dt><dd>久坐、圆肩，或者力量和有氧已经在练、但希望先把核心稳定和身体控制做清楚的人。想先看动作，而不是先上大重量。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–20 评估</strong> 正面、侧面站立照片，三个动作筛查。照片只在课上查看，不上传。</li><li><strong>20–60 练习</strong> 针对筛查结果的活动度或力量，每个练习 2–3 组。</li><li><strong>60–70 复述</strong> 学员自己说出回家要做的 3 个练习和次数。</li></ol>
+      <h4>训练目标</h4><ul><li>完成三项筛查</li><li>带走 3 个可以在家做的练习</li><li>知道哪一个部位先处理</li></ul>
+      <h4>适合</h4><ul><li>圆肩、久坐、想先看动作而不是先上大重量的人</li></ul>
+      <h4>不适合</h4><ul><li>需要就医的急性损伤</li><li>期望在一节课里改变骨骼形态的人</li></ul>
+      <h4>场馆提供</h4><ul><li>垫子</li><li>弹力带</li><li>评估用手机支架（学员可用自己的手机拍照）</li></ul>
+      <h4>请自带</h4><ul><li>贴身运动衣，方便观察肩胛</li><li>发带，避免头发挡住颈部</li></ul>
+      <h4>费用包含</h4><p>含 70 分钟一对一评估和训练。不含影像学解读。本次购买只含这一节，没有课包。场次标价就是这一节的价格。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟到达。</p><p>课时从约定开始时间计算，迟到不补时。</p><p>评估结论口头说明，不提供书面报告。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 24 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 24 小时且尚未开课：仍可取消并释放名额，记录标「已超过免费取消时限」，这一节不退费。开课后不能取消。健康原因、教练变更和主办方取消单独处理，不记逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月26日 周六 15:30–16:40</td>
+        <td>裴南星</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>评估室</td>
+        <td>入门</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥560 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年9月30日 周三 10:30–11:40</td>
+        <td>裴南星</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>评估室</td>
+        <td>入门</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥560 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月4日 周日 14:00–15:10</td>
+        <td>裴南星</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>评估室</td>
+        <td>入门</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥560 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="pt-fat">
+    <img src="images/course-hiit.jpg" alt="减脂陪跑私教：学员做波比跳和跳蹲的间歇训练">
+    <div>
+      <p class="eyebrow">SC-PT-03</p>
+      <h3>减脂陪跑私教 <span>Cut Session</span></h3>
+      <p>减脂方向。60 分钟力量加短间歇，不承诺单节掉秤。</p>
+      <p>把训练日固定下来：力量大约 30 分钟，间歇大约 6 分钟，其余时间用来热身、演示、换器械和记录。动作可以改成低冲击。教练会问最近三天的吃饭和睡眠，但不会制定菜单，也不把单节热量当成减脂结果。晨间场价格 ¥420，其余场次 ¥460。本次购买只含这一节。4 周是建议训练节奏，不是已购套餐。</p>
+      <dl>
+        <div><dt>时长</dt><dd>60 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>初级</dd></div>
+        <div><dt>强度</dt><dd>中高</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 300–450 kcal。单节热量不是减脂结果。</dd></div>
+        <div><dt>准入与退阶</dt><dd>初级；间歇可以改成低冲击。</dd></div>
+        <div><dt>适合谁</dt><dd>已经决定要练、需要有人卡时间和记录完成情况的人。希望力量和有氧放在同一节里，并且接受减脂取决于长期训练和饮食，而不是这一节的出汗量。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–8 核对</strong> 体重秤可选，不强制。确认膝盖和当天状态。</li><li><strong>8–38 力量</strong> 下肢、上肢推或拉、核心，各 3 组。</li><li><strong>38–53 间歇</strong> 40 秒运动、20 秒休息，6 轮，共 6 分钟。这一段其余时间用来演示、换动作和走动。可改低冲击。</li><li><strong>53–60 记录</strong> 写下完成的重量和间歇轮数。</li></ol>
+      <h4>训练目标</h4><ul><li>完成力量部分</li><li>间歇做满约定轮数</li><li>记下下次训练日</li></ul>
+      <h4>适合</h4><ul><li>已经决定要练、需要有人卡时间的人</li></ul>
+      <h4>不适合</h4><ul><li>孕期</li><li>饮食紊乱正在治疗中</li><li>当天身体不适</li></ul>
+      <h4>场馆提供</h4><ul><li>哑铃、壶铃、划船机或单车（按门店）</li></ul>
+      <h4>请自带</h4><ul><li>运动鞋</li><li>毛巾</li></ul>
+      <h4>费用包含</h4><p>含 60 分钟一对一。不含饮食方案和补剂。本次购买只含这一节。场次标价就是这一节的价格，晨间场 ¥420，其余场次 ¥460。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟到达。迟到不补时。</p><p>本次购买只含这一节。4 周是建议训练节奏，不是已购套餐。不售卖减脂课包，也不保证周减重数字。</p><p>容量 1 人。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 24 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 24 小时且尚未开课：仍可取消并释放名额，记录标「已超过免费取消时限」，这一节不退费。开课后不能取消。健康原因、教练变更和主办方取消单独处理，不记逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月27日 周日 18:00–19:00</td>
+        <td>江澄</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>私教室 2</td>
+        <td>初级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥460 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月1日 周四 07:30–08:30</td>
+        <td>江澄</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>私教室 1</td>
+        <td>初级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥420 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月3日 周六 19:00–20:00</td>
+        <td>江澄</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>私教室 2</td>
+        <td>初级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥460 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月7日 周三 12:00–13:00</td>
+        <td>江澄</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>私教室 2</td>
+        <td>初级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥460 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="pt-box">
+    <img src="images/course-boxing.jpg" alt="拳击技术私教：戴拳套的学员对着手靶出拳">
+    <div>
+      <p class="eyebrow">SC-PT-04</p>
+      <h3>拳击技术私教 <span>Jab Lab</span></h3>
+      <p>一对一改拳法和步法。北京一场按初级授课。</p>
+      <p>60 分钟只练技术：站姿、刺拳、后手、滑步和一组组合。对垫子或教练靶，不对打。北京国贸的一场等级是初级，接受零基础；上海和深圳的场次按中级，默认你上过至少 4 节搏击团课或等价经验。</p>
+      <dl>
+        <div><dt>时长</dt><dd>60 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>中级</dd></div>
+        <div><dt>强度</dt><dd>高</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 400–600 kcal。</dd></div>
+        <div><dt>准入与退阶</dt><dd>准入看这一场的等级，不看课名上的总等级。北京初级场接受零基础。上海和深圳是中级场，需要至少 4 节燃脂搏击团课或等价经验。上海或深圳的新手请约当地燃脂搏击入门场，不要改约北京这场初级私教。</dd></div>
+        <div><dt>适合谁</dt><dd>想把刺拳、后手和步法改清楚的人。初级场可以零基础，中级场适合已经上过燃脂搏击、还想单独改动作的人。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–10 绳操或踏步</strong> 肩和踝热身。</li><li><strong>10–35 单拳</strong> 刺拳和后手直拳，教练用手靶纠正。</li><li><strong>35–52 组合</strong> 1-2 和 1-2-3，配合前后滑步。</li><li><strong>52–60 放松</strong> 前臂和肩。</li></ol>
+      <h4>训练目标</h4><ul><li>刺拳收回下颌</li><li>后手不耸肩</li><li>组合能在口令下重复</li></ul>
+      <h4>适合</h4><ul><li>想改动作而不是只出汗的人</li><li>初级场接受零基础，中级场需要已有团课经验</li></ul>
+      <h4>不适合</h4><ul><li>孕期</li><li>视网膜脱落病史</li><li>手腕急性伤</li><li>期望学习实战对打的人</li></ul>
+      <h4>场馆提供</h4><ul><li>拳套</li><li>绑带</li><li>手靶</li></ul>
+      <h4>请自带</h4><ul><li>自有拳套可选</li><li>运动鞋</li></ul>
+      <h4>费用包含</h4><p>含教练、手靶和公用拳套。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟到达并缠手。</p><p>课时从约定开始时间计算，迟到不补时。</p><p>本课不对打，不需要护齿，也不提供护齿。提供拳套、绑带和手靶。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 24 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 24 小时且尚未开课：仍可取消并释放名额，记录标「已超过免费取消时限」，这一节不退费。开课后不能取消。健康原因、教练变更和主办方取消单独处理，不记逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月29日 周二 20:00–21:00</td>
+        <td>林晓岚</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>搏击馆 C</td>
+        <td>中级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥520 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月2日 周五 11:00–12:00</td>
+        <td>顾言</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>搏击馆</td>
+        <td>初级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥520 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月5日 周一 16:00–17:00</td>
+        <td>林晓岚</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>搏击馆</td>
+        <td>中级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥520 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="pt-postnatal">
+    <img src="images/course-pilates.jpg" alt="产后核心恢复：学员在垫子上做普拉提核心动作">
+    <div>
+      <p class="eyebrow">SC-PT-05</p>
+      <h3>产后核心恢复 <span>Postnatal Core</span></h3>
+      <p>55 分钟，面向符合周数条件的产后恢复。</p>
+      <p>内容是呼吸、腹横肌激活、骨盆底感知和短桥。不安排卷腹、跳跃和跑步。这门课只面向已经分娩的人：顺产已满 8 周，或剖宫产已满 12 周，并且医生允许进行此类运动。它不是孕期课程的替代。是否适合运动由医生评估。</p>
+      <dl>
+        <div><dt>时长</dt><dd>55 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>入门</dd></div>
+        <div><dt>强度</dt><dd>低</dd></div>
+        <div><dt>消耗</dt><dd>这节课不以消耗为目标。</dd></div>
+        <div><dt>准入与退阶</dt><dd>入门恢复；动作按分娩方式和当天状态调整。</dd></div>
+        <div><dt>适合谁</dt><dd>顺产已满 8 周或剖宫产已满 12 周、并且医生允许运动，希望先恢复呼吸和核心控制的人。婴儿不能进入教室。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–10 问询</strong> 确认分娩方式和周数、是否有漏尿或疼痛。</li><li><strong>10–30 呼吸和激活</strong> 仰卧 90/90 呼吸、侧卧腹横肌。</li><li><strong>30–48 力量</strong> 短桥、侧卧抬腿、四足支撑。出现鼓胀或疼痛就停该动作。</li><li><strong>48–55 整理</strong> 坐姿呼吸，约定是否需要改约体态课。</li></ol>
+      <h4>训练目标</h4><ul><li>仰卧呼吸时腹部不过度膨起</li><li>完成短桥</li><li>知道哪个动作需要停</li></ul>
+      <h4>适合</h4><ul><li>顺产满 8 周或剖宫产满 12 周，且医生允许运动</li></ul>
+      <h4>不适合</h4><ul><li>未满上述周数</li><li>产后出血未停止</li><li>医生尚未允许运动</li><li>孕期</li></ul>
+      <h4>场馆提供</h4><ul><li>垫子</li><li>靠垫</li><li>弹力带</li></ul>
+      <h4>请自带</h4><ul><li>舒适衣物</li><li>需要时自备胸垫</li></ul>
+      <h4>费用包含</h4><p>含 55 分钟一对一。不含盆底治疗和医疗评估。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟到达。迟到不补时。</p><p>课中出现疼痛、明显漏尿或头晕，立即停止并建议就医。教练不处理医疗问题。</p><p>容量 1 人。婴儿不能进入教室。</p><p>孕期不适合。不要把这门课当作孕期普拉提或其他课程的替换。</p><p>课程面向成年人。</p>
+      <h4>取消规则</h4><p>距开课不少于 24 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 24 小时且尚未开课：仍可取消并释放名额，记录标「已超过免费取消时限」，这一节不退费。开课后不能取消。健康原因、教练变更和主办方取消单独处理，不记逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月28日 周一 10:00–10:55</td>
+        <td>何清和</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>普拉提室</td>
+        <td>入门</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥540 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月4日 周日 09:00–09:55</td>
+        <td>何清和</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>普拉提室</td>
+        <td>入门</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥540 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月6日 周二 15:00–15:55</td>
+        <td>何清和</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>普拉提室</td>
+        <td>入门</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥540 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="pt-muscle">
+    <img src="images/course-strength.jpg" alt="增肌与力量提升：学员用哑铃和杠铃做力量训练">
+    <div>
+      <p class="eyebrow">SC-PT-06</p>
+      <h3>增肌与力量提升 <span>Muscle Gain</span></h3>
+      <p>60 分钟一对一，围绕主项加组，不测单次最大重量。</p>
+      <p>在基础力量动作已经稳定之后，用深蹲或髋铰链、推、拉做主项，每项 3–5 组，组间休息比减脂课更长。第一节仍不测 1RM，先定一个可以重复的重量。临时改成拳击、体态评估或减脂间歇，不在这门课里。单节不承诺围度变化。</p>
+      <dl>
+        <div><dt>时长</dt><dd>60 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>中级</dd></div>
+        <div><dt>强度</dt><dd>中高</dd></div>
+        <div><dt>消耗</dt><dd>消耗视休息时间而定，通常低于同等时间的间歇课。本课不按热量计价。</dd></div>
+        <div><dt>准入与退阶</dt><dd>中级；需要已经能完成基础深蹲、铰链、推和拉。零基础请先约基础力量。</dd></div>
+        <div><dt>适合谁</dt><dd>已经上过力量课或私教，希望把同一主项的重量或次数往上加的人。能接受组间休息，不追求这一节出最多的汗。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–10 问询和热身</strong> 确认酸痛和睡眠，再做主项相关热身。</li><li><strong>10–52 主项</strong> 下肢主项，加上推或拉，每个动作 3–5 组。动作不稳就减重量。</li><li><strong>52–60 记录</strong> 写下重量、次数和下次计划，拉伸主项肌群。</li></ol>
+      <h4>训练目标</h4><ul><li>完成约定主项</li><li>记下可重复的重量和次数</li><li>离开时知道下次加重量还是加次数</li></ul>
+      <h4>适合</h4><ul><li>基础动作已经稳定</li><li>想提高力量或增加训练量</li></ul>
+      <h4>不适合</h4><ul><li>还不会徒手深蹲和髋铰链</li><li>孕期</li><li>医生禁止力量训练</li><li>当天发烧或急性疼痛</li></ul>
+      <h4>场馆提供</h4><ul><li>哑铃、壶铃、杠铃、凳、弹力带</li></ul>
+      <h4>请自带</h4><ul><li>室内运动鞋</li></ul>
+      <h4>费用包含</h4><p>含教练一对一 60 分钟和私教室器械。不含营养方案。本次购买只含这一节，没有课包。场次标价就是这一节的价格。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟到私教室。</p><p>课时从约定开始时间计算。迟到不补时。</p><p>容量 1 人。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 24 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 24 小时且尚未开课：仍可取消并释放名额，记录标「已超过免费取消时限」，这一节不退费。开课后不能取消。健康原因、教练变更和主办方取消单独处理，不记逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月30日 周三 08:00–09:00</td>
+        <td>陈予安</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>私教室 1</td>
+        <td>中级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥500 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月4日 周日 18:00–19:00</td>
+        <td>陈予安</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>私教室 1</td>
+        <td>中级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥480 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="pt-performance">
+    <img src="images/course-hiit.jpg" alt="运动表现与体能进阶：学员做波比跳和跳蹲的间歇训练">
+    <div>
+      <p class="eyebrow">SC-PT-07</p>
+      <h3>运动表现与体能进阶 <span>Performance</span></h3>
+      <p>60 分钟一对一，把力量和速度或间歇接在一起。</p>
+      <p>给已经有训练习惯、想提高运动表现的人。课上先做一项力量，再做短距离速度、跳跃或间歇，具体选哪一项看当天状态和项目。不是体测，不出具运动能力证书。专项教练的场次如果加价，以该场标价为准，不在课后另收。</p>
+      <dl>
+        <div><dt>时长</dt><dd>60 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>高级</dd></div>
+        <div><dt>强度</dt><dd>高</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 350–550 kcal。计划改成技术向时会少一截。</dd></div>
+        <div><dt>准入与退阶</dt><dd>中高级；动作和间歇按项目调整，零基础不适合。</dd></div>
+        <div><dt>适合谁</dt><dd>已经稳定训练，希望把力量、速度或反复冲刺放进同一节课的人。有自己的运动项目或明确的体能目标，并且接受教练按当天状态改计划。</dd></div>
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–12 准备</strong> 问询、动态热身，确定今天做速度、跳跃还是间歇。</li><li><strong>12–32 力量</strong> 一项下肢或上肢主项，3–4 组。</li><li><strong>32–52 表现</strong> 短冲刺、药球或间歇。疼痛或动作散了就停该组。</li><li><strong>52–60 记录</strong> 写下完成情况和需要改的一点。</li></ol>
+      <h4>训练目标</h4><ul><li>完成力量部分</li><li>速度或间歇做满约定组</li><li>记下下次要保留的一项</li></ul>
+      <h4>适合</h4><ul><li>每周已有规律训练</li><li>想提高速度、重复冲刺或专项体能</li></ul>
+      <h4>不适合</h4><ul><li>零基础</li><li>孕期</li><li>急性损伤</li><li>医生禁止高强度或跳跃</li></ul>
+      <h4>场馆提供</h4><ul><li>杠铃或哑铃</li><li>药球</li><li>开阔跑道或划船机（按门店）</li></ul>
+      <h4>请自带</h4><ul><li>缓冲好的运动鞋</li><li>毛巾</li></ul>
+      <h4>费用包含</h4><p>含这一节一对一。本次购买只含这一节，没有课包。专项场次的价格以场次标价为准，不在课后另加。不含赛事或测试费用。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟到达。课时从约定开始时间计算，迟到不补时。</p><p>容量 1 人。</p><p>不提供比赛报名和书面测试报告。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 24 小时：可以取消，名额立即释放，应付金额全额退回。距开课不足 24 小时且尚未开课：仍可取消并释放名额，记录标「已超过免费取消时限」，这一节不退费。开课后不能取消。健康原因、教练变更和主办方取消单独处理，不记逾期。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年10月2日 周五 07:30–08:30</td>
+        <td>江澄</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>私教室 2</td>
+        <td>高级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥560 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月6日 周二 19:10–20:10</td>
+        <td>江澄</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>私教室 2</td>
+        <td>高级</td>
+        <td>0 / 1</td>
+        <td>1</td>
+        <td>¥520 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+  </section>
+<section id="open">
+    <header class="hero">
+      <img src="images/section-open.jpg" alt="清晨公园草坪上的公开拉伸课">
+      <div>
+        <p class="eyebrow">03 · Open</p>
+        <h2>公开课</h2>
+        <p class="lead">免费及付费体验。¥0 或 ¥49</p>
+        <p>公开课给新同学试课，也包含公园拉伸这类户外场次，有免费场，也有付费体验。标价 ¥0 的场次免费，付费场次按标价支付。必须提前预约，现场不接受未预约入场。</p>
+        <p>单次可预约 1–3 人，且不能超过该场剩余名额。免费场次也计入已预约人数。</p>
+      </div>
+    </header>
+    <article id="open-intro">
+    <img src="images/course-intro.jpg" alt="新手入门体验课：教练给新学员讲解动作和场馆">
+    <div>
+      <p class="eyebrow">SC-OP-01</p>
+      <h3>新手入门体验课 <span>First Visit</span></h3>
+      <p>40 分钟免费体验，讲解签到、储物和一节迷你训练。</p>
+      <p>前 10 分钟讲这家店怎么签到、柜子在哪、下一节团课怎么选。10–32 分钟做不跳跃的迷你循环：深蹲、划船弹力带、臀桥、死虫式，大约 22 分钟。32–40 分钟用来提问选课，不是继续训练。上完可以决定要不要约正式团课，体验课本身不抵扣正式课价格。</p>
+      <dl>
+        <div><dt>时长</dt><dd>40 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>入门</dd></div>
+        <div><dt>强度</dt><dd>低</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 80–140 kcal。</dd></div>
+        
+        
+        
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–10 到店说明</strong> 签到、更衣室、取消规则、团课和私教的差别。</li><li><strong>10–32 迷你循环</strong> 徒手深蹲、弹力带划船、臀桥、死虫式，2 轮。</li><li><strong>32–40 提问</strong> 教练回答选课问题，不在现场收款。</li></ol>
+      <h4>训练目标</h4><ul><li>知道前台怎么签到</li><li>完成一套低强度循环</li><li>能说出想上的下一门课</li></ul>
+      <h4>适合</h4><ul><li>第一次来超级猫咪</li><li>想先看强度再决定</li></ul>
+      <h4>不适合</h4><ul><li>已经熟悉团课、只想上高强度的人（请直接约团课）</li><li>急性伤痛</li></ul>
+      <h4>场馆提供</h4><ul><li>弹力带</li><li>垫子</li></ul>
+      <h4>请自带</h4><ul><li>运动鞋</li><li>可以穿着便装运动，但不要牛仔裤</li></ul>
+      <h4>费用包含</h4><p>费用为 ¥0。不含饮品，不含正式课程抵扣。</p>
+      <h4>注意事项</h4><p>费用 ¥0，仍占用名额。未预约不能入场。</p><p>请提前 10 分钟到前台签到。</p><p>迟到超过 5 分钟视为放弃名额，不补场。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消并释放名额。免费场次没有费用；付费场次的应付金额全额退回。距开课不足 6 小时且尚未开课：仍可取消并释放名额，记录标「已超过免费取消时限」。免费场次不产生费用。付费公开课（¥49）在这个时限内不退该节费用。开课后不能取消。主办方取消或天气取消不记逾期，并撤销待入账香蕉。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月27日 周日 14:00–14:40</td>
+        <td>唐小满</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>多功能厅</td>
+        <td>入门</td>
+        <td>8 / 20</td>
+        <td>12</td>
+        <td>免费</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月1日 周四 11:00–11:40</td>
+        <td>唐小满</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>多功能厅</td>
+        <td>入门</td>
+        <td>8 / 20</td>
+        <td>12</td>
+        <td>免费</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月3日 周六 15:30–16:10</td>
+        <td>唐小满</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>多功能厅</td>
+        <td>入门</td>
+        <td>8 / 20</td>
+        <td>12</td>
+        <td>免费</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月5日 周一 14:00–14:40</td>
+        <td>唐小满</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>多功能厅</td>
+        <td>入门</td>
+        <td>5 / 20</td>
+        <td>15</td>
+        <td>免费</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="open-stretch">
+    <img src="images/course-stretch.jpg" alt="社区公园拉伸：学员在垫子上做坐姿前屈拉伸">
+    <div>
+      <p class="eyebrow">SC-OP-02</p>
+      <h3>社区公园拉伸 <span>Park Stretch</span></h3>
+      <p>公园草坪 30 分钟拉伸，免费，自带垫子。</p>
+      <p>在指定草坪集合，做站立和坐姿拉伸。没有音响以外的器材，教练用一只小型音箱。小雨仍在原集合点上课，没有室内改址。雷暴、大雨或主办方认定的恶劣天气，由主办方在开课前取消并通知，不要求学员到集合点确认。</p>
+      <dl>
+        <div><dt>时长</dt><dd>30 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>入门</dd></div>
+        <div><dt>强度</dt><dd>低</dd></div>
+        <div><dt>消耗</dt><dd>约 40–80 kcal，不是训练课。</dd></div>
+        
+        
+        
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–5 集合</strong> 按橙色品牌旗签到，报手机号后 4 位。</li><li><strong>5–25 拉伸</strong> 小腿、髋屈肌、胸肌、跪姿脊柱屈伸。可站可坐。</li><li><strong>25–30 结束</strong> 自己收垫子，不组织合影。</li></ol>
+      <h4>训练目标</h4><ul><li>活动髋和胸椎</li><li>学会两个可以自己做的拉伸</li></ul>
+      <h4>适合</h4><ul><li>住在集合点附近、想轻度活动的人</li></ul>
+      <h4>不适合</h4><ul><li>需要更衣室的人</li><li>不能席地而坐且没有自己的折叠椅</li></ul>
+      <h4>场馆提供</h4><ul><li>教练音箱</li></ul>
+      <h4>请自带</h4><ul><li>自己的瑜伽垫或野餐垫</li><li>水杯</li><li>适合户外的鞋子</li></ul>
+      <h4>费用包含</h4><p>费用为 ¥0。不提供垫子、饮用水和储物。</p>
+      <h4>注意事项</h4><p>费用 ¥0，仍占用名额。天气取消没有退款，因为本来不收费。</p><p>没有前台。迟到超过 5 分钟可以跟着做，但不再重复讲解。</p><p>小雨不改址。雷暴、大雨等恶劣天气由主办方提前取消，场次会标成「主办方取消（天气）」。这种取消不要求学员到场，不记逾期，并撤销待入账香蕉。学员可以再约后续场次。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消并释放名额。免费场次没有费用；付费场次的应付金额全额退回。距开课不足 6 小时且尚未开课：仍可取消并释放名额，记录标「已超过免费取消时限」。免费场次不产生费用。付费公开课（¥49）在这个时限内不退该节费用。开课后不能取消。主办方取消或天气取消不记逾期，并撤销待入账香蕉。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月28日 周一 07:30–08:00</td>
+        <td>唐小满</td>
+        <td>上海 · 超级猫咪 · 静安雕塑公园公开点<br>南门内侧草坪</td>
+        <td>入门</td>
+        <td>12 / 25</td>
+        <td>13</td>
+        <td>免费</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月4日 周日 07:40–08:10</td>
+        <td>乔木</td>
+        <td>深圳 · 超级猫咪 · 深圳湾公园公开点<br>A 出口西侧草坪</td>
+        <td>入门</td>
+        <td>11 / 30</td>
+        <td>19</td>
+        <td>免费</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="open-box">
+    <img src="images/course-boxing.jpg" alt="周末公开拳击体验：戴拳套的学员对着手靶出拳">
+    <div>
+      <p class="eyebrow">SC-OP-03</p>
+      <h3>周末公开拳击体验 <span>Open Jab</span></h3>
+      <p>30 分钟入门拳击，只学刺拳和直拳，¥49。</p>
+      <p>比燃脂搏击短，不上脚靶循环。内容是站姿、刺拳和后手直拳。22–30 分钟打固定靶，每人大约 30 秒，其余时间继续空击。用来判断要不要再约 60 分钟团课。价格 ¥49 / 人。公用拳套和绑带都包含在这一节里，不另收费。</p>
+      <dl>
+        <div><dt>时长</dt><dd>30 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>入门</dd></div>
+        <div><dt>强度</dt><dd>中</dd></div>
+        <div><dt>消耗</dt><dd>按 60 kg 体重估算约 180–280 kcal。</dd></div>
+        
+        
+        <div><dt>优惠券</dt><dd>可使用10元优惠券</dd></div>
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–5 热身</strong> 踏步和肩环绕。</li><li><strong>5–22 空击</strong> 刺拳、后手直拳、1-2 组合。</li><li><strong>22–30 固定靶</strong> 每人约 30 秒，其余时间继续空击。</li></ol>
+      <h4>训练目标</h4><ul><li>做出刺拳</li><li>知道下颌要收回</li><li>决定是否再约燃脂搏击</li></ul>
+      <h4>适合</h4><ul><li>想花半小时试拳击的人</li></ul>
+      <h4>不适合</h4><ul><li>孕期</li><li>手腕急性伤</li><li>期望对打</li></ul>
+      <h4>场馆提供</h4><ul><li>公用拳套</li><li>绑带</li></ul>
+      <h4>请自带</h4><ul><li>运动鞋</li></ul>
+      <h4>费用包含</h4><p>含 30 分钟教练带练、公用拳套和绑带。¥49 已包含这些物品，不需要另备绑带。自有拳套可以带来，体验课不另减 ¥10。</p>
+      <h4>注意事项</h4><p>请提前 10 分钟签到并缠手。</p><p>迟到超过 5 分钟不可入场。</p><p>这是体验课，不会计入中级拳击私教要求的 4 节团课。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消并释放名额。免费场次没有费用；付费场次的应付金额全额退回。距开课不足 6 小时且尚未开课：仍可取消并释放名额，记录标「已超过免费取消时限」。免费场次不产生费用。付费公开课（¥49）在这个时限内不退该节费用。开课后不能取消。主办方取消或天气取消不记逾期，并撤销待入账香蕉。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月27日 周日 17:00–17:30</td>
+        <td>顾言</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>搏击馆 A</td>
+        <td>入门</td>
+        <td>5 / 15</td>
+        <td>10</td>
+        <td>¥49 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月3日 周六 17:10–17:40</td>
+        <td>林晓岚</td>
+        <td>深圳 · 超级猫咪 · 深圳湾万象城店<br>搏击馆</td>
+        <td>入门</td>
+        <td>4 / 15</td>
+        <td>11</td>
+        <td>¥49 / 人</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月4日 周日 11:20–11:50</td>
+        <td>顾言</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>搏击馆</td>
+        <td>入门</td>
+        <td>4 / 12</td>
+        <td>8</td>
+        <td>¥49 / 人</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+<article id="open-assess">
+    <img src="images/course-intro.jpg" alt="门店开放日动作评估：教练给新学员讲解动作和场馆">
+    <div>
+      <p class="eyebrow">SC-OP-04</p>
+      <h3>门店开放日动作评估 <span>Open Screen</span></h3>
+      <p>20 分钟小团评估，最多 8 人，免费。</p>
+      <p>教练带所有人做深蹲、过顶举手和单腿站，然后按签到顺序每人大约 30 秒听到 1 条优先建议。满班 8 人大约 4 分钟，放在最后 5 分钟里。这不是私教评估课，没有拍照，也没有 70 分钟的纠正训练。想要拍照和 3 个纠正项，请另约「体态矫正私教」。</p>
+      <dl>
+        <div><dt>时长</dt><dd>20 分钟</dd></div>
+        <div><dt>技术难度</dt><dd>入门</dd></div>
+        <div><dt>强度</dt><dd>低</dd></div>
+        <div><dt>消耗</dt><dd>可以忽略，约 30–60 kcal。</dd></div>
+        
+        
+        
+      </dl>
+      <h4>课程结构</h4>
+      <ol><li><strong>0–3 说明</strong> 告诉大家这节课不诊断疾病。</li><li><strong>3–15 三个动作</strong> 徒手深蹲 5 次、过顶举手、单腿站 10 秒。</li><li><strong>15–20 逐人一句</strong> 按签到顺序，每人大约 30 秒、1 条建议。满班 8 人大约 4 分钟。</li></ol>
+      <h4>训练目标</h4><ul><li>看到自己的深蹲</li><li>听到 1 条优先建议</li></ul>
+      <h4>适合</h4><ul><li>想先免费看一下动作的人</li></ul>
+      <h4>不适合</h4><ul><li>需要一对一完整评估的人</li><li>急性疼痛</li></ul>
+      <h4>场馆提供</h4><ul><li>开阔的评估室</li></ul>
+      <h4>请自带</h4><ul><li>运动鞋</li></ul>
+      <h4>费用包含</h4><p>费用为 ¥0。不含私教课时。</p>
+      <h4>注意事项</h4><p>费用 ¥0，容量 8 人，约满停止。</p><p>请提前 8 分钟签到。迟到超过 3 分钟不可入场，因为全场一起开始。</p><p>不提供书面结果。</p><p>课程面向 16 周岁及以上。</p>
+      <h4>取消规则</h4><p>距开课不少于 6 小时：可以取消并释放名额。免费场次没有费用；付费场次的应付金额全额退回。距开课不足 6 小时且尚未开课：仍可取消并释放名额，记录标「已超过免费取消时限」。免费场次不产生费用。付费公开课（¥49）在这个时限内不退该节费用。开课后不能取消。主办方取消或天气取消不记逾期，并撤销待入账香蕉。</p>
+      <h4>场次</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>教练</th><th>地点</th><th>等级</th><th>已约 / 容量</th><th>剩余</th><th>价格</th><th>状态</th></tr></thead>
+          <tbody><tr>
+        <td>2026年9月29日 周二 18:00–18:20</td>
+        <td>裴南星</td>
+        <td>北京 · 超级猫咪 · 国贸 SKP 店<br>评估室</td>
+        <td>入门</td>
+        <td>2 / 8</td>
+        <td>6</td>
+        <td>免费</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月2日 周五 18:30–18:50</td>
+        <td>裴南星</td>
+        <td>上海 · 超级猫咪 · 静安嘉里中心店<br>评估室</td>
+        <td>入门</td>
+        <td>0 / 8</td>
+        <td>8</td>
+        <td>免费</td>
+        <td>可预约</td>
+      </tr><tr>
+        <td>2026年10月7日 周三 18:10–18:30</td>
+        <td>江澄</td>
+        <td>成都 · 超级猫咪 · 成都太古里店<br>评估室</td>
+        <td>入门</td>
+        <td>0 / 8</td>
+        <td>8</td>
+        <td>免费</td>
+        <td>可预约</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+  </section>
+
+    <section id="membership">
+      <h2>会员</h2>
+      <p>按次付费，没有年卡，也没有自动续费。超猫卡按余额储值。预约团课按当场标价计算应付金额，持卡再打 95 折。</p>
+      <div class="stats">
+        <div class="card"><span>团课</span><b>¥89 起</b><span>当前课表团课的最低价。每节按当场标价计算。</span></div>
+        <div class="card"><span>自助健身舱</span><b>¥50/小时</b><span>24 小时无人值守。不足 1 小时按 1 小时计。到店进舱。</span></div>
+        <div class="card"><span>充值</span><b>¥288 起</b><span>¥288（首充专享），¥500，¥2000 赠 ¥100，¥5000 赠 ¥250。</span></div>
+      </div>
+      <h3>香蕉规则</h3>
+      <div class="rates">
+        <div class="card"><span>团课</span><strong>1 根香蕉 / 人，完课后入账</strong></div><div class="card"><span>私教</span><strong>1.5 根香蕉 / 节，固定 1 人</strong></div><div class="card"><span>公开课</span><strong>完课不获得香蕉</strong></div><div class="card"><span>自助健身</span><strong>0.5 根香蕉 / 小时，到店进舱</strong></div>
+      </div>
+      <p>累计 8 根香蕉，可兑换 1 张 10 元课程优惠券。账户先保留 8 根，超出的部分按每 8 根兑换 1 张。热门团课不能使用优惠券：燃脂搏击、燃脂骑行、舞蹈有氧、间歇燃脂、塑形杠铃、HYROX。</p>
+      <h3>会员等级</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>等级</th><th>香蕉</th><th>权益</th></tr></thead>
+          <tbody>
+            <tr><td>新会员</td><td>开始累计</td><td>完课后开始累计香蕉。</td></tr><tr><td>银卡</td><td>20 根起</td><td>一张 ¥10 团课抵扣券。</td></tr><tr><td>金卡</td><td>80 根起</td><td>1 小时自助健身。</td></tr><tr><td>铂金</td><td>200 根起</td><td>生日券，满员场次可候补。</td></tr><tr><td>钻石</td><td>500 根起</td><td>可换课，仍受该课 6 小时或 24 小时取消时限约束。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>门店</h3>
+      <ul><li><strong>静安嘉里</strong> 上海 · 门店<br>上海市静安区南京西路1515号嘉里中心 B2 层 L-03<br>地铁 2 号线、12 号线、13 号线南京西路站 1 号口，步行 4 分钟 · 021-60881230</li><li><strong>国贸 SKP</strong> 北京 · 门店<br>北京市朝阳区建国路87号华贸中心 SKP-S 3 层 3F-12<br>地铁 1 号线、10 号线国贸站 D 口，步行 6 分钟 · 010-85771280</li><li><strong>深圳湾</strong> 深圳 · 门店<br>广东省深圳市南山区科苑南路2888号深圳湾万象城 L4 层 48 号<br>地铁 9 号线、11 号线后海站 E 口，步行 8 分钟 · 0755-86661290</li><li><strong>太古里</strong> 成都 · 门店<br>四川省成都市锦江区中纱帽街8号远洋太古里 M 层 M-26<br>地铁 2 号线、3 号线春熙路站 D 口，步行 5 分钟 · 028-86721260</li><li><strong>静安雕塑公园</strong> 上海 · 户外集合点<br>上海市静安区北京西路500号静安雕塑公园南门内侧草坪<br>地铁 2 号线、12 号线、13 号线南京西路站 1 号口，步行约 8 分钟到公园南门 · 021-60881230</li><li><strong>深圳湾公园</strong> 深圳 · 户外集合点<br>广东省深圳市南山区滨海大道深圳湾公园 A 出口西侧草坪<br>地铁 9 号线、11 号线后海站 E 口，步行至公园 A 出口约 12 分钟 · 0755-86661290</li></ul>
+      <h3>教练</h3>
+      <ul><li><strong>林晓岚</strong> 搏击主管教练 · 执教 8 年<br>社会体育指导员（拳击）三级、NSCA-CPT<br>2018 年起带团课和私教，课程以直拳、勾拳和步法为主，不安排摔投。</li><li><strong>顾言</strong> 搏击教练 · 执教 5 年<br>国家职业健身教练<br>负责入门场次和公开体验课，口令按 4 拍拆解，允许中途改做空击。</li><li><strong>周宁</strong> 瑜伽教练 · 执教 10 年<br>RYT-500<br>体式停留 3–5 分钟，用瑜伽砖和伸展带退阶，不压学员。</li><li><strong>陈予安</strong> 力量教练 · 执教 7 年<br>NSCA-CSCS<br>团课使用 2–10 kg 哑铃自选重量。私教第一节先测深蹲和推举动作，不测 1RM。</li><li><strong>苏晚</strong> 舞蹈教练 · 执教 6 年<br>北京舞蹈学院继续教育舞蹈编导课程<br>编舞按 4×8 拍分段，面向镜子教学，不要求先前舞蹈经历。</li><li><strong>何清和</strong> 普拉提教练 · 执教 9 年<br>Polestar 垫上普拉提<br>垫上小班，单节人数不超过教室容量。产后课只接收已经分娩且符合周数条件的学员，不接收孕期。</li><li><strong>马洲</strong> 单车教练 · 执教 4 年<br>室内骑行教练认证<br>开课前协助调车座。课程用心率区间描述强度，不要求锁鞋。</li><li><strong>江澄</strong> 减脂私教 · 执教 8 年<br>ACE-CPT<br>减脂私教按 4 周建议节奏安排力量和间歇。4 周不是已购课包，单节不承诺体重变化。</li><li><strong>裴南星</strong> 体态私教 · 执教 11 年<br>前康复治疗师、NASM-CES<br>体态矫正私教才拍照，并当场说明 3 个优先纠正项。开放日动作评估不拍照，只给 1 条口头建议。两者都不诊断疾病。</li><li><strong>唐小满</strong> 团课教练 · 执教 6 年<br>国家职业健身教练<br>公开课和间歇课由她主带，动作都给低冲击替换。</li><li><strong>乔木</strong> 恢复课教练 · 执教 5 年<br>筋膜放松工作坊结业<br>恢复课把心率控制在能完整说话的范围，不安排跳跃。</li></ul>
+    </section>
+
+    <section id="training">
+      <h2>我的运动</h2>
+      <div class="stats">
+        <div class="card"><span>训练天数</span><b>14</b></div>
+        <div class="card"><span>训练次数</span><b>14</b></div>
+        <div class="card"><span>训练时长</span><b>705</b><span>分钟</span></div>
+      </div>
+      <div class="money">
+        <div class="card"><span>超猫卡余额</span><b>¥1014</b></div>
+        <div class="card"><span>剩余香蕉</span><b>8 根</b></div>
+      </div>
+      <h3>2026年8月</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>课程</th><th>类型</th><th>教练</th><th>地点</th><th>费用</th><th>香蕉</th></tr></thead>
+          <tbody><tr>
+      <td>2026年8月30日 周日 11:00–11:45</td>
+      <td>热浪战绳</td>
+      <td>团课</td>
+      <td>顾言</td>
+      <td>国贸 SKP · 北京</td>
+      <td>持卡 ¥123</td>
+      <td>1 根</td>
+    </tr><tr>
+      <td>2026年8月29日 周六 10:00–10:45</td>
+      <td>燃脂骑行</td>
+      <td>团课</td>
+      <td>马洲</td>
+      <td>国贸 SKP · 北京</td>
+      <td>持卡 ¥94</td>
+      <td>1 根</td>
+    </tr><tr>
+      <td>2026年8月26日 周三 19:00–20:00</td>
+      <td>燃脂搏击</td>
+      <td>团课</td>
+      <td>顾言</td>
+      <td>国贸 SKP · 北京</td>
+      <td>持卡 ¥123</td>
+      <td>1 根</td>
+    </tr><tr>
+      <td>2026年8月23日 周日 10:00–11:00</td>
+      <td>减脂陪跑私教</td>
+      <td>私教</td>
+      <td>江澄</td>
+      <td>国贸 SKP · 北京</td>
+      <td>¥420</td>
+      <td>1.5 根</td>
+    </tr><tr>
+      <td>2026年8月22日 周六 10:30–11:30</td>
+      <td>燃脂搏击</td>
+      <td>团课</td>
+      <td>顾言</td>
+      <td>国贸 SKP · 北京</td>
+      <td>持卡 ¥123</td>
+      <td>1 根</td>
+    </tr><tr>
+      <td>2026年8月19日 周三 19:15–20:00</td>
+      <td>燃脂骑行</td>
+      <td>团课</td>
+      <td>马洲</td>
+      <td>国贸 SKP · 北京</td>
+      <td>持卡 ¥94</td>
+      <td>1 根</td>
+    </tr><tr>
+      <td>2026年8月16日 周日 10:00–10:40</td>
+      <td>间歇燃脂</td>
+      <td>团课</td>
+      <td>顾言</td>
+      <td>国贸 SKP · 北京</td>
+      <td>持卡 ¥104</td>
+      <td>1 根</td>
+    </tr><tr>
+      <td>2026年8月15日 周六 10:30–11:30</td>
+      <td>减脂陪跑私教</td>
+      <td>私教</td>
+      <td>江澄</td>
+      <td>国贸 SKP · 北京</td>
+      <td>¥420</td>
+      <td>1.5 根</td>
+    </tr><tr>
+      <td>2026年8月12日 周三 19:00–20:00</td>
+      <td>减脂陪跑私教</td>
+      <td>私教</td>
+      <td>江澄</td>
+      <td>国贸 SKP · 北京</td>
+      <td>¥460</td>
+      <td>1.5 根</td>
+    </tr><tr>
+      <td>2026年8月9日 周日 11:00–11:45</td>
+      <td>热浪战绳</td>
+      <td>团课</td>
+      <td>顾言</td>
+      <td>国贸 SKP · 北京</td>
+      <td>持卡 ¥123</td>
+      <td>1 根</td>
+    </tr><tr>
+      <td>2026年8月8日 周六 10:00–10:45</td>
+      <td>燃脂骑行</td>
+      <td>团课</td>
+      <td>马洲</td>
+      <td>国贸 SKP · 北京</td>
+      <td>持卡 ¥94</td>
+      <td>1 根</td>
+    </tr><tr>
+      <td>2026年8月5日 周三 19:30–20:10</td>
+      <td>间歇燃脂</td>
+      <td>团课</td>
+      <td>顾言</td>
+      <td>国贸 SKP · 北京</td>
+      <td>持卡 ¥104</td>
+      <td>1 根</td>
+    </tr><tr>
+      <td>2026年8月2日 周日 10:00–11:00</td>
+      <td>减脂陪跑私教</td>
+      <td>私教</td>
+      <td>江澄</td>
+      <td>国贸 SKP · 北京</td>
+      <td>¥420</td>
+      <td>1.5 根</td>
+    </tr><tr>
+      <td>2026年8月1日 周六 10:00–10:40</td>
+      <td>间歇燃脂</td>
+      <td>团课</td>
+      <td>顾言</td>
+      <td>国贸 SKP · 北京</td>
+      <td>持卡 ¥104</td>
+      <td>1 根</td>
+    </tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
