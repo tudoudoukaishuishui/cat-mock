@@ -3,4 +3,4 @@
 :HL["/cat-mock/_next/static/chunks/2vc06x8e3gp8v.css","style"]
 :HL["/cat-mock/_next/static/media/f112ed7f0b91582f-s.p.2xkduggpvd1-n.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/cat-mock/_next/static/media/feb57b2dc8f29018-s.p.3qy4m29-cg3o4.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"courses","param":null,"prefetchHints":4192,"slots":{"children":{"name":"id","param":{"type":"d","key":"hiit","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"ZptsW7RIMgedd6IhRWbjO"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"courses","param":null,"prefetchHints":4192,"slots":{"children":{"name":"id","param":{"type":"d","key":"hiit","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"z0Jyed2EunD486k93y5Dd"}
