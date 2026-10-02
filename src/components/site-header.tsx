@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "cn";
 
 const links = [
+  { href: "/family", label: "遛娃" },
   { href: "/sections/group", label: "团课" },
   { href: "/sections/personal", label: "私教" },
   { href: "/sections/open", label: "公开课" },

@@ -76,6 +76,19 @@ export default function HomePage() {
         </Link>
       </section>
 
+      <section className="mt-8 flex flex-col gap-3 border border-border bg-card p-5 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-xs tracking-[0.16em] text-muted-foreground">遛娃</p>
+          <h2 className="mt-1 font-heading text-3xl">这周末带孩子出门</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
+            按孩子年龄和预算选周六活动，路线排好。下雨换成备选。去过之后可以记照片和体验。
+          </p>
+        </div>
+        <Link href="/family" className={cn(buttonVariants(), "h-10 shrink-0 px-4")}>
+          看本周计划
+        </Link>
+      </section>
+
       <section aria-label="三个板块" className="mt-8 grid gap-4 lg:grid-cols-3">
         {data.plates.map((plate) => (
           <article
