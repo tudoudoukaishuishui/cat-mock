@@ -16,12 +16,10 @@ function loadExtras() {
 }
 
 export function sessionStatus(session: Session, booked: number, now = Date.now()): SessionStatus {
-  const start = new Date(session.start).getTime();
+  if (booked < session.capacity) return "open";
   const end = new Date(session.end).getTime();
   if (now >= end) return "ended";
-  if (now >= start) return "started";
-  if (booked >= session.capacity) return "full";
-  return "open";
+  return "full";
 }
 
 const statusLabel: Record<SessionStatus, string> = {
@@ -29,10 +27,20 @@ const statusLabel: Record<SessionStatus, string> = {
   full: "已满员",
   started: "已开始",
   ended: "已结束",
+  "host-cancelled": "主办方取消（天气）",
 };
 
 export function withExtraBookings(view: SessionView, extra: number, now = Date.now()): SessionView {
   const booked = view.booked + extra;
+  if (view.status === "host-cancelled") {
+    return {
+      ...view,
+      booked,
+      remaining: Math.max(view.capacity - booked, 0),
+      status: "host-cancelled",
+      statusLabel: statusLabel["host-cancelled"],
+    };
+  }
   const status = sessionStatus(
     { start: view.start, end: view.end, capacity: view.capacity } as Session,
     booked,
@@ -62,7 +70,7 @@ export function getSessionView(
 
   const extra = (extras ?? loadExtras()).get(session.id) ?? 0;
   const booked = session.booked + extra;
-  const status = sessionStatus(session, booked, now);
+  const status: SessionStatus = session.hostCancel === "weather" ? "host-cancelled" : sessionStatus(session, booked, now);
   const credentials = coach.credentials.join("、");
 
   return {

@@ -1,4 +1,11 @@
-export const GROUP_FROM_PRICE = 69;
+import { courses, sessions } from "@/data/catalog";
+
+const groupCourseIds = new Set(courses.filter((course) => course.section === "group").map((course) => course.id));
+const groupPrices = sessions
+  .filter((session) => groupCourseIds.has(session.courseId) && session.price > 0)
+  .map((session) => session.price);
+
+export const GROUP_FROM_PRICE = Math.min(...groupPrices);
 export const GYM_HOUR_PRICE = 50;
 export const CARD_GROUP_RATE = 0.95;
 
@@ -12,37 +19,38 @@ export const topUps = [
 export type TopUpId = (typeof topUps)[number]["id"];
 
 export const tiers = [
-  { name: "新会员", points: 0, perk: "完成充值后开始累计积分。" },
-  { name: "银卡", points: 200, perk: "可兑换一张 ¥10 团课抵扣券。" },
-  { name: "金卡", points: 800, perk: "可兑换 1 小时自助健身。" },
-  { name: "铂金", points: 2000, perk: "生日当月赠送团课券，满员场次优先候补。" },
-  { name: "钻石", points: 5000, perk: "换课不限次数，新课优先预约。" },
+  { name: "新会员", points: 0, perk: "完课后开始累计香蕉。" },
+  { name: "银卡", points: 20, perk: "一张 ¥10 团课抵扣券。" },
+  { name: "金卡", points: 80, perk: "1 小时自助健身。" },
+  { name: "铂金", points: 200, perk: "生日券，满员场次可候补。" },
+  { name: "钻石", points: 500, perk: "可换课，仍受该课 6 小时或 24 小时取消时限约束。" },
 ] as const;
 
 export const benefits = [
   { title: "训练成就", detail: "上课打卡，点亮成就" },
-  { title: "训练奖励", detail: "积分兑换券和课时" },
+  { title: "训练奖励", detail: "香蕉兑换券和课时" },
   { title: "满员等候", detail: "满员场次可以排队" },
   { title: "新课体验", detail: "新课上线优先试听" },
   { title: "训练排名", detail: "按城市查看上课排名" },
   { title: "生日礼券", detail: "生日当月赠送礼券" },
-  { title: "无忧换课", detail: "开课前可改约其他场次" },
+  { title: "无忧换课", detail: "改约仍受 6 小时或 24 小时时限约束" },
 ] as const;
 
-export const pointRates = [
-  { name: "团课", rate: "10 积分 / 节" },
-  { name: "私教", rate: "20 积分 / 节" },
-  { name: "公开课", rate: "5 积分 / 节" },
-  { name: "自助健身", rate: "8 积分 / 小时" },
+export const bananaRates = [
+  { name: "团课", rate: "1 根香蕉 / 人，完课后入账" },
+  { name: "私教", rate: "1.5 根香蕉 / 节，固定 1 人" },
+  { name: "公开课", rate: "完课不获得香蕉" },
+  { name: "自助健身", rate: "0.5 根香蕉 / 小时，到店进舱" },
 ] as const;
 
 export function tierFor(points: number) {
   return [...tiers].reverse().find((tier) => points >= tier.points) ?? tiers[0];
 }
 
-export function classPoints(section: "group" | "personal" | "open", seats: number) {
-  const unit = section === "personal" ? 20 : section === "group" ? 10 : 5;
-  return unit * (section === "personal" ? 1 : seats);
+export function classBananas(section: "group" | "personal" | "open", seats: number) {
+  if (section === "personal") return 1.5;
+  if (section === "group") return seats;
+  return 0;
 }
 
 export function classTotal(
@@ -58,9 +66,9 @@ export function classTotal(
     total = Math.round(total * CARD_GROUP_RATE);
     notes.push("持卡预约团课，95 折");
   }
-  if ((section === "group" || section === "personal") && headcount >= 2 && unitPrice > 0) {
+  if (section === "group" && headcount >= 2 && unitPrice > 0) {
     total = Math.round(total * 0.9);
-    notes.push("两人及以上报名，打 9 折");
+    notes.push("同一订单 2 人或 3 人，打 9 折");
   }
   return { listTotal, total, note: notes.join("；") };
 }

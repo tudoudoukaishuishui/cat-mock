@@ -1,6 +1,9 @@
+import { listAugustWorkouts } from "@/data/august-training";
+import { COUPON_YUAN, bananaAccount, couponMark } from "@/data/bananas";
 import { courses, sections, sessions } from "@/data/catalog";
 import { classTotal } from "@/data/membership";
-import { addPoints, awardClassPoints, hasCard } from "@/lib/local-memberships";
+import { awardClassPoints, hasCard } from "@/lib/local-memberships";
+import { consumeCoupon, releaseCoupon, resetCoupons, usedCoupons } from "@/lib/banana-wallet";
 import { getSessionView, withExtraBookings } from "@/lib/queries";
 import type { BookingRecord, BookingView } from "@/lib/types";
 
@@ -16,8 +19,8 @@ export type BookInput = {
   name: string;
   phone: string;
   partySize: number;
-  companions?: number;
   agreed: boolean;
+  useCoupon?: boolean;
 };
 
 type BookOk = { ok: true; booking: BookingView };
@@ -110,20 +113,17 @@ export function createLocalBooking(input: BookInput): BookOk | BookErr {
   const section = sections.find((item) => item.slug === course?.section);
   if (!course || !section) return { ok: false, error: "找不到这个课程" };
 
-  const companions = input.companions ?? 1;
-  const seats = section.slug === "personal" ? 1 : partySize;
+  const seats = partySize;
   if (section.slug === "personal" && partySize !== 1) {
-    return { ok: false, error: "私教每场只能预约 1 人" };
+    return { ok: false, error: "私教每场只能预约 1 人，不能多人一起报名" };
   }
   if (section.slug !== "personal" && partySize > 3) {
     return { ok: false, error: "单次最多预约 3 人" };
   }
-  if (!Number.isInteger(companions) || companions < 1 || companions > 3) {
-    return { ok: false, error: "一起报名人数请选 1 到 3 人" };
-  }
 
   const state = readState();
   const view = withExtraBookings(getSessionView(session), localExtra(session.id));
+  if (view.status === "host-cancelled") return { ok: false, error: "这场已由主办方取消，不需要到场，也不会记逾期" };
   if (view.status === "ended") return { ok: false, error: "场次已结束，不能预约" };
   if (view.status === "started") return { ok: false, error: "场次已开始，不能预约" };
   if (view.status === "full" || view.remaining < 1) {
@@ -138,7 +138,20 @@ export function createLocalBooking(input: BookInput): BookOk | BookErr {
   if (duplicated) return { ok: false, error: "此手机号已预约该场次，请到我的运动查看" };
 
   const cardHolder = section.slug === "group" && hasCard(phone);
-  const quote = classTotal(section.slug, session.price, section.slug === "personal" ? companions : partySize, cardHolder);
+  const quote = classTotal(section.slug, session.price, partySize, cardHolder);
+  const useCoupon = Boolean(input.useCoupon);
+  if (useCoupon && couponMark(course.id) !== "coupon") {
+    return { ok: false, error: "这门课不支持使用优惠券" };
+  }
+  if (useCoupon && session.price <= 0) return { ok: false, error: "免费课不能使用优惠券" };
+  const earned = listAugustWorkouts().reduce((sum, item) => sum + item.bananas, 0);
+  if (useCoupon && bananaAccount(earned, usedCoupons()).couponsLeft < 1) {
+    return { ok: false, error: "没有可用的10元优惠券" };
+  }
+  if (useCoupon) consumeCoupon();
+  const couponYuan = useCoupon ? COUPON_YUAN : 0;
+  const totalPrice = Math.max(0, quote.total - couponYuan);
+  const discountNote = [quote.note, couponYuan ? `${couponYuan}元优惠券` : ""].filter(Boolean).join("；") || null;
   const pointsAwarded = awardClassPoints(section.slug, phone, seats);
   const created: BookingRecord = {
     id: `BK-${state.nextNumber}`,
@@ -148,8 +161,9 @@ export function createLocalBooking(input: BookInput): BookOk | BookErr {
     phone,
     partySize: seats,
     unitPrice: session.price,
-    totalPrice: quote.total,
-    discountNote: quote.note || null,
+    totalPrice,
+    discountNote,
+    couponYuan,
     createdAt: new Date().toISOString(),
     cancelledAt: null,
     lateCancel: false,
@@ -177,9 +191,9 @@ export function cancelLocalBooking(id: string): BookOk | BookErr {
 
   const late = new Date(session.start).getTime() - Date.now() < section.cancelHours * 60 * 60 * 1000;
   if (section.slug === "group" && late) {
-    return { ok: false, error: "距离开课不满 6 小时，不支持退款，不能取消。" };
+    return { ok: false, error: "距开课不足 6 小时，不能取消，也不退回应付金额。" };
   }
-  if (existing.pointsAwarded) addPoints(existing.phone, -existing.pointsAwarded);
+  if (existing.couponYuan) releaseCoupon();
   const bookings = state.bookings.map((booking) =>
     booking.id === id ? { ...booking, cancelledAt: new Date().toISOString(), lateCancel: late } : booking,
   );
@@ -189,6 +203,21 @@ export function cancelLocalBooking(id: string): BookOk | BookErr {
   return { ok: true, booking: toView(updated) };
 }
 
+export function pointLedger(phone: string) {
+  const cleaned = cleanPhone(phone);
+  let posted = 0;
+  let pending = 0;
+  for (const booking of readState().bookings) {
+    if (booking.phone !== cleaned || booking.cancelledAt || !booking.pointsAwarded) continue;
+    const session = sessions.find((item) => item.id === booking.sessionId);
+    const finished = session ? new Date(session.end).getTime() <= Date.now() : false;
+    if (finished) posted += booking.pointsAwarded;
+    else pending += booking.pointsAwarded;
+  }
+  return { posted, pending };
+}
+
 export function resetLocalBookings() {
   writeState(emptyState());
+  resetCoupons();
 }

@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { UserRound } from "lucide-react";
 
-import { CancelBookingButton, ResetBookingsButton } from "@/components/booking-actions";
+import { CancelBookingButton } from "@/components/booking-actions";
+import { formatBananas } from "@/data/bananas";
 import { formatDateTime, shanghaiDateKey } from "@/lib/format";
 import { courseImage, heroImage } from "@/lib/images";
 import { listLocalBookings } from "@/lib/local-bookings";
@@ -45,8 +45,6 @@ export function BookingsScreen() {
   }, [phone]);
 
   const currentMonth = monthKey(new Date().toISOString());
-  const active = (bookings ?? []).filter((item) => !item.cancelledAt);
-  const total = summarize(active);
   const grouped = new Map<string, BookingView[]>();
   for (const booking of bookings ?? []) {
     const key = monthKey(booking.start);
@@ -58,30 +56,8 @@ export function BookingsScreen() {
     openMonth === null ? (months.find(([, items]) => items.length > 0)?.[0] ?? currentMonth) : openMonth;
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 py-8">
-      <nav aria-label="面包屑" className="text-sm text-muted-foreground">
-        <Link href="/" className="hover:text-foreground">
-          首页
-        </Link>
-        <span> / 我的运动</span>
-      </nav>
-      <h1 className="mt-4 text-center font-heading text-4xl md:text-5xl">我的运动</h1>
-
-      <section className="mx-auto mt-8 grid max-w-xl grid-cols-[1fr_auto_1fr] items-center gap-4">
-        <div className="text-center">
-          <p className="font-heading text-5xl text-persimmon">{bookings === null ? "—" : total.days}</p>
-          <p className="mt-1 text-sm text-muted-foreground">累计天数</p>
-        </div>
-        <div className="grid size-20 place-items-center rounded-full border border-border bg-card text-muted-foreground">
-          <UserRound className="size-8" />
-        </div>
-        <div className="text-center">
-          <p className="font-heading text-5xl text-persimmon">{bookings === null ? "—" : total.count}</p>
-          <p className="mt-1 text-sm text-muted-foreground">累计训练/次</p>
-        </div>
-      </section>
-
-      <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:items-end sm:justify-between">
+    <section className="mt-10">
+      <div className="flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:items-end sm:justify-between">
         <h2 className="font-heading text-2xl">预约记录</h2>
         <form action="" className="flex flex-col gap-2 sm:flex-row sm:items-center">
           <label className="text-sm text-muted-foreground">
@@ -106,7 +82,7 @@ export function BookingsScreen() {
       </div>
 
       {bookings === null ? (
-        <p className="mt-6 text-sm text-muted-foreground">正在读取本机记录…</p>
+        <p className="mt-6 text-sm text-muted-foreground">正在读取记录…</p>
       ) : (
         <ul className="mt-4 space-y-4">
           {months.map(([key, items]) => {
@@ -148,7 +124,10 @@ export function BookingsScreen() {
                             {booking.timeLabel} · {booking.durationMinutes} 分钟 · {booking.sectionName}
                           </p>
                           <p className="mt-1 text-sm text-muted-foreground">
-                            {booking.name} · {booking.phone} · {booking.partySize} 人 · ¥{booking.totalPrice}
+                            {booking.name} · {booking.phone} · {booking.partySize} 人 · 应付 ¥{booking.totalPrice}
+                            {booking.pointsAwarded && !booking.cancelledAt
+                              ? ` · ${new Date(booking.start).getTime() + booking.durationMinutes * 60 * 1000 <= Date.now() ? "已入账" : "待入账"} ${formatBananas(booking.pointsAwarded)} 根香蕉`
+                              : ""}
                             {booking.discountNote ? ` · ${booking.discountNote}` : ""}
                           </p>
                           <p className="mt-1 text-sm text-muted-foreground">{booking.addressLine}</p>
@@ -172,34 +151,7 @@ export function BookingsScreen() {
         </ul>
       )}
 
-      {bookings !== null && active.length === 0 ? (
-        <p className="mt-4 text-sm text-muted-foreground">
-          还没有完成的训练。去{" "}
-          <Link href="/sections/group" className="text-persimmon">
-            团课
-          </Link>
-          、
-          <Link href="/sections/personal" className="text-persimmon">
-            私教
-          </Link>
-          或
-          <Link href="/sections/open" className="text-persimmon">
-            公开课
-          </Link>
-          预约一场。
-        </p>
-      ) : null}
-
-      <div className="mt-10 border-t border-border pt-6">
-        <h2 className="font-heading text-2xl">清空记录</h2>
-        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          清空后预约编号从 BK-1001 重新开始。课表上原来的已预约人数不会被清掉。
-        </p>
-        <div className="mt-4">
-          <ResetBookingsButton />
-        </div>
-      </div>
-    </main>
+    </section>
   );
 }
 

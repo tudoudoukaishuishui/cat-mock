@@ -13,7 +13,7 @@ export const heroImage = {
 
 export const sectionImages: Record<SectionSlug, { src: string; alt: string }> = {
   group: { src: asset("/images/section-group.jpg"), alt: "团课现场，教练带十几位学员一起深蹲" },
-  personal: { src: asset("/images/section-personal.jpg"), alt: "私教一对一纠正学员的壶铃硬拉动作" },
+  personal: { src: asset("/images/section-personal.jpg"), alt: "私教站在一旁，学员把壶铃举在胸前，两人直立站好" },
   open: { src: asset("/images/section-open.jpg"), alt: "清晨公园草坪上的公开拉伸课" },
 };
 
@@ -35,6 +35,15 @@ const kind: Record<string, string> = {
   "pt-fat": "hiit",
   "open-intro": "intro",
   "open-assess": "intro",
+  bodypump: "strength",
+  trx: "strength",
+  "battle-rope": "hiit",
+  medball: "hiit",
+  rebound: "hiit",
+  barre: "dance",
+  hyrox: "hiit",
+  "pt-muscle": "strength",
+  "pt-performance": "hiit",
 };
 
 const kindAlt: Record<string, string> = {

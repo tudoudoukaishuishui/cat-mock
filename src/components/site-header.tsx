@@ -24,22 +24,24 @@ export function SiteHeader() {
           <span className="font-heading text-lg leading-none whitespace-nowrap">超级猫咪</span>
         </Link>
         <nav aria-label="主导航" className="ml-auto flex gap-1 overflow-x-auto">
-          {links.map((link) => {
-            const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-current={active ? "page" : undefined}
-                className={cn(
-                  "rounded-full px-3 py-1.5 text-sm whitespace-nowrap",
-                  active ? "bg-ink text-primary-foreground" : "text-foreground hover:bg-muted",
-                )}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
+          {links
+            .filter((link) => pathname !== "/" || !link.href.startsWith("/sections/"))
+            .map((link) => {
+              const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "rounded-full px-3 py-1.5 text-sm whitespace-nowrap",
+                    active ? "bg-ink text-primary-foreground" : "text-foreground hover:bg-muted",
+                  )}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
         </nav>
       </div>
     </header>

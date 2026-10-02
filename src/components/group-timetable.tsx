@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { GroupBookSheet } from "@/components/group-book-sheet";
+import { CouponMark } from "@/components/coupon-mark";
 import { courses, studios } from "@/data/catalog";
 import { formatClockRange, shanghaiDateKey } from "@/lib/format";
 import { courseImage } from "@/lib/images";
@@ -93,17 +94,31 @@ export function GroupTimetable({ sessions, sectionName }: { sessions: SessionVie
   });
 
   const dayKeys = unique(narrowed.map((card) => shanghaiDateKey(card.start))).sort();
+  const nextOpenDay = dayKeys.find(
+    (key) =>
+      key >= today &&
+      narrowed.some((card) => shanghaiDateKey(card.start) === key && card.status === "open"),
+  );
   const selectedDay =
-    pickedDay && dayKeys.includes(pickedDay) ? pickedDay : (dayKeys.find((key) => key >= today) ?? dayKeys[0] ?? "");
-  const statusRank = { open: 0, started: 1, full: 2, ended: 3 };
+    pickedDay && dayKeys.includes(pickedDay)
+      ? pickedDay
+      : (nextOpenDay ?? dayKeys.find((key) => key >= today) ?? dayKeys[0] ?? "");
+  const statusRank = { open: 0, started: 1, full: 2, ended: 3, "host-cancelled": 4 };
   const rows = narrowed
     .filter((card) => shanghaiDateKey(card.start) === selectedDay)
     .sort((a, b) => statusRank[a.status] - statusRank[b.status] || a.start.localeCompare(b.start));
   const headline = store !== "全部" ? store : city !== "全部" ? `${city} · 全部门店` : "全部门店";
+  const dayRow = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const row = dayRow.current;
+    const button = row?.querySelector<HTMLButtonElement>(`[data-day="${selectedDay}"]`);
+    if (!row || !button) return;
+    row.scrollTo({ left: button.offsetLeft - row.clientWidth / 2 + button.clientWidth / 2 });
+  }, [selectedDay]);
 
   return (
     <div className="pt-6 pb-16">
-      <div className="flex gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible">
+      <div ref={dayRow} className="flex gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible">
         {dayKeys.map((key) => {
           const selected = key === selectedDay;
           const mark = dayMark(key, today);
@@ -111,6 +126,7 @@ export function GroupTimetable({ sessions, sectionName }: { sessions: SessionVie
             <button
               key={key}
               type="button"
+              data-day={key}
               onClick={() => setPickedDay(key)}
               className={cn(
                 "flex h-16 w-14 shrink-0 flex-col items-center justify-center border text-sm",
@@ -215,6 +231,7 @@ export function GroupTimetable({ sessions, sectionName }: { sessions: SessionVie
                       ) : null}
                     </span>
                     <span className="mt-0.5 block text-xs tracking-wide text-muted-foreground uppercase">{course?.englishName}</span>
+                    <CouponMark courseId={card.courseId} />
                     <span className="mt-2 block text-sm">
                       {formatClockRange(card.start, card.end)}{" "}
                       <span className="font-medium text-persimmon">{card.price === 0 ? "免费" : `¥${card.price}`}</span>
@@ -222,7 +239,7 @@ export function GroupTimetable({ sessions, sectionName }: { sessions: SessionVie
                     <span className="mt-1 block text-xs text-muted-foreground">
                       {card.coachName} · {tags}
                       {tags ? " · " : ""}
-                      {place} · 余 {card.remaining}
+                      {place} · {card.status === "open" ? `余 ${card.remaining}` : card.statusLabel}
                     </span>
                   </span>
                 </button>

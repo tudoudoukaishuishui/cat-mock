@@ -1,4 +1,4 @@
-import { classPoints, tierFor, topUps, type TopUpId } from "@/data/membership";
+import { classBananas, tierFor, topUps, type TopUpId } from "@/data/membership";
 
 const KEY = "super-cat-memberships";
 
@@ -73,9 +73,7 @@ export function addPoints(phone: string, delta: number) {
 
 export function awardClassPoints(section: "group" | "personal" | "open", phone: string, seats: number) {
   if (!hasCard(phone)) return 0;
-  const points = classPoints(section, seats);
-  addPoints(phone, points);
-  return points;
+  return classBananas(section, seats);
 }
 
 export function topUpCard(input: { topUpId: TopUpId; name: string; phone: string; agreed: boolean }):

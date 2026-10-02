@@ -43,6 +43,9 @@ export type Course = {
   description: string;
   durationMinutes: number;
   level: Level;
+  levelDetail?: string;
+  audience?: string;
+  tags?: string[];
   intensity: Intensity;
   calories: string;
   goals: string[];
@@ -69,6 +72,7 @@ export type Session = {
   booked: number;
   price: number;
   notes: string[];
+  hostCancel?: "weather";
 };
 
 export type SectionInfo = {
@@ -82,7 +86,7 @@ export type SectionInfo = {
   cancelHours: number;
 };
 
-export type SessionStatus = "open" | "full" | "started" | "ended";
+export type SessionStatus = "open" | "full" | "started" | "ended" | "host-cancelled";
 
 export type SessionView = {
   id: string;
@@ -165,6 +169,7 @@ export type BookingRecord = {
   cancelledAt: string | null;
   lateCancel: boolean;
   pointsAwarded?: number;
+  couponYuan?: number;
 };
 
 export type BookingView = BookingRecord & {

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MissingPage } from "@/components/missing-page";
 import { SessionTicket } from "@/components/session-ticket";
 import { courses } from "@/data/catalog";
+import { couponLabel } from "@/data/bananas";
 import { courseImage } from "@/lib/images";
 import { getCourseView } from "@/lib/queries";
 
@@ -44,7 +45,10 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
     板块: section.name,
     课程内容介绍: course.description,
     时长分钟: course.durationMinutes,
-    课程等级: course.level,
+    技术难度: course.level,
+    准入与退阶: course.levelDetail ?? "",
+    用户画像: course.audience ?? "",
+    匹配标签: course.tags ?? [],
     强度: course.intensity,
     预计消耗: course.calories,
     价格区间: view.priceLabel,
@@ -108,9 +112,11 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
         </div>
         <dl className="grid content-start gap-3 border border-border bg-card p-4 text-sm">
           <Fact label="时长" value={`${course.durationMinutes} 分钟`} field="duration" />
-          <Fact label="课程等级" value={course.level} field="course-level" />
+          <Fact label="技术难度" value={course.level} field="course-level" />
+          {course.levelDetail ? <Fact label="准入与退阶" value={course.levelDetail} field="admission" /> : null}
           <Fact label="强度" value={course.intensity} field="intensity" />
           <Fact label="价格" value={view.priceLabel} field="price-range" />
+          {couponLabel(course.id) ? <Fact label="优惠券" value={couponLabel(course.id)} field="coupon" /> : null}
           <Fact label="预计消耗" value={course.calories} field="calories" />
         </dl>
       </header>
@@ -122,6 +128,21 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
             <p data-field="description" className="mt-3 max-w-3xl leading-7">
               {course.description}
             </p>
+            {course.audience ? (
+              <div className="mt-6">
+                <h3 className="font-medium">用户画像</h3>
+                <p className="mt-2 max-w-3xl leading-7">{course.audience}</p>
+              </div>
+            ) : null}
+            {course.tags && course.tags.length > 0 ? (
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {course.tags.map((tag) => (
+                  <li key={tag} className="bg-muted px-2 py-1 text-xs">
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </section>
 
           <section>
@@ -179,7 +200,7 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
       <section className="mt-12" aria-label="场次">
         <h2 className="font-heading text-3xl">场次</h2>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-          已预约人数含课表初始占位，以及你在这台浏览器里新约的人数。每场的教练、等级、时间和价格以这一栏为准。
+          已预约人数包含场次里已经占位的人数，以及新提交的预约。每场的教练、等级、时间和价格以这一栏为准。
         </p>
         <div className="mt-5 space-y-5">
           {sessions.map((session) => (
