@@ -3,8 +3,8 @@ import { bookableDates, isOnOrBeforeToday, pastWeekendDates } from "@/lib/outing
 import { activeRoute, childAgeFits, defaultSkipped } from "@/lib/outing-queries";
 import type { Activity, OutingPlan } from "@/lib/outing-types";
 
-const KEY = "super-cat-family-plans";
-export const PLAN_EVENT = "super-cat-family-plans";
+const KEY = "super-parent-plans";
+export const PLAN_EVENT = "super-parent-plans";
 
 type State = {
   nextNumber: number;

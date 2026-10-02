@@ -15,11 +15,6 @@ export function SiteFooter() {
               会员：按次付费。充值超猫卡后，预约团课享 95 折。
             </Link>
           </p>
-          <p className="mt-2">
-            <Link href="/family" className="text-foreground">
-              周末遛娃：按年龄和预算排周六路线，下雨有备选。
-            </Link>
-          </p>
         </div>
         <ul className="space-y-1">
           {shops.map((studio) => (

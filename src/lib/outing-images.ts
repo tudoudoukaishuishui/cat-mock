@@ -1,4 +1,4 @@
-import { asset } from "@/lib/images";
+import { asset } from "@/lib/asset";
 import type { PlateSlug } from "@/lib/outing-types";
 
 const fileById: Record<string, string> = {

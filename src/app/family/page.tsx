@@ -10,26 +10,20 @@ import { familyHero } from "@/lib/outing-images";
 import { cities, defaultFilters } from "@/lib/outing-queries";
 
 export const metadata: Metadata = {
-  title: "周末遛娃",
+  title: { absolute: "超级家长" },
   description: "按孩子年龄和预算选周末活动，排好路线。下雨有备选。出门之后可以记照片和体验。",
 };
 
 export default function FamilyPage() {
   return (
     <main data-layer="family" className="mx-auto w-full max-w-6xl px-4 py-8 md:py-12">
-      <nav aria-label="面包屑" className="text-sm text-muted-foreground">
-        <Link href="/" className="hover:text-foreground">
-          首页
-        </Link>
-        <span> / 周末遛娃</span>
-      </nav>
-      <div className="relative mt-4 aspect-[16/9] w-full overflow-hidden md:aspect-[21/9]">
+      <div className="relative aspect-[16/9] w-full overflow-hidden md:aspect-[21/9]">
         <Image src={familyHero.src} alt={familyHero.alt} fill priority sizes="(min-width: 1152px) 1152px, 100vw" className="object-cover" />
       </div>
       <header className="mt-8 grid items-end gap-6 border-b border-border pb-8 lg:grid-cols-[1.15fr_0.85fr]">
         <div>
-          <p className="text-sm tracking-[0.18em] text-muted-foreground">WEEKEND WITH KIDS</p>
-          <h1 className="mt-3 font-heading text-5xl leading-none md:text-7xl">周末遛娃</h1>
+          <p className="text-sm tracking-[0.18em] text-muted-foreground">SUPER PARENT</p>
+          <h1 className="mt-3 font-heading text-5xl leading-none md:text-7xl">超级家长</h1>
           <p className="mt-5 max-w-xl text-lg leading-8">
             每周一条能出门的计划。先选城市、孩子年龄和一家预算，再看周六怎么走。下雨换成备选。去过之后，照片和体验可以分享。
           </p>
@@ -56,7 +50,7 @@ export default function FamilyPage() {
             </div>
           </dl>
           <Link href="/family/plans" className="mt-4 inline-flex text-sm text-persimmon">
-            我的遛娃
+            我的出门
           </Link>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">不卖票，不收款。预约和门票自己办。记录存在这台浏览器里。</p>
         </div>

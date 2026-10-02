@@ -63,11 +63,11 @@ export function OutingPlans({ initialPhone }: { initialPhone: string }) {
         <p className="mt-6 text-sm text-muted-foreground">正在读这台浏览器里的计划。</p>
       ) : visible.length === 0 ? (
         <div className="mt-6 border border-dashed border-border p-8">
-          <p className="font-medium">还没有遛娃计划</p>
+          <p className="font-medium">还没有出门计划</p>
           <p className="mt-1 text-sm text-muted-foreground">从本周的周六里选一条路线。已经去过的，可以在下面补记。</p>
-          <Link href="/family" className="mt-4 inline-flex h-10 items-center text-persimmon">
-            去看这周
-          </Link>
+            <Link href="/family" className="mt-4 inline-flex h-10 items-center text-persimmon">
+              去看本周计划
+            </Link>
         </div>
       ) : (
         <ul className="mt-6 space-y-4">
@@ -87,10 +87,10 @@ export function OutingPlans({ initialPhone }: { initialPhone: string }) {
           variant="outline"
           className="h-10 px-4"
           onClick={() => {
-            if (window.confirm("清空这台浏览器里的遛娃计划？")) resetPlans();
+            if (window.confirm("清空这台浏览器里的出门记录？")) resetPlans();
           }}
         >
-          清空遛娃记录
+          清空出门记录
         </Button>
         <p className="mt-2 text-sm text-muted-foreground">清空只影响这台浏览器。照片和体验都在本地，不会上传。</p>
       </div>
@@ -531,7 +531,7 @@ async function sharePlan(text: string, photos: string[]) {
     }),
   );
   if (navigator.share) {
-    const payload: ShareData = { title: "周末遛娃", text };
+    const payload: ShareData = { title: "超级家长", text };
     if (files.length > 0 && navigator.canShare?.({ files })) payload.files = files;
     await navigator.share(payload);
     return;

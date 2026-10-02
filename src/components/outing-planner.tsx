@@ -256,7 +256,7 @@ function ArrangeDialog({
             <p className="font-medium text-moss">已安排。出门当天可以记照片和体验。</p>
             <p className="text-sm text-muted-foreground">编号 {planId}。换一台电脑或清空浏览器后，这条记录会消失。</p>
             <Link href="/family/plans" className={cn(buttonVariants(), "h-10 px-4")}>
-              去我的遛娃
+              去我的出门
             </Link>
           </div>
         ) : (

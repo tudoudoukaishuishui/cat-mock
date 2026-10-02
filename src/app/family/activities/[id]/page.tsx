@@ -43,7 +43,9 @@ export default async function ActivityPage({ params }: { params: Promise<{ id: s
     return (
       <MissingPage
         title="没有这个活动"
-        body="回周末遛娃，按城市、年龄和预算再选一条。"
+        body="回超级家长，按城市、年龄和预算再选一条。"
+        href="/family"
+        linkLabel="回超级家长"
       />
     );
   }
@@ -79,12 +81,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ id: s
         dangerouslySetInnerHTML={{ __html: JSON.stringify(payload).replace(/</g, "\\u003c") }}
       />
       <nav aria-label="面包屑" className="text-sm text-muted-foreground">
-        <Link href="/" className="hover:text-foreground">
-          首页
-        </Link>
-        <span> / </span>
         <Link href="/family" className="hover:text-foreground">
-          周末遛娃
+          超级家长
         </Link>
         <span> / {activity.name}</span>
       </nav>

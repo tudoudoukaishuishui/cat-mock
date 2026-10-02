@@ -239,7 +239,7 @@ export function shareCopy(input: {
   rainy: boolean;
 }) {
   const lines = [
-    `周末遛娃 · ${formatOutingDate(input.date)}`,
+    `超级家长 · ${formatOutingDate(input.date)}`,
     `${input.city} · ${input.name}${input.rainy ? "（雨天备选）" : ""}`,
     `孩子 ${input.childAge} 岁 · ${input.adults} 大 ${input.children} 小 · 一家${formatBudget(input.budget)}`,
     `路线：${input.route.join(" → ")}`,

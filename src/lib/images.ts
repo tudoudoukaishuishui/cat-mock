@@ -1,10 +1,6 @@
 import type { SectionSlug } from "@/lib/types";
 
-const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
-export function asset(path: string) {
-  return `${base}${path}`;
-}
+import { asset } from "@/lib/asset";
 
 export const heroImage = {
   src: asset("/images/hero.jpg"),

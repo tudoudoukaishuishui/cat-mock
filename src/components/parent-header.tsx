@@ -6,26 +6,26 @@ import { usePathname } from "next/navigation";
 import { cn } from "cn";
 
 const links = [
-  { href: "/sections/group", label: "团课" },
-  { href: "/sections/personal", label: "私教" },
-  { href: "/sections/open", label: "公开课" },
-  { href: "/membership", label: "会员" },
-  { href: "/bookings", label: "我的运动" },
+  { href: "/family", label: "本周计划" },
+  { href: "/family/plans", label: "我的出门" },
 ];
 
-export function SiteHeader() {
-  const pathname = usePathname();
+export function ParentHeader() {
+  const pathname = usePathname().replace(/\/$/, "") || "/";
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl items-center gap-4 px-4 py-3">
-        <Link href="/" className="flex shrink-0 items-center gap-2 text-foreground">
-          <CatMark />
-          <span className="font-heading text-lg leading-none whitespace-nowrap">超级猫咪</span>
+        <Link href="/family" className="flex shrink-0 items-center gap-2 text-foreground">
+          <ParentMark />
+          <span className="font-heading text-lg leading-none whitespace-nowrap">超级家长</span>
         </Link>
         <nav aria-label="主导航" className="ml-auto flex gap-1 overflow-x-auto">
           {links.map((link) => {
-            const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
+            const active =
+              link.href === "/family"
+                ? pathname === "/family" || pathname.startsWith("/family/activities")
+                : pathname === link.href || pathname.startsWith(`${link.href}/`);
             return (
               <Link
                 key={link.href}
@@ -46,15 +46,15 @@ export function SiteHeader() {
   );
 }
 
-function CatMark() {
+function ParentMark() {
   return (
     <svg aria-hidden="true" viewBox="0 0 32 32" className="size-8 text-persimmon">
+      <circle cx="11" cy="8" r="3" fill="currentColor" />
+      <circle cx="21.5" cy="11" r="2.2" fill="currentColor" />
       <path
         fill="currentColor"
-        d="M6.2 13.5 9.2 5.2l4.2 7.2L16.2 7l2.8 5.4 4.2-7.2 3 8.3v9.2a6.2 6.2 0 0 1-6.2 6.2h-7.6a6.2 6.2 0 0 1-6.2-6.2v-9.2Z"
+        d="M5.5 25.5v-1.2c0-3.2 2.6-5.3 6.2-5.3 1.3 0 2.4.2 3.3.6-.8.9-1.3 2-1.5 3.2H5.5Zm8.2-1.2c.2-2.4 1.6-4.2 4.3-5.1 1.2-.4 2.5-.6 3.8-.6 3.2 0 5.7 1.8 5.7 4.6v1.1H13.7Z"
       />
-      <circle cx="13" cy="18" r="1.2" fill="white" />
-      <circle cx="19" cy="18" r="1.2" fill="white" />
     </svg>
   );
 }
