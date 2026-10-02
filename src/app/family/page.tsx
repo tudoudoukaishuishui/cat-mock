@@ -1,35 +1,20 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 import { OutingBrowser } from "@/components/outing-browser";
+import { OutingBrowserFromUrl } from "@/components/outing-query";
 import { activities } from "@/data/outings";
 import { familyHero } from "@/lib/outing-images";
-import { cities, parseFilters } from "@/lib/outing-queries";
+import { cities, defaultFilters } from "@/lib/outing-queries";
 
 export const metadata: Metadata = {
   title: "周末遛娃",
   description: "按孩子年龄和预算选周末活动，排好路线。下雨有备选。出门之后可以记照片和体验。",
 };
 
-function first(value: string | string[] | undefined) {
-  return Array.isArray(value) ? value[0] : value;
-}
-
-export default async function FamilyPage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}) {
-  const params = await searchParams;
-  const filters = parseFilters({
-    city: first(params.city),
-    age: first(params.age),
-    budget: first(params.budget),
-    plate: first(params.plate),
-    indoor: first(params.indoor),
-  });
-
+export default function FamilyPage() {
   return (
     <main data-layer="family" className="mx-auto w-full max-w-6xl px-4 py-8 md:py-12">
       <nav aria-label="面包屑" className="text-sm text-muted-foreground">
@@ -77,7 +62,9 @@ export default async function FamilyPage({
         </div>
       </header>
       <div className="mt-8">
-        <OutingBrowser initial={filters} />
+        <Suspense fallback={<OutingBrowser initial={defaultFilters} />}>
+          <OutingBrowserFromUrl />
+        </Suspense>
       </div>
     </main>
   );

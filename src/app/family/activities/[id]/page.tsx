@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 import { MissingPage } from "@/components/missing-page";
 import { OutingPlanner } from "@/components/outing-planner";
+import { OutingPlannerFromUrl } from "@/components/outing-query";
 import { getActivity, plates, rainActivity } from "@/data/outings";
 import { activities } from "@/data/outings";
 import { outingImage } from "@/lib/outing-images";
@@ -34,19 +36,8 @@ export async function generateMetadata({
   return { title: activity.name, description: activity.summary };
 }
 
-function first(value: string | string[] | undefined) {
-  return Array.isArray(value) ? value[0] : value;
-}
-
-export default async function ActivityPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}) {
+export default async function ActivityPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const query = await searchParams;
   const activity = getActivity(id);
   if (!activity) {
     return (
@@ -59,10 +50,6 @@ export default async function ActivityPage({
   const rain = rainActivity(activity);
   const plate = plates.find((item) => item.slug === activity.plate);
   const route = activeRoute(activity, defaultSkipped(activity));
-  const ageText = first(query.age);
-  const ageNumber = Number(ageText);
-  const initialAge = Number.isInteger(ageNumber) && ageNumber >= 0 && ageNumber <= 12 ? ageNumber : suggestedChildAge("3-5");
-
   const payload = {
     活动: activity.name,
     城市: activity.city,
@@ -138,13 +125,13 @@ export default async function ActivityPage({
           </div>
         </dl>
       </header>
-      <OutingPlanner
-        activity={activity}
-        rain={rain}
-        initialDate={first(query.date) ?? ""}
-        initialAge={initialAge}
-        initialRain={first(query.rain) === "1"}
-      />
+      <Suspense
+        fallback={
+          <OutingPlanner activity={activity} rain={rain} initialDate="" initialAge={suggestedChildAge("3-5")} initialRain={false} />
+        }
+      >
+        <OutingPlannerFromUrl activity={activity} rain={rain} />
+      </Suspense>
     </main>
   );
 }
