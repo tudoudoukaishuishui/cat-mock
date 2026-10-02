@@ -1,0 +1,30 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Suspense } from "react";
+
+import { OutingPlansFromUrl } from "@/components/outing-query";
+
+export const metadata: Metadata = {
+  title: "我的出门",
+  description: "已安排的周末计划。出门之后上传照片、写体验，再分享。",
+};
+
+export default function PlansPage() {
+  return (
+    <main data-layer="outing-plans" className="mx-auto w-full max-w-6xl px-4 py-8">
+      <nav aria-label="面包屑" className="text-sm text-muted-foreground">
+        <Link href="/family" className="hover:text-foreground">
+          超级家长
+        </Link>
+        <span> / 我的出门</span>
+      </nav>
+      <h1 className="mt-4 font-heading text-5xl">我的出门</h1>
+      <p className="mt-3 max-w-2xl leading-7">
+        安排过的周末在这里。还没出门可以改成雨天备选。出门之后上传照片、写几句体验，生成一段可以复制或分享的文字。
+      </p>
+      <Suspense fallback={<p className="mt-6 text-sm text-muted-foreground">正在读这台浏览器里的计划。</p>}>
+        <OutingPlansFromUrl />
+      </Suspense>
+    </main>
+  );
+}
