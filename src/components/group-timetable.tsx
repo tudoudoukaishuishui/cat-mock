@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { GroupBookSheet } from "@/components/group-book-sheet";
 import { CouponMark } from "@/components/coupon-mark";
@@ -108,10 +108,17 @@ export function GroupTimetable({ sessions, sectionName }: { sessions: SessionVie
     .filter((card) => shanghaiDateKey(card.start) === selectedDay)
     .sort((a, b) => statusRank[a.status] - statusRank[b.status] || a.start.localeCompare(b.start));
   const headline = store !== "全部" ? store : city !== "全部" ? `${city} · 全部门店` : "全部门店";
+  const dayRow = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const row = dayRow.current;
+    const button = row?.querySelector<HTMLButtonElement>(`[data-day="${selectedDay}"]`);
+    if (!row || !button) return;
+    row.scrollTo({ left: button.offsetLeft - row.clientWidth / 2 + button.clientWidth / 2 });
+  }, [selectedDay]);
 
   return (
     <div className="pt-6 pb-16">
-      <div className="flex gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible">
+      <div ref={dayRow} className="flex gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible">
         {dayKeys.map((key) => {
           const selected = key === selectedDay;
           const mark = dayMark(key, today);
@@ -119,6 +126,7 @@ export function GroupTimetable({ sessions, sectionName }: { sessions: SessionVie
             <button
               key={key}
               type="button"
+              data-day={key}
               onClick={() => setPickedDay(key)}
               className={cn(
                 "flex h-16 w-14 shrink-0 flex-col items-center justify-center border text-sm",
