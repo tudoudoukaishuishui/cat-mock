@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小元养成 · 空间 / 亲密度 / 装扮</title>
+<style>
+:root {
+  --ink: #1c2330;
+  --mute: #6b7588;
+  --line: #eceef3;
+  --blue: #3d6fe0;
+  --blue-2: #5b8ef0;
+  --glass: rgba(255,255,255,.72);
+  --shadow: 0 10px 28px rgba(80,110,150,.14);
+}
+* { box-sizing: border-box; margin: 0; }
+body {
+  background: #e8edf5;
+  color: var(--ink);
+  font: 14px/1.55 -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+}
+button { font: inherit; }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 28px 24px 72px; }
+.hero h1 { font-size: 26px; font-weight: 650; letter-spacing: -.02em; }
+.hero p { color: var(--mute); margin-top: 6px; max-width: 52em; }
+.lay { display: grid; grid-template-columns: 400px 1fr; gap: 28px; align-items: start; margin-top: 22px; }
+@media (max-width: 980px) { .lay { grid-template-columns: 1fr; } .phone { position: static; margin: 0 auto; } }
+
+/* phone */
+.phone {
+  width: 400px; height: 844px; border-radius: 54px; background: #111318;
+  padding: 10px; box-shadow: 0 30px 70px rgba(28,43,74,.28); position: sticky; top: 16px;
+}
+.scrn {
+  width: 100%; height: 100%; border-radius: 44px; overflow: hidden; position: relative;
+  background: linear-gradient(180deg, #f4f7fd, #fbfbfd 42%, #f7f7f9);
+}
+.sb { height: 44px; display: flex; justify-content: space-between; align-items: center; padding: 0 28px; font-weight: 600; font-size: 15px; }
+.sb .bat { background: #34c759; color: #fff; border-radius: 5px; font-size: 11px; padding: 1px 5px; margin-left: 6px; }
+.nb { display: flex; justify-content: space-between; align-items: center; padding: 2px 16px 0; height: 52px; position: relative; z-index: 5; gap: 10px; }
+.cb {
+  width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 1px solid #ececf0;
+  display: grid; place-items: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.06); color: var(--ink);
+}
+.cb svg { width: 18px; height: 18px; }
+.nt { font-weight: 600; font-size: 17px; }
+.body { position: absolute; top: 96px; bottom: 18px; left: 0; right: 0; overflow-y: auto; padding: 0 16px 28px; }
+.body::-webkit-scrollbar { display: none; }
+.ctr { text-align: center; }
+.muted { color: var(--mute); font-size: 12px; }
+
+/* character */
+.ms { position: relative; margin: 0 auto; width: 200px; }
+.ms img { width: 200px; display: block; filter: drop-shadow(0 12px 18px rgba(60,90,140,.18)); }
+.ms .a { position: absolute; line-height: 1; transition: .25s; pointer-events: none; }
+.ms .hat { left: 36%; top: 4%; font-size: 40px; transform: rotate(-8deg); }
+.ms .neck { left: 38%; top: 46%; font-size: 26px; }
+.ms .hand { right: 10%; top: 38%; font-size: 28px; }
+.ms .back { left: 2%; top: 18%; font-size: 32px; }
+.ms.s { width: 108px; }
+.ms.s img { width: 108px; }
+.ms.s .hat { font-size: 22px; } .ms.s .neck { font-size: 15px; } .ms.s .hand { font-size: 16px; } .ms.s .back { font-size: 18px; }
+.npill {
+  display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1px solid #e6e8ee;
+  border-radius: 20px; padding: 5px 14px; font-weight: 600; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+/* chips / cards / buttons */
+.chip {
+  display: inline-flex; align-items: center; gap: 5px; background: #fff; border: 1px solid #ececf0;
+  border-radius: 18px; padding: 5px 12px 5px 6px; font-weight: 600; font-size: 13px; cursor: pointer; margin-left: auto;
+}
+.q {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: linear-gradient(140deg, #7fb0ff, #3d6fe0); color: #fff; font-size: 10px; font-weight: 800;
+  display: grid; place-items: center;
+}
+.cd {
+  background: #fff; border: 1px solid #eeeff3; border-radius: 22px; padding: 14px 16px; margin-top: 12px;
+}
+.cd .h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
+.cd .h b { font-size: 15px; } .cd .h span { font-size: 12px; color: var(--mute); }
+.prog { height: 8px; border-radius: 99px; background: rgba(255,255,255,.55); overflow: hidden; }
+.prog i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #9cc2ff, #3d6fe0); }
+.main, .ghost {
+  display: block; width: 100%; border: 0; border-radius: 22px; padding: 13px; font-size: 15px; cursor: pointer; margin-top: 10px;
+}
+.main { background: var(--blue); color: #fff; font-weight: 650; }
+.ghost { background: #f2f2f4; color: var(--ink); }
+.tip { background: rgba(255,255,255,.55); border-radius: 14px; padding: 10px 12px; font-size: 12.5px; color: #4a5a80; margin-top: 12px; line-height: 1.55; }
+.seg { display: flex; background: rgba(255,255,255,.5); border-radius: 16px; padding: 3px; margin: 12px 0 8px; }
+.seg span { flex: 1; text-align: center; padding: 7px 0; border-radius: 13px; font-size: 12.5px; color: #6b7080; cursor: pointer; }
+.seg span.on { background: #fff; color: var(--ink); font-weight: 650; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+
+/* chat */
+.bub { background: #f0f1f4; border-radius: 22px; padding: 11px 16px; font-size: 15px; margin-top: 12px; width: fit-content; max-width: 88%; }
+.ub { background: #dfeafd; border-radius: 22px 22px 6px 22px; padding: 11px 16px; font-size: 15px; margin: 12px 0 0 auto; width: fit-content; max-width: 88%; }
+.flt { position: absolute; left: 62%; top: 18px; background: var(--blue); color: #fff; border-radius: 12px; padding: 1px 8px; font-size: 12px; font-weight: 700; opacity: 0; transition: .5s; }
+.inp { position: absolute; left: 14px; right: 14px; bottom: 28px; display: flex; gap: 10px; align-items: center; }
+.inp .f { flex: 1; height: 56px; border-radius: 28px; background: #fff; border: 1px solid #ececf0; box-shadow: 0 4px 14px rgba(0,0,0,.06); display: flex; align-items: center; padding: 0 16px; gap: 12px; color: #a0a4ad; font-size: 15px; }
+.inp .f span { flex: 1; } .inp .f i { font-style: normal; color: var(--ink); font-size: 18px; }
+.inp .s { width: 56px; height: 56px; border-radius: 50%; background: #fff; border: 1px solid #ececf0; display: grid; place-items: center; font-size: 20px; box-shadow: 0 4px 14px rgba(0,0,0,.06); }
+.aig { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; font-size: 10px; color: #b8bcc4; }
+
+/* drawer */
+.drw { position: absolute; inset: 0; z-index: 15; display: none; }
+.drw.on { display: block; }
+.drw .bg { position: absolute; inset: 0; background: rgba(11,26,58,.38); }
+.drw .pnl {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 78%; background: #f4f6fa; color: var(--ink);
+  border-radius: 0 32px 32px 0; padding: 58px 16px 20px; box-shadow: 8px 0 28px rgba(0,0,0,.12);
+  overflow-y: auto; transform: none;
+}
+.drw .me { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.drw .me .av { width: 42px; height: 42px; border-radius: 50%; background: #dfeafd; display: grid; place-items: center; font-weight: 700; color: var(--blue); flex: none; }
+.hm {
+  display: flex; align-items: center; gap: 10px; border-radius: 22px; padding: 10px 12px; cursor: pointer;
+  background: linear-gradient(160deg, #d7e8fb, #f8e6d2); border: 1px solid rgba(255,255,255,.7);
+}
+.hm img { width: 56px; height: auto; flex: none; display: block; }
+.hm b { font-size: 16px; display: block; color: var(--ink); }
+.hm .go { color: #9aa3b3; font-size: 22px; flex: none; }
+.mi { display: flex; align-items: center; gap: 12px; padding: 13px 6px; font-size: 15px; border-bottom: 1px solid #f0f1f4; color: #333; }
+.sec { font-size: 12px; color: var(--mute); margin: 16px 4px 2px; }
+
+/* tasks */
+.scrn.flat { background: #f7f7f7; }
+.tkh img { width: 150px; display: block; margin: 0 auto; }
+.tkseg { display: flex; width: 300px; margin: -34px auto 0; position: relative; background: #fff; border-radius: 30px; padding: 6px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+.tkseg span { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; height: 48px; border-radius: 26px; font-weight: 600; font-size: 16px; cursor: pointer; }
+.tkseg span.on { background: #f1f1f3; }
+.empty { text-align: center; margin-top: 140px; }
+.empty b { font-size: 17px; display: block; }
+.empty small { display: block; color: #a8abb3; margin-top: 8px; font-size: 14px; }
+.empty .gb { display: inline-block; background: #e8e8ea; border-radius: 30px; padding: 16px 26px; font-size: 17px; margin-top: 26px; cursor: pointer; }
+.tkrow { background: #fff; border-radius: 22px; padding: 14px 16px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.tkrow b { font-size: 15px; display: block; } .tkrow small { color: var(--mute); font-size: 12px; }
+.tkrow em { font-style: normal; font-size: 11px; border-radius: 10px; padding: 2px 9px; background: #e6effd; color: var(--blue); flex: none; }
+.tkrow em.d { background: #eef0f3; color: #8a8f99; }
+
+/* sky theme */
+.scrn.sky { background: linear-gradient(180deg, #9fc8ee 0%, #c5daf3 24%, #ebe7f3 52%, #fbe6d4 78%, #f7c9a8 100%); }
+.sky .sb { color: #12202c; }
+.sky .nb { justify-content: flex-start; }
+.sky .nb .nt { font-size: 18px; font-weight: 560; }
+.sky .cb {
+  background: linear-gradient(135deg, #e7f8ff, #c9ebf8); border: 1px solid rgba(255,255,255,.7);
+  box-shadow: 0 8px 18px rgba(79,163,213,.22); width: 48px; height: 48px;
+}
+.sky .chip { background: rgba(255,255,255,.7); border-color: rgba(255,255,255,.8); }
+.sky.pgix .chip { display: none; }
+.sky .cd, .sky .gate, .sky .look, .sky .it, .sky .cap, .sky .mom, .sky .wkrow {
+  background: var(--glass); border: 1px solid rgba(255,255,255,.7);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 24px rgba(90,120,160,.1);
+}
+.sky .muted { color: #5d6b80; }
+
+/* ===== SPACE ===== */
+.scene {
+  position: relative; height: 292px; border-radius: 28px; overflow: hidden; margin-top: 4px;
+  background: linear-gradient(180deg, #f3e7d8 0%, #efe0d0 40%, #ead6c3 100%);
+  border: 1px solid rgba(255,255,255,.65); box-shadow: var(--shadow);
+}
+.window {
+  position: absolute; left: 22px; right: 22px; top: 16px; height: 118px; border-radius: 16px 16px 6px 6px;
+  overflow: hidden; border: 7px solid #fbf6ef; box-shadow: 0 8px 18px rgba(90,70,40,.12), inset 0 0 0 1px #e8dccf;
+}
+.scene .skybox {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(80% 60% at 78% 18%, #ffe9c8 0%, transparent 42%),
+    linear-gradient(180deg, #6ea4d4 0%, #9fc4e6 48%, #d7c4b0 100%);
+}
+.cloud { position: absolute; background: #ffffffd0; border-radius: 40px; opacity: .9; }
+.cloud:before, .cloud:after { content: ""; position: absolute; background: inherit; border-radius: 50%; }
+.c1 { width: 70px; height: 16px; left: 12px; top: 18px; }
+.c1:before { width: 22px; height: 22px; left: 12px; top: -11px; }
+.c1:after { width: 30px; height: 30px; left: 30px; top: -14px; }
+.c2 { width: 54px; height: 14px; right: 18px; top: 28px; }
+.c2:before { width: 18px; height: 18px; left: 8px; top: -9px; }
+.window .mullion { position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; background: rgba(255,255,255,.45); z-index: 1; }
+.curtain {
+  position: absolute; top: 0; bottom: 0; width: 18px; z-index: 2;
+  background: linear-gradient(90deg, #f7efe6cc, #f7efe600);
+}
+.curtain.r { right: 0; left: auto; background: linear-gradient(-90deg, #f7efe6cc, #f7efe600); }
+.sill { position: absolute; left: 16px; right: 16px; top: 132px; height: 11px; border-radius: 3px; background: linear-gradient(#fff6ec, #e8d3bc); box-shadow: 0 4px 10px rgba(120,80,40,.08); }
+.floor {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 150px;
+  background: linear-gradient(180deg, #f4e4d2 0%, #e7d0b8 100%);
+}
+.rug {
+  position: absolute; left: 50%; bottom: 10px; width: 188px; height: 28px; margin-left: -94px; border-radius: 50%;
+  background: radial-gradient(ellipse, #f0c8a8, #e2b48a 70%); opacity: .75;
+}
+.obj {
+  position: absolute; z-index: 2; display: grid; place-items: center; cursor: pointer;
+  filter: drop-shadow(0 6px 8px rgba(80,60,40,.18)); transition: transform .2s;
+}
+.obj:active { transform: scale(.96); }
+.obj i { font-style: normal; font-size: 28px; line-height: 1; }
+.obj .tag {
+  position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%);
+  background: #1c2330ee; color: #fff; font-size: 11px; border-radius: 10px; padding: 3px 8px; white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: .18s;
+}
+.obj.on .tag, .obj:hover .tag { opacity: 1; }
+.scene .hero-ms { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); z-index: 3; }
+.scene .hero-ms .ms { width: 176px; }
+.scene .hero-ms .ms img { width: 176px; }
+.scene.mini { height: 230px; }
+.scene.mini .hero-ms .ms, .scene.mini .hero-ms .ms img { width: 140px; }
+.badge {
+  position: absolute; z-index: 4; left: 14px; top: 14px;
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.86); border: 1px solid rgba(255,255,255,.9); border-radius: 999px;
+  padding: 5px 10px; font-size: 12px; font-weight: 650; backdrop-filter: blur(10px);
+  color: #3d6fe0;
+}
+.weather {
+  position: absolute; z-index: 4; right: 14px; top: 14px;
+  background: rgba(255,255,255,.7); border-radius: 999px; padding: 5px 10px; font-size: 11.5px; color: #3d4b5e;
+}
+.bondbar {
+  display: flex; align-items: center; gap: 10px; cursor: pointer; margin-top: 10px;
+  background: var(--glass); border: 1px solid rgba(255,255,255,.7); border-radius: 20px;
+  padding: 12px 14px; backdrop-filter: blur(16px);
+}
+.bondbar .nm { font-weight: 700; font-size: 15px; }
+.bondbar small { display: block; color: #5d6b80; font-size: 12px; font-weight: 400; margin-top: 2px; }
+.bondbar .arr { margin-left: auto; color: #8a93a3; font-size: 18px; }
+.bondbar .prog { width: 92px; height: 8px; }
+
+.scene.mini { height: 240px; }
+.scene.mini .hero-ms { bottom: 8px; }
+.gates { display: grid; grid-template-columns: 1.15fr .85fr; gap: 10px; margin-top: 12px; }
+.gate { border-radius: 22px; padding: 14px; cursor: pointer; min-height: 96px; }
+.gate b { display: block; font-size: 15px; }
+.gate small { display: block; color: #5d6b80; margin-top: 4px; font-size: 12px; line-height: 1.4; }
+.gate .ico {
+  width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center;
+  background: rgba(255,255,255,.7); margin-bottom: 8px; font-size: 15px;
+}
+.mini2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.wkrow { display: flex; justify-content: space-between; gap: 4px; }
+.wkrow span {
+  flex: 1; height: 34px; border-radius: 11px; display: grid; place-items: center;
+  font-size: 11px; color: #8b93a3; background: rgba(255,255,255,.45);
+}
+.wkrow span.on { background: #fff; color: var(--blue); font-weight: 700; box-shadow: 0 2px 8px rgba(61,111,224,.16); }
+
+/* ===== INTIMACY ===== */
+.ixhero { text-align: center; padding: 4px 0 8px; }
+.pair { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 2px; }
+.avt { width: 72px; height: 72px; border-radius: 50%; overflow: hidden; border: 2.5px solid #fff; box-shadow: 0 8px 18px rgba(91,130,179,.28); }
+.avt.u { background: linear-gradient(160deg, #f3c9d4, #8fb4e8); display: grid; place-items: center; color: #fff; font-size: 26px; font-weight: 700; }
+.avt.m { background: linear-gradient(#cfe4ff, #a9c9f7); display: grid; place-items: end center; }
+.avt.m img { width: 96px; margin-bottom: -6px; }
+.ixhero h2 { font-size: 28px; font-weight: 650; margin-top: 12px; letter-spacing: .04em; }
+.ixhero .sub { color: #5d6b80; font-size: 13.5px; margin-top: 4px; }
+.gz { position: relative; height: 168px; margin: 2px -2px 0; }
+.gz svg { position: absolute; left: 0; top: 0; }
+.gz .num { position: absolute; left: 0; right: 0; top: 54px; text-align: center; }
+.gz .num small { display: block; font-size: 12px; color: #5d6b80; }
+.gz .num b { font-size: 52px; font-weight: 280; color: #1c2330; letter-spacing: 1px; line-height: 1.05; }
+.gz .nx { position: absolute; right: 8px; top: 126px; background: #fff; border-radius: 16px; padding: 3px 12px; font-size: 13px; color: #2a3342; box-shadow: 0 3px 10px rgba(79,134,193,.2); }
+.stages { display: flex; justify-content: space-between; align-items: flex-start; margin: 4px 2px 6px; position: relative; }
+.stages:before {
+  content: ""; position: absolute; left: 22px; right: 22px; top: 18px; height: 2px;
+  background: linear-gradient(90deg, #fff, #ffffffaa);
+}
+.stnode { width: 56px; text-align: center; position: relative; z-index: 1; color: #8a93a3; font-size: 11px; }
+.stnode .cs {
+  width: 36px; height: 36px; margin: 0 auto 6px; border-radius: 50%;
+  background: rgba(255,255,255,.45); display: grid; place-items: center; border: 1.5px solid rgba(255,255,255,.7);
+  color: #6f8fb8;
+}
+.stnode.on { color: var(--ink); font-weight: 650; }
+.stnode.on .cs { background: #fff; color: #3d6fe0; box-shadow: 0 6px 14px rgba(80,120,180,.2); }
+.stnode.cur .cs { background: linear-gradient(180deg, #c5dbf7, #f3c19a); color: #fff; }
+.stnode.fut { opacity: .55; }
+.sec-t { font-size: 18px; font-weight: 560; margin: 22px 4px 10px; }
+.mom { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 18px; margin-bottom: 8px; }
+.mom .when { width: 64px; flex: none; font-size: 11px; color: #6b7588; padding-top: 2px; }
+.mom b { display: block; font-size: 14px; }
+.mom small { display: block; color: #7a8496; font-size: 12px; font-weight: 400; margin-top: 2px; }
+.mom .mark { width: 10px; height: 10px; border-radius: 50%; background: var(--blue); margin-top: 6px; flex: none; box-shadow: 0 0 0 4px rgba(61,111,224,.16); }
+.mom.next { opacity: .7; border-style: dashed; }
+.mom.next .mark { background: transparent; border: 1.5px solid #fff; box-shadow: none; }
+.caps { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cap { border-radius: 18px; padding: 12px; font-size: 12.5px; line-height: 1.45; }
+.cap b { display: block; font-size: 13px; margin-bottom: 2px; }
+.cap.lock { opacity: .62; }
+.how .r { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.55); font-size: 13px; }
+.how .r:last-child { border: 0; }
+.how em { font-style: normal; color: var(--blue); font-weight: 650; flex: none; }
+.how em.n { color: #9aa3b3; }
+
+/* ===== DRESS ===== */
+.stage {
+  position: relative; border-radius: 28px; padding: 14px 8px 12px; margin-top: 2px; overflow: hidden;
+  background:
+    radial-gradient(60% 80% at 50% 40%, rgba(255,255,255,.7), transparent 70%),
+    linear-gradient(180deg, rgba(227,237,255,.35), transparent);
+  border: 1px solid rgba(255,255,255,.55);
+}
+.stage-char {
+  height: 150px; overflow: hidden; display: grid; place-items: end center; position: relative;
+  clip-path: inset(0); z-index: 0;
+}
+.stage-char .ms { width: 168px; overflow: hidden; }
+.stage-char .ms img { width: 168px; }
+.podium {
+  width: 150px; height: 14px; margin: 0 auto 8px; border-radius: 50%;
+  background: radial-gradient(ellipse, #ffffffcc, #c9d6ea00 70%);
+}
+.preview-bar {
+  display: flex; align-items: center; gap: 10px; margin-top: 10px; padding: 10px 12px; border-radius: 16px;
+  background: #fff; border: 1px solid #d7e4f8;
+}
+.preview-bar b { flex: 1; font-size: 13px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.it {
+  border-radius: 20px; padding: 12px 6px 10px; text-align: center; font-size: 12px; cursor: pointer; position: relative;
+  border: 1.5px solid transparent;
+}
+.it.on { border-color: var(--blue); background: #fff; }
+.it i { font-style: normal; font-size: 30px; display: grid; place-items: center; height: 38px; }
+.it .p { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; color: var(--blue); font-weight: 650; margin-top: 3px; }
+.it .p .q { width: 13px; height: 13px; font-size: 7px; }
+.it .ok { font-size: 11px; color: #2a9d5c; } .it .lk { font-size: 11px; color: #9aa3b3; }
+.it .tg { position: absolute; top: 6px; right: 6px; font-size: 9px; border-radius: 8px; padding: 0 5px; background: #fff2e3; color: #c87a1c; }
+.filt { display: flex; gap: 6px; margin: 4px 0 8px; }
+.filt span {
+  font-size: 12px; padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,.45); color: #5d6b80; cursor: pointer;
+}
+.filt span.on { background: #fff; color: var(--ink); font-weight: 650; }
+
+/* log / dex / pop */
+.dex { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.dex div { background: rgba(255,255,255,.55); border-radius: 16px; padding: 12px 6px 10px; text-align: center; font-size: 11px; }
+.dex i { font-style: normal; font-size: 26px; display: block; margin-bottom: 4px; }
+.dex .no { opacity: .45; }
+.log div { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.55); font-size: 13.5px; }
+.log div:last-child { border: 0; }
+.log em { font-style: normal; font-weight: 650; color: var(--blue); }
+.log em.m { color: #9aa3b3; }
+.log small { display: block; color: var(--mute); font-size: 11px; }
+.mask { position: absolute; inset: 0; background: rgba(11,26,58,.4); display: none; align-items: center; justify-content: center; z-index: 20; backdrop-filter: blur(3px); }
+.mask.on { display: flex; }
+.pop { width: 310px; background: #fff; border-radius: 32px; padding: 24px 20px 20px; text-align: center; animation: pp .35s cubic-bezier(.2,1.4,.4,1); }
+@keyframes pp { from { transform: scale(.72); opacity: 0; } }
+.pop h3 { font-size: 19px; margin: 8px 0 4px; }
+.pop p { color: #8a8f99; font-size: 13px; margin: 4px 0; }
+.toast { position: absolute; left: 50%; top: 108px; transform: translateX(-50%); background: #1c1c1edd; color: #fff; border-radius: 20px; padding: 7px 16px; font-size: 12.5px; display: none; z-index: 30; white-space: nowrap; }
+
+/* docs */
+.side { display: grid; gap: 14px; }
+.pn { background: #fff; border-radius: 20px; padding: 18px 20px; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+.pn h2 { font-size: 15px; margin-bottom: 10px; }
+.nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.nav span {
+  display: flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 14px;
+  padding: 9px 10px; cursor: pointer; font-size: 13px; background: #fafbfc;
+}
+.nav span b { font-size: 16px; font-weight: 400; }
+.nav span.on { background: var(--blue); color: #fff; border-color: var(--blue); }
+.ds b { font-size: 15px; } .ds p { color: #4a4f5c; margin-top: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 8px 8px; border-bottom: 1px solid #f0f1f4; text-align: left; vertical-align: top; }
+th { color: var(--mute); font-weight: 500; font-size: 12px; }
+.lvbtns { display: flex; flex-wrap: wrap; gap: 8px; }
+.lvbtns button {
+  border: 1px solid var(--line); background: #fff; border-radius: 14px; padding: 7px 12px; cursor: pointer;
+}
+.lvbtns button.on { background: var(--blue); color: #fff; border-color: var(--blue); }
+.sw { border: 1px solid #dfe3ea; background: #fff; border-radius: 14px; padding: 6px 14px; margin: 10px 8px 0 0; cursor: pointer; font-size: 13px; }
+.note { font-size: 13px; color: #4a4f5c; line-height: 1.65; }
+.note li { margin: 4px 0 4px 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>小元养成 · 空间 / 亲密度 / 装扮</h1>
+    <p>可交互原型。原「小屋」改为「空间」：窗边场景、纪念品摆放、亲密度与衣柜成为主路径。左边手机可点，右边看说明，也可切换信任阶段。</p>
+  </div>
+  <div class="lay">
+    <div class="phone"><div class="scrn" id="scrn">
+      <div class="sb"><span>12:16</span><span>􀙇 <span class="bat">96</span></span></div>
+      <div class="nb" id="nb"></div>
+      <div class="body" id="body"></div>
+      <div class="inp" id="inp"><div class="f"><i>📷</i><span>发消息或按住说话</span><i>🔊</i><i>＋</i></div><div class="s">✦</div></div>
+      <div class="aig" id="aig">内容由AI生成，注意核实</div>
+      <div class="drw" id="drw"></div>
+      <div class="toast" id="toast"></div>
+      <div class="mask" id="mask"><div class="pop" id="pop"></div></div>
+    </div></div>
+    <div class="side">
+      <div class="pn"><h2>页面导航</h2><div class="nav" id="nav"></div></div>
+      <div class="pn ds" id="desc"></div>
+      <div class="pn">
+        <h2>预览不同亲密度</h2>
+        <div class="lvbtns" id="lvbtns"></div>
+        <p class="muted" style="margin-top:8px">会改当前阶段和积分，方便看空间角标、亲密度页和解锁装扮。</p>
+      </div>
+      <div class="pn">
+        <h2>这次改了什么</h2>
+        <ul class="note">
+          <li><b>小屋 → 空间。</b>不再是封闭小房间，而是窗边共享空间：天空、窗框、浅色地面，成就纪念品按位置摆放，点一下能看到来历。</li>
+          <li><b>亲密度。</b>先看见关系阶段和两个人，再看信任值。五阶段星座横条标位置；「我们的瞬间」改成带日期的关系日记；能力用卡片写清能做 / 还不能做。</li>
+          <li><b>装扮。</b>衣柜先看当前样子，再按部位换。未拥有的先试穿，再决定花 Q 米。增加「家具」，换的物件会回到空间里。</li>
+        </ul>
+      </div>
+      <div class="pn">
+        <h2>亲密度 = 信任等级 L0–L4</h2>
+        <table>
+          <tr><th>阶段</th><th>信任</th><th>怎么到</th><th>能帮你做</th></tr>
+          <tr><td>初见</td><td>0</td><td>第一次聊天</td><td>聊天、回答</td></tr>
+          <tr><td>熟悉</td><td>100</td><td>愿意回来聊自己的事</td><td>记住你说过的事</td></tr>
+          <tr><td>默契</td><td>300</td><td>没拒绝「我帮你记着」</td><td>到点提醒</td></tr>
+          <tr><td>靠谱</td><td>600</td><td>让小元帮着整理事项</td><td>整理事项、推荐</td></tr>
+          <tr><td>搭档</td><td>1000</td><td>点选授权，把事交给小元</td><td>授权范围内代办</td></tr>
+        </table>
+        <div class="tip">亲密度只看信任行为，<b>Q 米买不到</b>。拒绝或撤回授权时能力回退，亲密度页不显示「下降」，装扮不收回。</div>
+      </div>
+      <div class="pn">
+        <h2>Q 米规则</h2>
+        <table>
+          <tr><th>得</th><th></th><th>花</th><th></th></tr>
+          <tr><td>提醒被用上</td><td>+2</td><td>装扮</td><td>30–120</td></tr>
+          <tr><td>事项完成</td><td>+5</td><td>空间家具</td><td>20–80</td></tr>
+          <tr><td>代办交付（L4）</td><td>+5</td><td></td><td></td></tr>
+          <tr><td>第一次做某类事</td><td>+10</td><td>铃声 / 语气包</td><td>50</td></tr>
+          <tr><td>本周点亮</td><td>+15</td><td></td><td></td></tr>
+        </table>
+        <div class="tip">每天最多得 20；不过期；不能充值、提现或兑换 Q 币。</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const M = "./xiaoyuan.png";
+const M2 = "./xiaoyuan-full.png";
+const LV = [
+  ["初见", 0, "小元刚认识你，慢慢来～"],
+  ["熟悉", 100, "小元在记住你说过的事"],
+  ["默契", 300, "小元开始按你的节奏提醒你"],
+  ["靠谱", 600, "小元能帮你整理事项、挑推荐"],
+  ["搭档", 1000, "小元在你同意的范围内帮你办事"]
+];
+const JD = ["第一次聊天", "愿意回来聊自己的事", "没拒绝「我帮你记着」", "让小元帮着整理事项", "点选授权，把事交给小元"];
+const MOMENTS = [
+  ["10月25日", "第一次聊天", "你来了，空间里有了声音"],
+  ["10月28日", "愿意回来聊自己的事", "小元开始把你放在心里"],
+  ["11月2日", "没拒绝「我帮你记着」", "提醒这件事，被你收下了"],
+  ["11月8日", "让小元帮着整理事项", "事项开始有了形状"],
+  ["还在前面", "把一件事交给小元", "点选授权后，我们成为搭档"]
+];
+const SHOP = {
+  hat: [["🧢","棒球帽",0],["🎩","绅士帽",80],["👒","遮阳帽",60],["🐼","熊猫帽",100,"成都限定"],["🎓","学士帽",90],["👑","小皇冠",0,"搭档解锁"]],
+  neck: [["🧣","冬日围巾",60],["🎀","蝴蝶结",40],["📿","小项链",70],["🏅","小奖牌",0,"成就"]],
+  hand: [["🔔","小铃铛",0],["📒","清单本",30],["☕","热咖啡",40],["🎈","气球",50],["🌂","小雨伞",50],["🌸","小花",30]],
+  back: [["🎒","小背包",0,"搭档解锁"],["🪽","小翅膀",110],["🗺️","地图卷",60,"北京限定"]],
+  furn: [["🖼️","看展画框",40,"成就"],["✈️","飞机模型",50],["🪴","窗边盆栽",20],["📚","记事书架",30],["🌙","夜灯",40]]
+};
+const SLOT = { hat:"头饰", neck:"颈饰", hand:"手持", back:"背饰", furn:"家具" };
+const FURN_POS = {
+  "🖼️": { left:"6%", top:"48%" },
+  "✈️": { right:"6%", top:"44%" },
+  "🪴": { left:"5%", bottom:"10%" },
+  "📚": { right:"6%", bottom:"8%" },
+  "🌙": { right:"22%", top:"36%" }
+};
+const FURN_NAME = Object.fromEntries(SHOP.furn.map(([e,n]) => [e,n]));
+const NAV = [
+  ["chat","聊天"],["tasks","事项"],["drawer","侧栏"],["home","空间"],
+  ["ix","亲密度"],["shop","装扮"],["dex","成就"],["qlog","Q米"],["lvup","升级"]
+];
+const DESC = {
+  tasks: ["事项页（点小元头像进入）", "和现网一致：左上角 ✕ 关闭，顶部是小元形象，下方切换「事项 / 灵感」。点头像进入的是这里，不是空间；空间入口在左上角侧栏。"],
+  chat: ["聊天页", "保持现网样式。聊天里不显示 Q 米、不弹奖励；办成事只在形象旁飘「Q +5」。点头像 → 事项；右上角灵感；左上角侧栏里才是空间。"],
+  drawer: ["侧边栏", "用户信息下面是「小元的空间」大卡片：形象、当前亲密度阶段和 Q 米，点进去就是空间。养成入口只放这里，不占聊天页。"],
+  home: ["小元的空间", "养成主页。上半屏是窗边空间：小元坐在窗前，穿着当前装扮，成就纪念品自动摆进来，点物件能看到来历。场景下方是亲密度入口，再往下是衣柜和成就 / Q 米 / 本周点亮。文案不催升级。"],
+  ix: ["亲密度", "从小元的空间进入。先看见两个人和当前阶段，弧形仪表显示信任值；五阶段星座标出走到哪。「我们的瞬间」按日期记下关系里的关键一步；「现在我能帮你」把能做和不会做的事放在一起。"],
+  shop: ["装扮", "从空间进入，叫衣柜。上面是当前样子，下面按头饰 / 颈饰 / 手持 / 背饰 / 家具切换。点已拥有的直接换上，再点取下；没有的先试穿，再确认花 Q 米。城市限定需去过该城市；搭档款在「搭档」后解锁。家具会摆回空间。"],
+  dex: ["成就与回忆", "成就只展示已获得和「下一个」；获得的成就会作为纪念品摆进空间。月度回忆默认仅自己可见。"],
+  qlog: ["Q 米明细", "每笔写清来自哪件事。Q 米来自被照顾，不是来自刷。可去衣柜换装扮或空间家具。"],
+  lvup: ["升级时刻", "升级当时不推送；下次打开 App 时出现一次，可收起。同时写新本领和边界。"]
+};
+
+let st = {
+  tk: "task", empty: true, q: 186, lv: 3, ix: 720, page: "home", cat: "hat", filt: "all",
+  wear: { hat: "", neck: "🧣", hand: "🔔", back: "" },
+  preview: null,
+  own: new Set(["🔔","🧣","🧢","🖼️","✈️","🪴","📚","🌙"]),
+  placed: new Set(["🖼️","✈️","🪴","📚","🌙"]),
+  objTip: "",
+  log: [
+    ["北京出差","事项完成",5],
+    ["出发前一晚提醒","提醒被用上",2],
+    ["中国美术馆预约","代办交付",5],
+    ["本周点亮","第 12 周",15],
+    ["冬日围巾","兑换",-60]
+  ]
+};
+
+const $ = i => document.getElementById(i);
+const lvName = () => LV[st.lv][0];
+const lvNext = () => LV[Math.min(st.lv + 1, 4)][1];
+const ico = {
+  back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 6l-6 6 6 6"/></svg>',
+  menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 8h14M5 12h14M5 16h10"/></svg>',
+  close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 7l10 10M17 7L7 17"/></svg>',
+  idea: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10c0 2-1 3-1 5H9c0-2-1-3-1-5a6 6 0 0 1 4-10z"/></svg>'
+};
+
+function wearNow() {
+  const w = { ...st.wear };
+  if (st.preview && st.preview.cat !== "furn") w[st.preview.cat] = st.preview.e;
+  return w;
+}
+function ms(small) {
+  const w = wearNow();
+  return `<div class="ms${small ? " s" : ""}">${w.back ? `<span class="a back">${w.back}</span>` : ""}<img src="${M}" alt="小元">${w.hat ? `<span class="a hat">${w.hat}</span>` : ""}${w.neck ? `<span class="a neck">${w.neck}</span>` : ""}${w.hand ? `<span class="a hand">${w.hand}</span>` : ""}</div>`;
+}
+function toast(t) {
+  const e = $("toast"); e.textContent = t; e.style.display = "block";
+  clearTimeout(e._t); e._t = setTimeout(() => e.style.display = "none", 1600);
+}
+function chip() {
+  return `<span class="chip" onclick="go('qlog')"><span class="q">Q</span>${st.q}</span>`;
+}
+function nb(t, back) {
+  return `<span class="cb" onclick="go('${back || "chat"}')">${back ? ico.back : ico.menu}</span><span class="nt">${t}</span>${chip()}`;
+}
+function cons(i) {
+  const D = [[[8,22],[20,17],[32,13]],[[10,12],[22,24],[31,12],[26,33]],[[8,26],[18,14],[31,10],[29,29],[16,34]],[[20,6],[8,18],[32,18],[14,33],[28,33],[20,20]],[[20,5],[7,14],[33,14],[7,29],[33,29],[20,36],[20,20]]];
+  const E = [[[0,1],[1,2]],[[0,1],[1,2],[1,3]],[[0,1],[1,2],[1,3],[3,4],[0,4]],[[0,1],[0,2],[1,5],[2,5],[5,3],[5,4],[3,4]],[[0,1],[0,2],[1,3],[2,4],[3,5],[4,5],[6,0],[6,3],[6,4],[6,1],[6,2],[6,5]]];
+  const p = D[i];
+  return `<svg width="22" height="22" viewBox="0 0 40 40"><g stroke="currentColor" stroke-width="1.6">${E[i].map(e => `<line x1="${p[e[0]][0]}" y1="${p[e[0]][1]}" x2="${p[e[1]][0]}" y2="${p[e[1]][1]}"/>`).join("")}</g><g fill="currentColor">${p.map(q => `<circle cx="${q[0]}" cy="${q[1]}" r="2.4"/>`).join("")}</g></svg>`;
+}
+function scene(mini) {
+  const objs = [...st.placed].map(e => {
+    const pos = FURN_POS[e]; if (!pos) return "";
+    const style = Object.entries(pos).map(([k,v]) => `${k}:${v}`).join(";");
+    const on = st.objTip === e ? " on" : "";
+    return `<div class="obj${on}" style="${style}" onclick="tipObj('${e}')"><span class="tag">${FURN_NAME[e] || "纪念品"}</span><i>${e}</i></div>`;
+  }).join("");
+  return `<div class="scene${mini ? " mini" : ""}">
+    <div class="window">
+      <div class="skybox"><div class="cloud c1"></div><div class="cloud c2"></div></div>
+      <div class="curtain"></div><div class="curtain r"></div>
+      <div class="mullion"></div>
+    </div>
+    <div class="sill"></div>
+    <div class="floor"></div>
+    <div class="rug"></div>
+    ${objs}
+    ${mini ? "" : `<div class="badge">${cons(st.lv)} ${lvName()}</div><div class="weather">成都 · 阴 12–16°</div>`}
+    <div class="hero-ms">${ms()}</div>
+  </div>`;
+}
+function bondbar() {
+  const nx = st.lv >= 4 ? "已经是搭档" : `离「${LV[st.lv+1][0]}」还差 ${LV[st.lv+1][1] - st.ix}`;
+  const pct = st.lv >= 4 ? 100 : Math.min(100, (st.ix - LV[st.lv][1]) / Math.max(1, LV[st.lv+1][1] - LV[st.lv][1]) * 100);
+  return `<div class="bondbar" onclick="go('ix')">
+    <div><div class="nm">${lvName()}</div><small>信任 ${st.ix} · ${nx}</small></div>
+    <div class="prog"><i style="width:${pct}%"></i></div>
+    <span class="arr">›</span>
+  </div>`;
+}
+
+const P = {
+  chat() {
+    return [
+      `<span class="cb" onclick="go('drawer')">${ico.menu}</span><span></span><span class="cb" onclick="st.tk='insp';go('tasks')">${ico.idea}</span>`,
+      `<div class="ctr" style="position:relative;cursor:pointer" onclick="st.tk='task';go('tasks')">${ms(1)}<div class="npill">小元</div><span class="flt" id="flt">Q +5</span></div>
+      <div class="ctr muted" style="margin-top:4px">11月20日 21:16</div>
+      <div class="ub">周六想和朋友看展吃饭，规划下</div>
+      <div class="bub">好呀，周六就安排成「下午看展 → 晚上吃饭」～ 成都周六 12–16°C，阴天，带件薄外套就行。</div>
+      <div class="bub">小院川菜确认了，明晚 18:00，两位。</div>
+      <button class="ghost" style="width:auto;margin:18px auto 0;padding:8px 18px;font-size:13px" onclick="plus()">模拟：事项完成</button>`
+    ];
+  },
+  home() {
+    const worn = ["hat","neck","hand","back"].map(k => st.wear[k]).filter(Boolean);
+    const look = worn.length ? worn.join(" ") : "还没戴配件";
+    return [nb("小元的空间", "chat"), `${scene()}${bondbar()}
+      <div class="gates">
+        <div class="gate" onclick="go('shop')"><div class="ico">装</div><b>衣柜</b><small>${look} · 已有 ${[...st.own].filter(e => !SHOP.furn.some(f=>f[0]===e)).length} 件</small></div>
+        <div class="gate" onclick="go('dex')"><div class="ico">忆</div><b>成就</b><small>已获得 5 个，会摆进空间</small></div>
+      </div>
+      <div class="mini2">
+        <div class="cd" style="margin:0;cursor:pointer" onclick="go('qlog')"><div class="h" style="margin:0"><b>Q 米</b><span>${st.q}</span></div><div class="muted" style="margin-top:6px">今天 12 / 20</div></div>
+        <div class="cd" style="margin:0"><div class="h" style="margin:0"><b>本周点亮</b><span>2 / 3</span></div><div class="wkrow" style="margin-top:8px">${"一二三四五六日".split("").map((d,i)=>`<span class="${i===0||i===2?"on":""}">${d}</span>`).join("")}</div></div>
+      </div>
+      <div class="muted" style="margin:12px 4px 0">交给我一件事，我在你同意的范围里帮你办完。不想也没关系。</div>`];
+  },
+  ix() {
+    const nx = lvNext(), pc = st.lv >= 4 ? 1 : Math.min(1, st.ix / LV[Math.min(st.lv+1,4)][1]);
+    const ang = Math.PI * pc, kx = 180 - 150 * Math.cos(ang), ky = 160 - 150 * Math.sin(ang);
+    const nodes = LV.map((l,i) => {
+      const cls = i === st.lv ? "cur on" : i < st.lv ? "on" : "fut";
+      return `<div class="stnode ${cls}"><div class="cs">${cons(i)}</div>${l[0]}</div>`;
+    }).join("");
+    const moms = MOMENTS.map((m,i) => {
+      const next = i > st.lv;
+      const cur = i === st.lv;
+      return `<div class="mom${next ? " next" : ""}"><span class="mark"></span><div class="when">${m[0]}</div><div><b>${m[1]}</b><small>${cur ? "我们在这里 · " : ""}${m[2]}</small></div></div>`;
+    }).join("");
+    const remain = st.lv >= 4 ? "已经走到搭档" : `下一站「${LV[st.lv+1][0]}」 · ${LV[st.lv+1][1]}`;
+    return [nb("亲密度", "home"), `
+      <div class="ixhero">
+        <div class="gz">
+          <svg width="344" height="168" viewBox="0 0 360 176">
+            <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#ffe0c4"/></linearGradient></defs>
+            <path d="M30 160 A150 150 0 0 1 330 160" fill="none" stroke="#ffffff66" stroke-width="14" stroke-linecap="round"/>
+            <path d="M30 160 A150 150 0 0 1 330 160" fill="none" stroke="url(#g)" stroke-width="14" stroke-linecap="round" pathLength="100" stroke-dasharray="${pc*100} 100"/>
+            <circle cx="${kx}" cy="${ky}" r="6.5" fill="#fff" stroke="#c4d6ee" stroke-width="3"/>
+          </svg>
+          <div class="num"><small>信任</small><b>${st.ix}</b></div>
+          <div class="nx">${st.lv>=4?"MAX":LV[st.lv+1][1]}</div>
+        </div>
+        <div class="pair">
+          <div class="avt u">Q</div>
+          <svg width="36" height="40" viewBox="0 0 28 40"><g stroke="#fff" stroke-width="1.6"><line x1="6" y1="30" x2="12" y2="10"/><line x1="12" y1="10" x2="22" y2="18"/></g><g fill="#fff"><circle cx="6" cy="30" r="3"/><circle cx="12" cy="10" r="3"/><circle cx="22" cy="18" r="3"/></g></svg>
+          <div class="avt m"><img src="${M}" alt=""></div>
+        </div>
+        <h2>${lvName()}</h2>
+        <div class="sub">${LV[st.lv][2]}</div>
+      </div>
+      <div class="stages">${nodes}</div>
+      <div class="muted ctr">${remain}</div>
+      <div class="sec-t">我们的瞬间</div>
+      ${moms}
+      <div class="sec-t">现在我能帮你</div>
+      <div class="caps">
+        <div class="cap"><b>记住你说过的事</b>熟悉之后就会放在心上</div>
+        <div class="cap"><b>到点提醒</b>${st.lv>=2?"按你的节奏轻轻说一声":"默契之后才会开始"}</div>
+        <div class="cap"><b>整理事项、推荐</b>${st.lv>=3?"已经可以帮你理一理":"靠谱之后开放"}</div>
+        <div class="cap ${st.lv<4?"lock":""}"><b>${st.lv<4?"订票、预约":"授权范围内代办"}</b>${st.lv<4?"成为搭档后，每次用到信息都会先问你":"用到你的信息前，我每次都会先说一声"}</div>
+      </div>
+      <div class="sec-t">如何积累</div>
+      <div class="cd how" style="margin-top:0">
+        <div class="r"><span>愿意回来聊聊自己的事</span><em>熟悉</em></div>
+        <div class="r"><span>听到「我帮你记着」没拒绝</span><em>默契</em></div>
+        <div class="r"><span>让我帮你整理事项</span><em>靠谱</em></div>
+        <div class="r"><span>点选授权，把一件事交给我</span><em>搭档</em></div>
+        <div class="r"><span>授权本身、聊天时长、每天打开</span><em class="n">不加分</em></div>
+      </div>
+      <div class="tip">亲密度只会因为我们之间的信任增长，Q 米买不到。她拒绝或撤回授权时，能力会回退，但这里不显示「下降」。</div>`];
+  },
+  shop() {
+    const L = SHOP[st.cat];
+    const furn = st.cat === "furn";
+    const list = L.filter(([e,n,p,tg]) => {
+      if (st.filt === "own") return st.own.has(e);
+      if (st.filt === "buy") return !st.own.has(e);
+      return true;
+    }).map(([e,n,p,tg]) => {
+      const own = st.own.has(e);
+      const on = furn ? st.placed.has(e) : (wearNow()[st.cat] === e);
+      const lock = !own && tg && ((tg.includes("解锁") && st.lv < 4) || tg === "成就");
+      const prev = st.preview && st.preview.e === e;
+      return `<div class="it${on||prev?" on":""}" onclick="pick('${e}','${n}',${p},'${tg||""}')">${tg?`<span class="tg">${tg}</span>`:""}<i>${e}</i>${n}<div>${
+        furn ? (on ? `<span class="ok">摆着</span>` : own ? `<span class="ok">已拥有</span>` : lock ? `<span class="lk">未解锁</span>` : p ? `<span class="p"><span class="q">Q</span>${p}</span>` : `<span class="ok">领取</span>`)
+        : (on && own ? `<span class="ok">穿着中</span>` : prev ? `<span class="ok">试穿中</span>` : own ? `<span class="ok">已拥有</span>` : lock ? `<span class="lk">未解锁</span>` : p ? `<span class="p"><span class="q">Q</span>${p}</span>` : `<span class="ok">免费</span>`)
+      }</div></div>`;
+    }).join("");
+    const preview = st.preview && st.preview.cat === st.cat ? `<div class="preview-bar"><b>试穿「${st.preview.n}」</b><button class="ghost" style="width:auto;margin:0;padding:8px 12px;border-radius:14px" onclick="st.preview=null;render()">取消</button><button class="main" style="width:auto;margin:0;padding:8px 14px;border-radius:14px" onclick="buy('${st.preview.e}','${st.preview.n}',${st.preview.p})">用 Q ${st.preview.p} 换上</button></div>` : "";
+    return [nb("衣柜", "home"), `
+      <div class="stage">${furn ? `<div class="muted" style="margin-bottom:8px">点已拥有的家具，可从空间收起或摆回</div>${scene(true)}` : `<div class="stage-char">${ms()}</div>`}
+        ${preview}
+      </div>
+      <div class="seg">${Object.keys(SLOT).map(k => `<span class="${k===st.cat?"on":""}" onclick="st.cat='${k}';st.preview=null;st.filt='all';render()">${SLOT[k]}</span>`).join("")}</div>
+      <div class="filt">
+        <span class="${st.filt==="all"?"on":""}" onclick="st.filt='all';render()">全部</span>
+        <span class="${st.filt==="own"?"on":""}" onclick="st.filt='own';render()">已拥有</span>
+        <span class="${st.filt==="buy"?"on":""}" onclick="st.filt='buy';render()">可兑换</span>
+      </div>
+      <div class="grid3">${list || `<div class="muted" style="grid-column:1/-1;padding:20px 0">这一栏暂时没有</div>`}</div>`];
+  },
+  dex() {
+    return [nb("成就与回忆", "home"), `<div class="cd"><div class="h"><b>成就</b><span>已获得 5</span></div>
+      <div class="dex">${[["📒","第一次让我记着"],["🔔","第一个事项"],["✈️","出差小能手"],["🖼️","看展收藏家"],["🧣","北京的冬天"]].map(a=>`<div><i>${a[0]}</i>${a[1]}</div>`).join("")}<div class="no"><i>🎂</i>下一个<br>从不忘生日</div></div>
+      <div class="muted" style="margin-top:10px">获得的成就会变成纪念品，摆进小元的空间。</div></div>
+      <div class="cd"><div class="h"><b>11 月回忆</b><span>仅自己可见</span></div><div style="font-size:14px">帮你记住了 8 件事，陪你去了 1 次北京、看了 2 个展。窗边那幅画，就是那两次看展留下来的。</div></div>`];
+  },
+  qlog() {
+    return [nb("Q 米", "home"), `<div class="cd ctr"><div class="muted">我的 Q 米</div><div style="font-size:40px;font-weight:750;color:var(--blue);line-height:1.3">${st.q}</div><div class="muted">今天已得 12 / 20</div>
+      <button class="main" onclick="go('shop')">去衣柜看看</button></div>
+      <div class="cd log"><div class="h" style="margin:0"><b>明细</b></div>${st.log.map(l=>`<div><span>${l[0]}<small>${l[1]}</small></span><em class="${l[2]<0?"m":""}">${l[2]>0?"+":""}${l[2]}</em></div>`).join("")}</div>
+      <div class="tip">Q 米是小元的成长奖励，只靠小元帮你办成事获得；不能充值、提现或兑换 Q 币，不会过期。可以换装扮，也可以换空间里的家具。</div>`];
+  },
+  lvup() {
+    setTimeout(() => pop(`${(() => { const w = { ...st.wear }; st.wear.back = "🎒"; const h = ms(); st.wear = w; return h; })()}
+      <h3>我们成为搭档啦</h3>
+      <p>谢谢你愿意把事交给我。</p>
+      <div class="cd" style="text-align:left;margin-top:10px;padding:12px 14px">
+        <div style="font-size:13px">新本领：在你同意的范围内帮你订票、预约</div>
+        <div class="muted" style="margin-top:4px">用到你的信息前，我每次都会先说一声。小背包会一直在空间里等你。</div>
+      </div>
+      <button class="main" onclick="st.own.add('🎒');st.wear.back='🎒';st.lv=4;st.ix=1000;closeP();go('ix')">收下小背包</button>
+      <button class="ghost" onclick="closeP()">稍后再看</button>`), 60);
+    return P.home();
+  }
+};
+
+function drawer() {
+  return `<div class="bg" onclick="go('chat')"></div>
+    <div class="pnl">
+      <div class="me"><span class="av">Q</span><div><b>Qian</b><div class="muted">和小元认识 26 天</div></div></div>
+      <div class="hm" onclick="go('home')">
+        <img src="${M}" alt="">
+        <div style="flex:1;min-width:0"><b>小元的空间</b><div class="muted" style="margin-top:2px">${lvName()}　<span class="q" style="display:inline-grid;width:15px;height:15px;font-size:8px;vertical-align:-3px">Q</span> ${st.q}</div></div>
+        <span class="go">›</span>
+      </div>
+      <div class="sec">常用</div>
+      <div class="mi" onclick="st.tk='task';go('tasks')" style="cursor:pointer">事项</div>
+      <div class="mi">提醒</div>
+      <div class="sec">最近对话</div>
+      <div class="mi">周六看展吃饭</div>
+      <div class="mi">北京出差</div>
+      <div class="mi">中国美术馆</div>
+      <div class="sec"></div>
+      <div class="mi">设置</div>
+    </div>`;
+}
+P.drawer = () => P.chat();
+P.tasks = () => {
+  const t = st.tk === "task";
+  const head = `<div class="tkh ctr"><img src="${M2}" alt=""></div>
+    <div class="tkseg"><span class="${t?"on":""}" onclick="st.tk='task';render()">事项</span><span class="${t?"":"on"}" onclick="st.tk='insp';render()">灵感</span></div>`;
+  let c;
+  if (t) {
+    c = st.empty
+      ? `<div class="empty"><b>你交给我的事都在这</b><small>是不是还有想做的事，没跟我说？</small><span class="gb" onclick="st.tk='insp';render()">去找找灵感</span></div>`
+      : `<div style="margin-top:18px">
+          <div class="tkrow"><span><b>周六看展吃饭</b><small>14:30 四川美术馆 · 晚饭你自己安排</small></span><em>进行中</em></div>
+          <div class="tkrow"><span><b>看展约票</b><small>只用手机号 · 收费的付款你确认</small></span><em>已开启</em></div>
+          <div class="tkrow"><span><b>北京出差</b><small>11/11–11/13</small></span><em class="d">完成</em></div>
+        </div>`;
+  } else {
+    c = `<div style="margin-top:18px">
+      <div class="tkrow"><span><b>周末去哪玩</b><small>按你喜欢的看展挑几个</small></span><span style="color:#b0b4bc">›</span></div>
+      <div class="tkrow"><span><b>下次出差要带什么</b><small>按目的地天气提醒</small></span><span style="color:#b0b4bc">›</span></div>
+      <div class="tkrow"><span><b>给妈妈挑生日礼物</b><small>先聊聊她的喜好</small></span><span style="color:#b0b4bc">›</span></div>
+    </div>`;
+  }
+  return [`<span class="cb" onclick="go('chat')">${ico.close}</span><span></span><span></span>`, head + c];
+};
+
+function pop(h) { $("pop").innerHTML = h; $("mask").classList.add("on"); }
+function closeP() { $("mask").classList.remove("on"); render(); }
+function tipObj(e) { st.objTip = st.objTip === e ? "" : e; render(); }
+function pick(e, n, p, tg) {
+  const c = st.cat;
+  if (c === "furn") {
+    if (st.own.has(e)) {
+      if (st.placed.has(e)) st.placed.delete(e); else st.placed.add(e);
+      render(); return;
+    }
+    if (tg === "成就") { toast("获得对应成就后解锁"); return; }
+    if (!p) { st.own.add(e); st.placed.add(e); render(); toast("已摆进空间"); return; }
+    if (st.q < p) { toast("还差 " + (p - st.q) + " Q 米，不急，慢慢攒～"); return; }
+    pop(`<div style="font-size:60px">${e}</div><h3>把「${n}」摆进空间</h3><p>需要 Q ${p}，随时可以收起来</p><button class="main" onclick="buy('${e}','${n}',${p})">确认兑换</button><button class="ghost" onclick="closeP()">再想想</button>`);
+    return;
+  }
+  if (st.own.has(e)) {
+    st.preview = null;
+    st.wear[c] = st.wear[c] === e ? "" : e;
+    render(); return;
+  }
+  if (tg.includes("解锁") && st.lv < 4) { toast("和小元成为搭档后解锁"); return; }
+  if (tg === "成就") { toast("获得对应成就后解锁"); return; }
+  if (!p) { st.own.add(e); st.wear[c] = e; render(); toast("已戴上「" + n + "」"); return; }
+  if (st.q < p) { toast("还差 " + (p - st.q) + " Q 米，不急，慢慢攒～"); return; }
+  st.preview = { cat: c, e, n, p }; render();
+}
+function buy(e, n, p) {
+  st.q -= p; st.own.add(e);
+  if (st.cat === "furn") st.placed.add(e); else st.wear[st.cat] = e;
+  st.preview = null;
+  st.log.unshift([n, st.cat === "furn" ? "空间家具" : "兑换", -p]);
+  closeP(); toast(st.cat === "furn" ? "已摆进空间" : "已换上「" + n + "」");
+}
+function plus() {
+  const e = $("flt"); e.style.opacity = 1; e.style.transform = "translateY(-12px)";
+  st.q += 5; st.log.unshift(["周六看展吃饭", "事项完成", 5]);
+  setTimeout(() => { e.style.opacity = 0; e.style.transform = ""; }, 1100);
+}
+function setLv(i) {
+  st.lv = i;
+  st.ix = i >= 4 ? 1000 : LV[i][1] + Math.round((LV[Math.min(i+1,4)][1] - LV[i][1]) * 0.4);
+  if (i === 3) st.ix = 720;
+  render();
+}
+function go(p) {
+  st.page = p; st.objTip = "";
+  history.replaceState(null, "", "?p=" + p);
+  render(); $("body").scrollTop = 0;
+}
+function render() {
+  const pg = st.page, [n, b] = P[pg]();
+  const sky = ["home","ix","shop","dex","qlog","lvup"].includes(pg);
+  $("scrn").classList.toggle("sky", sky);
+  $("scrn").classList.toggle("pgix", pg === "ix");
+  const flat = pg === "tasks";
+  $("scrn").classList.toggle("flat", flat);
+  $("nb").style.pointerEvents = flat ? "none" : "";
+  $("body").style.top = flat ? "52px" : "96px";
+  $("nb").innerHTML = n; $("body").innerHTML = b;
+  const ic = pg === "chat" || pg === "drawer";
+  $("inp").style.display = $("aig").style.display = ic ? "" : "none";
+  $("body").style.bottom = ic ? "100px" : "16px";
+  const dw = $("drw"); dw.classList.toggle("on", pg === "drawer"); dw.innerHTML = pg === "drawer" ? drawer() : "";
+  $("nav").innerHTML = NAV.map(d => `<span class="${d[0]===pg?"on":""}" onclick="go('${d[0]}')">${d[1]}</span>`).join("");
+  $("lvbtns").innerHTML = LV.map((l,i) => `<button class="${i===st.lv?"on":""}" onclick="setLv(${i})">${l[0]}</button>`).join("");
+  const d = DESC[pg];
+  $("desc").innerHTML = `<b>${d[0]}</b><p>${d[1]}</p>` + (pg === "tasks"
+    ? `<button class="sw" onclick="st.empty=true;st.tk='task';render()">空状态</button><button class="sw" onclick="st.empty=false;st.tk='task';render()">有事项</button>`
+    : "");
+}
+(() => {
+  const q = new URLSearchParams(location.search);
+  const p = q.get("p");
+  if (p && P[p]) st.page = p;
+  const cat = q.get("cat");
+  if (cat && SHOP[cat]) st.cat = cat;
+})();
+render();
+</script>
+</body>
+</html>
