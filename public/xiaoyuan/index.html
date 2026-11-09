@@ -34,7 +34,7 @@ button { font: inherit; }
 }
 .scrn {
   width: 100%; height: 100%; border-radius: 44px; overflow: hidden; position: relative;
-  background: linear-gradient(180deg, #f4f7fd, #fbfbfd 42%, #f7f7f9);
+  background: #f4f5f7;
 }
 .sb { height: 44px; display: flex; justify-content: space-between; align-items: center; padding: 0 28px; font-weight: 600; font-size: 15px; }
 .sb .bat { background: #34c759; color: #fff; border-radius: 5px; font-size: 11px; padding: 1px 5px; margin-left: 6px; }
@@ -52,7 +52,7 @@ button { font: inherit; }
 
 /* character */
 .ms { position: relative; margin: 0 auto; width: 200px; }
-.ms img { width: 200px; display: block; filter: drop-shadow(0 12px 18px rgba(60,90,140,.18)); }
+.ms img { width: 200px; display: block; }
 .ms .a { position: absolute; line-height: 1; transition: .25s; pointer-events: none; }
 .ms .hat { left: 36%; top: 4%; font-size: 40px; transform: rotate(-8deg); }
 .ms .neck { left: 38%; top: 46%; font-size: 26px; }
@@ -73,7 +73,7 @@ button { font: inherit; }
 }
 .q {
   width: 20px; height: 20px; border-radius: 50%;
-  background: linear-gradient(140deg, #7fb0ff, #3d6fe0); color: #fff; font-size: 10px; font-weight: 800;
+  background: #3d6fe0; color: #fff; font-size: 10px; font-weight: 800;
   display: grid; place-items: center;
 }
 .cd {
@@ -81,15 +81,15 @@ button { font: inherit; }
 }
 .cd .h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
 .cd .h b { font-size: 15px; } .cd .h span { font-size: 12px; color: var(--mute); }
-.prog { height: 8px; border-radius: 99px; background: rgba(255,255,255,.55); overflow: hidden; }
-.prog i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #9cc2ff, #3d6fe0); }
+.prog { height: 6px; border-radius: 99px; background: #e8eaee; overflow: hidden; }
+.prog i { display: block; height: 100%; border-radius: 99px; background: #3d6fe0; }
 .main, .ghost {
   display: block; width: 100%; border: 0; border-radius: 22px; padding: 13px; font-size: 15px; cursor: pointer; margin-top: 10px;
 }
 .main { background: var(--blue); color: #fff; font-weight: 650; }
 .ghost { background: #f2f2f4; color: var(--ink); }
-.tip { background: rgba(255,255,255,.55); border-radius: 14px; padding: 10px 12px; font-size: 12.5px; color: #4a5a80; margin-top: 12px; line-height: 1.55; }
-.seg { display: flex; background: rgba(255,255,255,.5); border-radius: 16px; padding: 3px; margin: 12px 0 8px; }
+.tip { background: #fff; border: 1px solid #ececec; border-radius: 14px; padding: 10px 12px; font-size: 12.5px; color: #4a5a80; margin-top: 12px; line-height: 1.55; }
+.seg { display: flex; background: #eceef2; border-radius: 16px; padding: 3px; margin: 12px 0 8px; }
 .seg span { flex: 1; text-align: center; padding: 7px 0; border-radius: 13px; font-size: 12.5px; color: #6b7080; cursor: pointer; }
 .seg span.on { background: #fff; color: var(--ink); font-weight: 650; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
 
@@ -115,8 +115,8 @@ button { font: inherit; }
 .drw .me { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
 .drw .me .av { width: 42px; height: 42px; border-radius: 50%; background: #dfeafd; display: grid; place-items: center; font-weight: 700; color: var(--blue); flex: none; }
 .hm {
-  display: flex; align-items: center; gap: 10px; border-radius: 22px; padding: 10px 12px; cursor: pointer;
-  background: linear-gradient(160deg, #d7e8fb, #f8e6d2); border: 1px solid rgba(255,255,255,.7);
+  display: flex; align-items: center; gap: 10px; border-radius: 18px; padding: 10px 12px; cursor: pointer;
+  background: #fff; border: 1px solid #ececec;
 }
 .hm img { width: 56px; height: auto; flex: none; display: block; }
 .hm b { font-size: 16px; display: block; color: var(--ink); }
@@ -139,172 +139,145 @@ button { font: inherit; }
 .tkrow em { font-style: normal; font-size: 11px; border-radius: 10px; padding: 2px 9px; background: #e6effd; color: var(--blue); flex: none; }
 .tkrow em.d { background: #eef0f3; color: #8a8f99; }
 
-/* sky theme */
-.scrn.sky { background: linear-gradient(180deg, #9fc8ee 0%, #c5daf3 24%, #ebe7f3 52%, #fbe6d4 78%, #f7c9a8 100%); }
-.sky .sb { color: #12202c; }
+/* growth pages: flat, no gradient */
+.scrn.sky { background: #f3f1ed; }
+.sky .sb { color: #1a1a1a; }
 .sky .nb { justify-content: flex-start; }
-.sky .nb .nt { font-size: 18px; font-weight: 560; }
-.sky .cb {
-  background: linear-gradient(135deg, #e7f8ff, #c9ebf8); border: 1px solid rgba(255,255,255,.7);
-  box-shadow: 0 8px 18px rgba(79,163,213,.22); width: 48px; height: 48px;
-}
-.sky .chip { background: rgba(255,255,255,.7); border-color: rgba(255,255,255,.8); }
+.sky .nb .nt { font-size: 17px; font-weight: 600; }
+.sky .cb { background: #fff; border: 1px solid #ececec; box-shadow: none; width: 44px; height: 44px; }
+.sky .chip { background: #fff; border-color: #ececec; }
 .sky.pgix .chip { display: none; }
-.sky .cd, .sky .gate, .sky .look, .sky .it, .sky .cap, .sky .mom, .sky .wkrow {
-  background: var(--glass); border: 1px solid rgba(255,255,255,.7);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 8px 24px rgba(90,120,160,.1);
+.sky .cd, .sky .it {
+  background: #fff; border: 1px solid #ececec; box-shadow: none;
 }
-.sky .muted { color: #5d6b80; }
+.sky .muted { color: #6b7280; }
 
 /* ===== SPACE ===== */
 .scene {
-  position: relative; height: 292px; border-radius: 28px; overflow: hidden; margin-top: 4px;
-  background: linear-gradient(180deg, #f3e7d8 0%, #efe0d0 40%, #ead6c3 100%);
-  border: 1px solid rgba(255,255,255,.65); box-shadow: var(--shadow);
+  position: relative; height: 280px; border-radius: 20px; overflow: hidden; margin-top: 4px;
+  background: #efe6d8; border: 1px solid #e4d8c8;
 }
 .window {
-  position: absolute; left: 22px; right: 22px; top: 16px; height: 118px; border-radius: 16px 16px 6px 6px;
-  overflow: hidden; border: 7px solid #fbf6ef; box-shadow: 0 8px 18px rgba(90,70,40,.12), inset 0 0 0 1px #e8dccf;
+  position: absolute; left: 20px; right: 20px; top: 14px; height: 112px; border-radius: 12px;
+  overflow: hidden; border: 6px solid #fff;
 }
-.scene .skybox {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(80% 60% at 78% 18%, #ffe9c8 0%, transparent 42%),
-    linear-gradient(180deg, #6ea4d4 0%, #9fc4e6 48%, #d7c4b0 100%);
-}
-.cloud { position: absolute; background: #ffffffd0; border-radius: 40px; opacity: .9; }
+.scene .skybox { position: absolute; inset: 0; background: #7eabd0; }
+.cloud { position: absolute; background: #fff; border-radius: 40px; }
 .cloud:before, .cloud:after { content: ""; position: absolute; background: inherit; border-radius: 50%; }
 .c1 { width: 70px; height: 16px; left: 12px; top: 18px; }
 .c1:before { width: 22px; height: 22px; left: 12px; top: -11px; }
 .c1:after { width: 30px; height: 30px; left: 30px; top: -14px; }
 .c2 { width: 54px; height: 14px; right: 18px; top: 28px; }
 .c2:before { width: 18px; height: 18px; left: 8px; top: -9px; }
-.window .mullion { position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; background: rgba(255,255,255,.45); z-index: 1; }
-.curtain {
-  position: absolute; top: 0; bottom: 0; width: 18px; z-index: 2;
-  background: linear-gradient(90deg, #f7efe6cc, #f7efe600);
-}
-.curtain.r { right: 0; left: auto; background: linear-gradient(-90deg, #f7efe6cc, #f7efe600); }
-.sill { position: absolute; left: 16px; right: 16px; top: 132px; height: 11px; border-radius: 3px; background: linear-gradient(#fff6ec, #e8d3bc); box-shadow: 0 4px 10px rgba(120,80,40,.08); }
-.floor {
-  position: absolute; left: 0; right: 0; bottom: 0; height: 150px;
-  background: linear-gradient(180deg, #f4e4d2 0%, #e7d0b8 100%);
-}
+.window .mullion { position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; background: #fff; z-index: 1; }
+.sill { position: absolute; left: 16px; right: 16px; top: 126px; height: 8px; background: #fff; }
+.floor { position: absolute; left: 0; right: 0; bottom: 0; height: 146px; background: #e6d3bc; }
 .rug {
-  position: absolute; left: 50%; bottom: 10px; width: 188px; height: 28px; margin-left: -94px; border-radius: 50%;
-  background: radial-gradient(ellipse, #f0c8a8, #e2b48a 70%); opacity: .75;
+  position: absolute; left: 50%; bottom: 10px; width: 168px; height: 22px; margin-left: -84px; border-radius: 50%;
+  background: #d9b896;
 }
-.obj {
-  position: absolute; z-index: 2; display: grid; place-items: center; cursor: pointer;
-  filter: drop-shadow(0 6px 8px rgba(80,60,40,.18)); transition: transform .2s;
-}
-.obj:active { transform: scale(.96); }
-.obj i { font-style: normal; font-size: 28px; line-height: 1; }
+.obj { position: absolute; z-index: 2; display: grid; place-items: center; cursor: pointer; }
+.obj i { font-style: normal; font-size: 26px; line-height: 1; }
 .obj .tag {
   position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%);
-  background: #1c2330ee; color: #fff; font-size: 11px; border-radius: 10px; padding: 3px 8px; white-space: nowrap;
-  opacity: 0; pointer-events: none; transition: .18s;
+  background: #1c2330; color: #fff; font-size: 11px; border-radius: 8px; padding: 3px 8px; white-space: nowrap;
+  opacity: 0; pointer-events: none;
 }
-.obj.on .tag, .obj:hover .tag { opacity: 1; }
-.scene .hero-ms { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); z-index: 3; }
-.scene .hero-ms .ms { width: 176px; }
-.scene .hero-ms .ms img { width: 176px; }
-.scene.mini { height: 230px; }
-.scene.mini .hero-ms .ms, .scene.mini .hero-ms .ms img { width: 140px; }
-.badge {
-  position: absolute; z-index: 4; left: 14px; top: 14px;
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,.86); border: 1px solid rgba(255,255,255,.9); border-radius: 999px;
-  padding: 5px 10px; font-size: 12px; font-weight: 650; backdrop-filter: blur(10px);
-  color: #3d6fe0;
+.obj.on .tag { opacity: 1; }
+.scene .hero-ms { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); z-index: 3; }
+.scene .hero-ms .ms { width: 168px; }
+.scene .hero-ms .ms img { width: 168px; }
+.scene.mini { height: 220px; }
+.scene.mini .hero-ms { bottom: 8px; }
+.scene.mini .hero-ms .ms, .scene.mini .hero-ms .ms img { width: 132px; }
+.badge, .weather {
+  position: absolute; z-index: 4; top: 14px; background: #fff; border: 1px solid #ececec;
+  border-radius: 999px; padding: 4px 10px; font-size: 11.5px; color: #3d4b5e;
 }
-.weather {
-  position: absolute; z-index: 4; right: 14px; top: 14px;
-  background: rgba(255,255,255,.7); border-radius: 999px; padding: 5px 10px; font-size: 11.5px; color: #3d4b5e;
-}
+.badge { left: 14px; display: inline-flex; align-items: center; gap: 6px; font-weight: 650; color: #1a1a1a; }
+.weather { right: 14px; }
 .bondbar {
   display: flex; align-items: center; gap: 10px; cursor: pointer; margin-top: 10px;
-  background: var(--glass); border: 1px solid rgba(255,255,255,.7); border-radius: 20px;
-  padding: 12px 14px; backdrop-filter: blur(16px);
+  background: #fff; border: 1px solid #ececec; border-radius: 16px; padding: 12px 14px;
 }
 .bondbar .nm { font-weight: 700; font-size: 15px; }
-.bondbar small { display: block; color: #5d6b80; font-size: 12px; font-weight: 400; margin-top: 2px; }
-.bondbar .arr { margin-left: auto; color: #8a93a3; font-size: 18px; }
-.bondbar .prog { width: 92px; height: 8px; }
+.bondbar small { display: block; color: #6b7280; font-size: 12px; font-weight: 400; margin-top: 2px; }
+.bondbar .arr { margin-left: auto; color: #c0c4cc; font-size: 18px; }
+.bondbar .prog { width: 88px; }
 
-.scene.mini { height: 240px; }
-.scene.mini .hero-ms { bottom: 8px; }
-.gates { display: grid; grid-template-columns: 1.15fr .85fr; gap: 10px; margin-top: 12px; }
-.gate { border-radius: 22px; padding: 14px; cursor: pointer; min-height: 96px; }
-.gate b { display: block; font-size: 15px; }
-.gate small { display: block; color: #5d6b80; margin-top: 4px; font-size: 12px; line-height: 1.4; }
-.gate .ico {
-  width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center;
-  background: rgba(255,255,255,.7); margin-bottom: 8px; font-size: 15px;
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.tile {
+  background: #fff; border: 1px solid #ececec; border-radius: 16px; padding: 14px;
+  min-height: 92px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between;
 }
-.mini2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-.wkrow { display: flex; justify-content: space-between; gap: 4px; }
-.wkrow span {
-  flex: 1; height: 34px; border-radius: 11px; display: grid; place-items: center;
-  font-size: 11px; color: #8b93a3; background: rgba(255,255,255,.45);
+.tile.static { cursor: default; }
+.tile b { font-size: 15px; display: flex; justify-content: space-between; align-items: baseline; }
+.tile b em { font-style: normal; font-size: 13px; color: #6b7280; font-weight: 500; }
+.tile span { display: block; font-size: 12px; color: #6b7280; margin-top: 8px; line-height: 1.4; }
+.wk { display: flex; justify-content: space-between; margin-top: 10px; }
+.wk i {
+  width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
+  font-size: 10px; font-style: normal; background: #f1f2f4; color: #9aa0aa; flex: none;
 }
-.wkrow span.on { background: #fff; color: var(--blue); font-weight: 700; box-shadow: 0 2px 8px rgba(61,111,224,.16); }
+.wk i.on { background: #3d6fe0; color: #fff; font-weight: 700; }
 
 /* ===== INTIMACY ===== */
-.ixhero { text-align: center; padding: 4px 0 8px; }
-.pair { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 2px; }
-.avt { width: 72px; height: 72px; border-radius: 50%; overflow: hidden; border: 2.5px solid #fff; box-shadow: 0 8px 18px rgba(91,130,179,.28); }
-.avt.u { background: linear-gradient(160deg, #f3c9d4, #8fb4e8); display: grid; place-items: center; color: #fff; font-size: 26px; font-weight: 700; }
-.avt.m { background: linear-gradient(#cfe4ff, #a9c9f7); display: grid; place-items: end center; }
-.avt.m img { width: 96px; margin-bottom: -6px; }
-.ixhero h2 { font-size: 28px; font-weight: 650; margin-top: 12px; letter-spacing: .04em; }
-.ixhero .sub { color: #5d6b80; font-size: 13.5px; margin-top: 4px; }
-.gz { position: relative; height: 168px; margin: 2px -2px 0; }
-.gz svg { position: absolute; left: 0; top: 0; }
-.gz .num { position: absolute; left: 0; right: 0; top: 54px; text-align: center; }
-.gz .num small { display: block; font-size: 12px; color: #5d6b80; }
-.gz .num b { font-size: 52px; font-weight: 280; color: #1c2330; letter-spacing: 1px; line-height: 1.05; }
-.gz .nx { position: absolute; right: 8px; top: 126px; background: #fff; border-radius: 16px; padding: 3px 12px; font-size: 13px; color: #2a3342; box-shadow: 0 3px 10px rgba(79,134,193,.2); }
-.stages { display: flex; justify-content: space-between; align-items: flex-start; margin: 4px 2px 6px; position: relative; }
-.stages:before {
-  content: ""; position: absolute; left: 22px; right: 22px; top: 18px; height: 2px;
-  background: linear-gradient(90deg, #fff, #ffffffaa);
+.ix-card { background: #fff; border: 1px solid #ececec; border-radius: 16px; padding: 18px 16px; }
+.ix-pair { display: flex; justify-content: center; align-items: center; }
+.avt { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; border: 2px solid #fff; outline: 1px solid #ececec; }
+.avt.u { background: #dbe4f5; display: grid; place-items: center; color: #3d6fe0; font-size: 20px; font-weight: 700; margin-right: -8px; z-index: 1; }
+.avt.m { background: #e8eef8; display: grid; place-items: end center; }
+.avt.m img { width: 72px; margin-bottom: -4px; }
+.ix-card h2 { text-align: center; font-size: 22px; font-weight: 650; margin-top: 12px; }
+.ix-card .sub { text-align: center; color: #6b7280; font-size: 13px; margin-top: 4px; }
+.ix-meta { display: flex; justify-content: center; gap: 16px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #f0f1f4; }
+.ix-meta div { text-align: center; }
+.ix-meta b { display: block; font-size: 16px; }
+.ix-meta small { color: #6b7280; font-size: 11px; }
+.ix-path { background: #fff; border: 1px solid #ececec; border-radius: 16px; padding: 16px; margin-top: 10px; }
+.ix-path h3, .ix-block h3 { font-size: 13px; font-weight: 650; color: #6b7280; margin-bottom: 12px; }
+.ix-steps { display: flex; justify-content: space-between; position: relative; }
+.ix-steps:before {
+  content: ""; position: absolute; left: 18px; right: 18px; top: 9px; height: 2px; background: #e8eaee;
 }
-.stnode { width: 56px; text-align: center; position: relative; z-index: 1; color: #8a93a3; font-size: 11px; }
-.stnode .cs {
-  width: 36px; height: 36px; margin: 0 auto 6px; border-radius: 50%;
-  background: rgba(255,255,255,.45); display: grid; place-items: center; border: 1.5px solid rgba(255,255,255,.7);
-  color: #6f8fb8;
+.ix-steps .fill {
+  position: absolute; left: 18px; top: 9px; height: 2px; background: #3d6fe0;
 }
-.stnode.on { color: var(--ink); font-weight: 650; }
-.stnode.on .cs { background: #fff; color: #3d6fe0; box-shadow: 0 6px 14px rgba(80,120,180,.2); }
-.stnode.cur .cs { background: linear-gradient(180deg, #c5dbf7, #f3c19a); color: #fff; }
-.stnode.fut { opacity: .55; }
-.sec-t { font-size: 18px; font-weight: 560; margin: 22px 4px 10px; }
-.mom { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 18px; margin-bottom: 8px; }
-.mom .when { width: 64px; flex: none; font-size: 11px; color: #6b7588; padding-top: 2px; }
-.mom b { display: block; font-size: 14px; }
-.mom small { display: block; color: #7a8496; font-size: 12px; font-weight: 400; margin-top: 2px; }
-.mom .mark { width: 10px; height: 10px; border-radius: 50%; background: var(--blue); margin-top: 6px; flex: none; box-shadow: 0 0 0 4px rgba(61,111,224,.16); }
-.mom.next { opacity: .7; border-style: dashed; }
-.mom.next .mark { background: transparent; border: 1.5px solid #fff; box-shadow: none; }
-.caps { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.cap { border-radius: 18px; padding: 12px; font-size: 12.5px; line-height: 1.45; }
-.cap b { display: block; font-size: 13px; margin-bottom: 2px; }
-.cap.lock { opacity: .62; }
-.how .r { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.55); font-size: 13px; }
-.how .r:last-child { border: 0; }
-.how em { font-style: normal; color: var(--blue); font-weight: 650; flex: none; }
-.how em.n { color: #9aa3b3; }
+.step { width: 36px; text-align: center; position: relative; z-index: 1; font-size: 11px; color: #9aa0aa; }
+.step i {
+  display: block; width: 18px; height: 18px; border-radius: 50%; margin: 0 auto 6px;
+  background: #fff; border: 2px solid #e8eaee; font-style: normal;
+}
+.step.done { color: #1a1a1a; }
+.step.done i { background: #3d6fe0; border-color: #3d6fe0; }
+.step.cur { color: #3d6fe0; font-weight: 650; }
+.step.cur i { background: #fff; border-color: #3d6fe0; box-shadow: 0 0 0 3px #e8eefc; }
+.ix-next { display: flex; justify-content: space-between; margin-top: 12px; font-size: 12px; color: #6b7280; }
+.ix-block { background: #fff; border: 1px solid #ececec; border-radius: 16px; padding: 16px; margin-top: 10px; }
+.ix-tl { list-style: none; }
+.ix-tl li { display: grid; grid-template-columns: 64px 12px 1fr; gap: 8px; padding: 10px 0; border-bottom: 1px solid #f0f1f4; }
+.ix-tl li:last-child { border-bottom: 0; padding-bottom: 0; }
+.ix-tl li:first-child { padding-top: 0; }
+.ix-tl .when { font-size: 11px; color: #9aa0aa; padding-top: 2px; }
+.ix-tl .dot { width: 8px; height: 8px; border-radius: 50%; background: #3d6fe0; margin-top: 5px; }
+.ix-tl .fut .dot { background: #fff; border: 1.5px solid #d7dbe2; }
+.ix-tl .cur b { color: #3d6fe0; }
+.ix-tl b { display: block; font-size: 13.5px; }
+.ix-tl small { display: block; color: #6b7280; font-size: 12px; font-weight: 400; margin-top: 2px; }
+.ix-can { list-style: none; }
+.ix-can li { display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid #f0f1f4; font-size: 13px; }
+.ix-can li:last-child { border-bottom: 0; padding-bottom: 0; }
+.ix-can li:first-child { padding-top: 0; }
+.ix-can .k { width: 16px; flex: none; color: #2a9d5c; font-size: 13px; }
+.ix-can .lock { color: #9aa0aa; }
+.ix-can .no { color: #c45c5c; }
+.ix-can small { display: block; color: #9aa0aa; font-size: 11px; margin-top: 2px; }
+.ix-note { font-size: 12px; color: #6b7280; margin-top: 10px; padding: 12px 14px; background: #fff; border: 1px solid #ececec; border-radius: 16px; line-height: 1.55; }
 
 /* ===== DRESS ===== */
 .stage {
-  position: relative; border-radius: 28px; padding: 14px 8px 12px; margin-top: 2px; overflow: hidden;
-  background:
-    radial-gradient(60% 80% at 50% 40%, rgba(255,255,255,.7), transparent 70%),
-    linear-gradient(180deg, rgba(227,237,255,.35), transparent);
-  border: 1px solid rgba(255,255,255,.55);
+  position: relative; border-radius: 20px; padding: 14px 8px 12px; margin-top: 2px; overflow: hidden;
+  background: #fff; border: 1px solid #ececec;
 }
 .stage-char {
   height: 150px; overflow: hidden; display: grid; place-items: end center; position: relative;
@@ -312,10 +285,7 @@ button { font: inherit; }
 }
 .stage-char .ms { width: 168px; overflow: hidden; }
 .stage-char .ms img { width: 168px; }
-.podium {
-  width: 150px; height: 14px; margin: 0 auto 8px; border-radius: 50%;
-  background: radial-gradient(ellipse, #ffffffcc, #c9d6ea00 70%);
-}
+.podium { display: none; }
 .preview-bar {
   display: flex; align-items: center; gap: 10px; margin-top: 10px; padding: 10px 12px; border-radius: 16px;
   background: #fff; border: 1px solid #d7e4f8;
@@ -334,13 +304,13 @@ button { font: inherit; }
 .it .tg { position: absolute; top: 6px; right: 6px; font-size: 9px; border-radius: 8px; padding: 0 5px; background: #fff2e3; color: #c87a1c; }
 .filt { display: flex; gap: 6px; margin: 4px 0 8px; }
 .filt span {
-  font-size: 12px; padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,.45); color: #5d6b80; cursor: pointer;
+  font-size: 12px; padding: 5px 10px; border-radius: 999px; background: #eceef2; color: #5d6b80; cursor: pointer;
 }
 .filt span.on { background: #fff; color: var(--ink); font-weight: 650; }
 
 /* log / dex / pop */
 .dex { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.dex div { background: rgba(255,255,255,.55); border-radius: 16px; padding: 12px 6px 10px; text-align: center; font-size: 11px; }
+.dex div { background: #f7f7f8; border-radius: 14px; padding: 12px 6px 10px; text-align: center; font-size: 11px; }
 .dex i { font-style: normal; font-size: 26px; display: block; margin-bottom: 4px; }
 .dex .no { opacity: .45; }
 .log div { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.55); font-size: 13.5px; }
@@ -409,9 +379,8 @@ th { color: var(--mute); font-weight: 500; font-size: 12px; }
       <div class="pn">
         <h2>这次改了什么</h2>
         <ul class="note">
-          <li><b>小屋 → 空间。</b>不再是封闭小房间，而是窗边共享空间：天空、窗框、浅色地面，成就纪念品按位置摆放，点一下能看到来历。</li>
-          <li><b>亲密度。</b>先看见关系阶段和两个人，再看信任值。五阶段星座横条标位置；「我们的瞬间」改成带日期的关系日记；能力用卡片写清能做 / 还不能做。</li>
-          <li><b>装扮。</b>衣柜先看当前样子，再按部位换。未拥有的先试穿，再决定花 Q 米。增加「家具」，换的物件会回到空间里。</li>
+          <li><b>无渐变、卡片对齐。</b>空间页四个入口同一尺寸：衣柜、成就、Q 米、本周点亮。本周是等大圆点，不再被拉成椭圆。</li>
+          <li><b>亲密度重做。</b>去掉弧形仪表和星座装饰，改成关系档案：阶段、五步进度、瞬间日记、能力清单。</li>
         </ul>
       </div>
       <div class="pn">
@@ -484,7 +453,7 @@ const DESC = {
   chat: ["聊天页", "保持现网样式。聊天里不显示 Q 米、不弹奖励；办成事只在形象旁飘「Q +5」。点头像 → 事项；右上角灵感；左上角侧栏里才是空间。"],
   drawer: ["侧边栏", "用户信息下面是「小元的空间」大卡片：形象、当前亲密度阶段和 Q 米，点进去就是空间。养成入口只放这里，不占聊天页。"],
   home: ["小元的空间", "养成主页。上半屏是窗边空间：小元坐在窗前，穿着当前装扮，成就纪念品自动摆进来，点物件能看到来历。场景下方是亲密度入口，再往下是衣柜和成就 / Q 米 / 本周点亮。文案不催升级。"],
-  ix: ["亲密度", "从小元的空间进入。先看见两个人和当前阶段，弧形仪表显示信任值；五阶段星座标出走到哪。「我们的瞬间」按日期记下关系里的关键一步；「现在我能帮你」把能做和不会做的事放在一起。"],
+  ix: ["亲密度", "关系档案，不是仪表盘。顶部是阶段名和认识天数 / 信任值；中间一条五阶段进度；下面「我们的瞬间」按日期记关键一步，「现在我能帮你」用列表写清能做、还不能做、以及不会做的事。"],
   shop: ["装扮", "从空间进入，叫衣柜。上面是当前样子，下面按头饰 / 颈饰 / 手持 / 背饰 / 家具切换。点已拥有的直接换上，再点取下；没有的先试穿，再确认花 Q 米。城市限定需去过该城市；搭档款在「搭档」后解锁。家具会摆回空间。"],
   dex: ["成就与回忆", "成就只展示已获得和「下一个」；获得的成就会作为纪念品摆进空间。月度回忆默认仅自己可见。"],
   qlog: ["Q 米明细", "每笔写清来自哪件事。Q 米来自被照顾，不是来自刷。可去衣柜换装扮或空间家具。"],
@@ -552,14 +521,13 @@ function scene(mini) {
   return `<div class="scene${mini ? " mini" : ""}">
     <div class="window">
       <div class="skybox"><div class="cloud c1"></div><div class="cloud c2"></div></div>
-      <div class="curtain"></div><div class="curtain r"></div>
       <div class="mullion"></div>
     </div>
     <div class="sill"></div>
     <div class="floor"></div>
     <div class="rug"></div>
     ${objs}
-    ${mini ? "" : `<div class="badge">${cons(st.lv)} ${lvName()}</div><div class="weather">成都 · 阴 12–16°</div>`}
+    ${mini ? "" : `<div class="badge">${lvName()}</div><div class="weather">成都 · 阴</div>`}
     <div class="hero-ms">${ms()}</div>
   </div>`;
 }
@@ -586,72 +554,66 @@ const P = {
     ];
   },
   home() {
-    const worn = ["hat","neck","hand","back"].map(k => st.wear[k]).filter(Boolean);
-    const look = worn.length ? worn.join(" ") : "还没戴配件";
+    const names = { "🧣":"围巾", "🔔":"铃铛", "🧢":"棒球帽", "🎒":"背包", "🎀":"蝴蝶结" };
+    const worn = ["hat","neck","hand","back"].map(k => names[st.wear[k]] || st.wear[k]).filter(Boolean);
+    const look = worn.length ? worn.join(" · ") : "还没戴配件";
+    const nDress = [...st.own].filter(e => !SHOP.furn.some(f => f[0] === e)).length;
+    const days = "一二三四五六日".split("").map((d,i) => `<i class="${i===0||i===2?"on":""}">${d}</i>`).join("");
     return [nb("小元的空间", "chat"), `${scene()}${bondbar()}
-      <div class="gates">
-        <div class="gate" onclick="go('shop')"><div class="ico">装</div><b>衣柜</b><small>${look} · 已有 ${[...st.own].filter(e => !SHOP.furn.some(f=>f[0]===e)).length} 件</small></div>
-        <div class="gate" onclick="go('dex')"><div class="ico">忆</div><b>成就</b><small>已获得 5 个，会摆进空间</small></div>
-      </div>
-      <div class="mini2">
-        <div class="cd" style="margin:0;cursor:pointer" onclick="go('qlog')"><div class="h" style="margin:0"><b>Q 米</b><span>${st.q}</span></div><div class="muted" style="margin-top:6px">今天 12 / 20</div></div>
-        <div class="cd" style="margin:0"><div class="h" style="margin:0"><b>本周点亮</b><span>2 / 3</span></div><div class="wkrow" style="margin-top:8px">${"一二三四五六日".split("").map((d,i)=>`<span class="${i===0||i===2?"on":""}">${d}</span>`).join("")}</div></div>
+      <div class="tiles">
+        <div class="tile" onclick="go('shop')"><b>衣柜</b><span>${look}<br>已有 ${nDress} 件</span></div>
+        <div class="tile" onclick="go('dex')"><b>成就</b><span>已获得 5 个<br>纪念品在空间里</span></div>
+        <div class="tile" onclick="go('qlog')"><b>Q 米<em>${st.q}</em></b><span>今天 12 / 20</span></div>
+        <div class="tile static"><b>本周点亮<em>2 / 3</em></b><div class="wk">${days}</div></div>
       </div>
       <div class="muted" style="margin:12px 4px 0">交给我一件事，我在你同意的范围里帮你办完。不想也没关系。</div>`];
   },
   ix() {
-    const nx = lvNext(), pc = st.lv >= 4 ? 1 : Math.min(1, st.ix / LV[Math.min(st.lv+1,4)][1]);
-    const ang = Math.PI * pc, kx = 180 - 150 * Math.cos(ang), ky = 160 - 150 * Math.sin(ang);
-    const nodes = LV.map((l,i) => {
-      const cls = i === st.lv ? "cur on" : i < st.lv ? "on" : "fut";
-      return `<div class="stnode ${cls}"><div class="cs">${cons(i)}</div>${l[0]}</div>`;
+    const to = st.lv >= 4 ? 1000 : LV[st.lv + 1][1];
+    const pct = st.lv >= 4 ? 100 : Math.min(100, st.ix / 10);
+    const linePct = (st.lv / 4) * 100;
+    const steps = LV.map((l, i) => {
+      const cls = i === st.lv ? "cur" : i < st.lv ? "done" : "";
+      return `<div class="step ${cls}"><i></i>${l[0]}</div>`;
     }).join("");
-    const moms = MOMENTS.map((m,i) => {
-      const next = i > st.lv;
-      const cur = i === st.lv;
-      return `<div class="mom${next ? " next" : ""}"><span class="mark"></span><div class="when">${m[0]}</div><div><b>${m[1]}</b><small>${cur ? "我们在这里 · " : ""}${m[2]}</small></div></div>`;
+    const moms = MOMENTS.map((m, i) => {
+      const cls = i === st.lv ? "cur" : i > st.lv ? "fut" : "";
+      return `<li class="${cls}"><span class="when">${m[0]}</span><span class="dot"></span><div><b>${m[1]}</b><small>${m[2]}</small></div></li>`;
     }).join("");
-    const remain = st.lv >= 4 ? "已经走到搭档" : `下一站「${LV[st.lv+1][0]}」 · ${LV[st.lv+1][1]}`;
+    const next = st.lv >= 4 ? "已经是搭档" : `离「${LV[st.lv + 1][0]}」还差 ${to - st.ix}`;
+    const can = [
+      ["✓", "", "记住你说过的事", st.lv >= 1 ? "已经放在心上" : "熟悉之后"],
+      ["✓", st.lv < 2 ? "lock" : "", "到点提醒", st.lv >= 2 ? "按你的节奏说一声" : "默契之后开放"],
+      ["✓", st.lv < 3 ? "lock" : "", "整理事项、推荐", st.lv >= 3 ? "已经可以帮你理一理" : "靠谱之后开放"],
+      [st.lv < 4 ? "🔒" : "✓", st.lv < 4 ? "lock" : "", "订票、预约", st.lv < 4 ? "成为搭档后，每次用到信息都先问你" : "用到信息前，我每次都会先说一声"],
+      ["✕", "no", "不会擅自用手机号、位置", "没经过你同意就不会做"]
+    ].map(([k, cls, t, s]) => `<li class="${cls}"><span class="k">${k}</span><div>${t}<small>${s}</small></div></li>`).join("");
     return [nb("亲密度", "home"), `
-      <div class="ixhero">
-        <div class="gz">
-          <svg width="344" height="168" viewBox="0 0 360 176">
-            <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#ffe0c4"/></linearGradient></defs>
-            <path d="M30 160 A150 150 0 0 1 330 160" fill="none" stroke="#ffffff66" stroke-width="14" stroke-linecap="round"/>
-            <path d="M30 160 A150 150 0 0 1 330 160" fill="none" stroke="url(#g)" stroke-width="14" stroke-linecap="round" pathLength="100" stroke-dasharray="${pc*100} 100"/>
-            <circle cx="${kx}" cy="${ky}" r="6.5" fill="#fff" stroke="#c4d6ee" stroke-width="3"/>
-          </svg>
-          <div class="num"><small>信任</small><b>${st.ix}</b></div>
-          <div class="nx">${st.lv>=4?"MAX":LV[st.lv+1][1]}</div>
-        </div>
-        <div class="pair">
-          <div class="avt u">Q</div>
-          <svg width="36" height="40" viewBox="0 0 28 40"><g stroke="#fff" stroke-width="1.6"><line x1="6" y1="30" x2="12" y2="10"/><line x1="12" y1="10" x2="22" y2="18"/></g><g fill="#fff"><circle cx="6" cy="30" r="3"/><circle cx="12" cy="10" r="3"/><circle cx="22" cy="18" r="3"/></g></svg>
-          <div class="avt m"><img src="${M}" alt=""></div>
-        </div>
+      <div class="ix-card">
+        <div class="ix-pair"><span class="avt u">Q</span><span class="avt m"><img src="${M}" alt=""></span></div>
         <h2>${lvName()}</h2>
-        <div class="sub">${LV[st.lv][2]}</div>
+        <p class="sub">${LV[st.lv][2]}</p>
+        <div class="ix-meta">
+          <div><b>26 天</b><small>认识</small></div>
+          <div><b>${st.ix}</b><small>信任</small></div>
+          <div><b>${st.lv + 1} / 5</b><small>阶段</small></div>
+        </div>
       </div>
-      <div class="stages">${nodes}</div>
-      <div class="muted ctr">${remain}</div>
-      <div class="sec-t">我们的瞬间</div>
-      ${moms}
-      <div class="sec-t">现在我能帮你</div>
-      <div class="caps">
-        <div class="cap"><b>记住你说过的事</b>熟悉之后就会放在心上</div>
-        <div class="cap"><b>到点提醒</b>${st.lv>=2?"按你的节奏轻轻说一声":"默契之后才会开始"}</div>
-        <div class="cap"><b>整理事项、推荐</b>${st.lv>=3?"已经可以帮你理一理":"靠谱之后开放"}</div>
-        <div class="cap ${st.lv<4?"lock":""}"><b>${st.lv<4?"订票、预约":"授权范围内代办"}</b>${st.lv<4?"成为搭档后，每次用到信息都会先问你":"用到你的信息前，我每次都会先说一声"}</div>
+      <div class="ix-path">
+        <h3>走到哪了</h3>
+        <div class="ix-steps"><span class="fill" style="width:calc(${linePct}% - 8px)"></span>${steps}</div>
+        <div class="ix-next"><span>${st.lv >= 4 ? "搭档" : LV[st.lv][0] + " → " + LV[st.lv + 1][0]}</span><span>${next}</span></div>
+        <div class="prog" style="margin-top:8px"><i style="width:${pct}%"></i></div>
       </div>
-      <div class="sec-t">如何积累</div>
-      <div class="cd how" style="margin-top:0">
-        <div class="r"><span>愿意回来聊聊自己的事</span><em>熟悉</em></div>
-        <div class="r"><span>听到「我帮你记着」没拒绝</span><em>默契</em></div>
-        <div class="r"><span>让我帮你整理事项</span><em>靠谱</em></div>
-        <div class="r"><span>点选授权，把一件事交给我</span><em>搭档</em></div>
-        <div class="r"><span>授权本身、聊天时长、每天打开</span><em class="n">不加分</em></div>
+      <div class="ix-block">
+        <h3>我们的瞬间</h3>
+        <ol class="ix-tl">${moms}</ol>
       </div>
-      <div class="tip">亲密度只会因为我们之间的信任增长，Q 米买不到。她拒绝或撤回授权时，能力会回退，但这里不显示「下降」。</div>`];
+      <div class="ix-block">
+        <h3>现在我能帮你</h3>
+        <ul class="ix-can">${can}</ul>
+      </div>
+      <div class="ix-note">亲密度只因为信任增长，Q 米买不到。拒绝或撤回授权时，能力会回退，这里不显示「下降」，装扮也不收回。</div>`];
   },
   shop() {
     const L = SHOP[st.cat];
