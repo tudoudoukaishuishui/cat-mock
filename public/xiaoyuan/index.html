@@ -222,57 +222,33 @@ button { font: inherit; }
 .wk i.on { background: #3d6fe0; color: #fff; font-weight: 700; }
 
 /* ===== INTIMACY ===== */
-.ix-card { background: #fff; border: 1px solid #ececec; border-radius: 16px; padding: 18px 16px; }
-.ix-pair { display: flex; justify-content: center; align-items: center; }
-.avt { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; border: 2px solid #fff; outline: 1px solid #ececec; }
-.avt.u { background: #dbe4f5; display: grid; place-items: center; color: #3d6fe0; font-size: 20px; font-weight: 700; margin-right: -8px; z-index: 1; }
-.avt.m { background: #e8eef8; display: grid; place-items: end center; }
-.avt.m img { width: 72px; margin-bottom: -4px; }
-.ix-card h2 { text-align: center; font-size: 22px; font-weight: 650; margin-top: 12px; }
-.ix-card .sub { text-align: center; color: #6b7280; font-size: 13px; margin-top: 4px; }
-.ix-meta { display: flex; justify-content: center; gap: 16px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #f0f1f4; }
-.ix-meta div { text-align: center; }
-.ix-meta b { display: block; font-size: 16px; }
-.ix-meta small { color: #6b7280; font-size: 11px; }
-.ix-path { background: #fff; border: 1px solid #ececec; border-radius: 16px; padding: 16px; margin-top: 10px; }
-.ix-path h3, .ix-block h3 { font-size: 13px; font-weight: 650; color: #6b7280; margin-bottom: 12px; }
-.ix-steps { display: flex; justify-content: space-between; position: relative; }
-.ix-steps:before {
-  content: ""; position: absolute; left: 18px; right: 18px; top: 9px; height: 2px; background: #e8eaee;
+.scrn.pgix { background: #f6f1e8; }
+.bond { text-align: center; padding: 4px 6px 0; }
+.bond-stage {
+  width: 196px; height: 196px; margin: 0 auto; border-radius: 50%;
+  background: #efe2d0; display: grid; place-items: end center; overflow: hidden;
 }
-.ix-steps .fill {
-  position: absolute; left: 18px; top: 9px; height: 2px; background: #3d6fe0;
-}
-.step { width: 36px; text-align: center; position: relative; z-index: 1; font-size: 11px; color: #9aa0aa; }
-.step i {
-  display: block; width: 18px; height: 18px; border-radius: 50%; margin: 0 auto 6px;
-  background: #fff; border: 2px solid #e8eaee; font-style: normal;
-}
-.step.done { color: #1a1a1a; }
-.step.done i { background: #3d6fe0; border-color: #3d6fe0; }
-.step.cur { color: #3d6fe0; font-weight: 650; }
-.step.cur i { background: #fff; border-color: #3d6fe0; box-shadow: 0 0 0 3px #e8eefc; }
-.ix-next { display: flex; justify-content: space-between; margin-top: 12px; font-size: 12px; color: #6b7280; }
-.ix-block { background: #fff; border: 1px solid #ececec; border-radius: 16px; padding: 16px; margin-top: 10px; }
-.ix-tl { list-style: none; }
-.ix-tl li { display: grid; grid-template-columns: 64px 12px 1fr; gap: 8px; padding: 10px 0; border-bottom: 1px solid #f0f1f4; }
-.ix-tl li:last-child { border-bottom: 0; padding-bottom: 0; }
-.ix-tl li:first-child { padding-top: 0; }
-.ix-tl .when { font-size: 11px; color: #9aa0aa; padding-top: 2px; }
-.ix-tl .dot { width: 8px; height: 8px; border-radius: 50%; background: #3d6fe0; margin-top: 5px; }
-.ix-tl .fut .dot { background: #fff; border: 1.5px solid #d7dbe2; }
-.ix-tl .cur b { color: #3d6fe0; }
-.ix-tl b { display: block; font-size: 13.5px; }
-.ix-tl small { display: block; color: #6b7280; font-size: 12px; font-weight: 400; margin-top: 2px; }
-.ix-can { list-style: none; }
-.ix-can li { display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid #f0f1f4; font-size: 13px; }
-.ix-can li:last-child { border-bottom: 0; padding-bottom: 0; }
-.ix-can li:first-child { padding-top: 0; }
-.ix-can .k { width: 16px; flex: none; color: #2a9d5c; font-size: 13px; }
-.ix-can .lock { color: #9aa0aa; }
-.ix-can .no { color: #c45c5c; }
-.ix-can small { display: block; color: #9aa0aa; font-size: 11px; margin-top: 2px; }
-.ix-note { font-size: 12px; color: #6b7280; margin-top: 10px; padding: 12px 14px; background: #fff; border: 1px solid #ececec; border-radius: 16px; line-height: 1.55; }
+.bond-stage img { width: 188px; margin-bottom: -10px; }
+.bond h2 { font-size: 34px; font-weight: 650; letter-spacing: .12em; margin-top: 16px; }
+.bond .line { color: #6d6256; font-size: 14px; margin-top: 6px; }
+.bond-facts { margin-top: 10px; font-size: 12px; color: #8a7d70; }
+.bond-facts b { color: #2a241c; font-weight: 650; }
+.names { display: flex; justify-content: center; gap: 16px; margin-top: 16px; font-size: 12px; color: #b3a89c; }
+.names span.on { color: #2a241c; font-weight: 650; box-shadow: inset 0 -2px 0 #3d6fe0; }
+.past { margin: 22px 6px 0; }
+.past div { display: flex; gap: 12px; align-items: baseline; font-size: 13px; color: #6d6256; padding: 4px 0; }
+.past span { width: 58px; flex: none; color: #b3a89c; font-size: 12px; }
+.nowcard { margin-top: 14px; background: #fff; border-radius: 22px; padding: 18px 18px 16px; }
+.nowcard small { color: #b3a89c; font-size: 12px; }
+.nowcard b { display: block; font-size: 20px; margin-top: 4px; letter-spacing: .06em; }
+.nowcard p { margin-top: 8px; font-size: 15px; line-height: 1.65; color: #3d342c; }
+.nowcard .remain { margin-top: 14px; font-size: 12px; color: #3d6fe0; }
+.ahead { margin: 14px 8px 0; font-size: 13px; color: #b3a89c; }
+.help { margin-top: 18px; background: #fff; border-radius: 22px; padding: 16px 18px; }
+.help h3 { font-size: 12px; color: #b3a89c; font-weight: 650; letter-spacing: .08em; }
+.help p { margin-top: 8px; font-size: 14px; line-height: 1.7; color: #2a241c; }
+.help p.dim { color: #6d6256; }
+.soft { margin-top: 14px; font-size: 12px; color: #8a7d70; line-height: 1.65; text-align: center; padding: 0 10px 8px; }
 
 /* ===== DRESS ===== */
 .stage {
@@ -380,7 +356,7 @@ th { color: var(--mute); font-weight: 500; font-size: 12px; }
         <h2>这次改了什么</h2>
         <ul class="note">
           <li><b>无渐变、卡片对齐。</b>空间页四个入口同一尺寸：衣柜、成就、Q 米、本周点亮。本周是等大圆点，不再被拉成椭圆。</li>
-          <li><b>亲密度重做。</b>去掉弧形仪表和星座装饰，改成关系档案：阶段、五步进度、瞬间日记、能力清单。</li>
+          <li><b>亲密度。</b>小元形象和阶段名在最上面。走过的事收成一行日期，当前这一步展开成故事卡。</li>
         </ul>
       </div>
       <div class="pn">
@@ -453,7 +429,7 @@ const DESC = {
   chat: ["聊天页", "保持现网样式。聊天里不显示 Q 米、不弹奖励；办成事只在形象旁飘「Q +5」。点头像 → 事项；右上角灵感；左上角侧栏里才是空间。"],
   drawer: ["侧边栏", "用户信息下面是「小元的空间」大卡片：形象、当前亲密度阶段和 Q 米，点进去就是空间。养成入口只放这里，不占聊天页。"],
   home: ["小元的空间", "养成主页。上半屏是窗边空间：小元坐在窗前，穿着当前装扮，成就纪念品自动摆进来，点物件能看到来历。场景下方是亲密度入口，再往下是衣柜和成就 / Q 米 / 本周点亮。文案不催升级。"],
-  ix: ["亲密度", "关系档案，不是仪表盘。顶部是阶段名和认识天数 / 信任值；中间一条五阶段进度；下面「我们的瞬间」按日期记关键一步，「现在我能帮你」用列表写清能做、还不能做、以及不会做的事。"],
+  ix: ["亲密度", "以小元形象和当前阶段为主。走过的事收成一行日期，当前这一步展开成一张故事卡，后面的阶段只留一句。能力写成一段话，不再是勾选清单。"],
   shop: ["装扮", "从空间进入，叫衣柜。上面是当前样子，下面按头饰 / 颈饰 / 手持 / 背饰 / 家具切换。点已拥有的直接换上，再点取下；没有的先试穿，再确认花 Q 米。城市限定需去过该城市；搭档款在「搭档」后解锁。家具会摆回空间。"],
   dex: ["成就与回忆", "成就只展示已获得和「下一个」；获得的成就会作为纪念品摆进空间。月度回忆默认仅自己可见。"],
   qlog: ["Q 米明细", "每笔写清来自哪件事。Q 米来自被照顾，不是来自刷。可去衣柜换装扮或空间家具。"],
@@ -569,51 +545,43 @@ const P = {
       <div class="muted" style="margin:12px 4px 0">交给我一件事，我在你同意的范围里帮你办完。不想也没关系。</div>`];
   },
   ix() {
-    const to = st.lv >= 4 ? 1000 : LV[st.lv + 1][1];
-    const pct = st.lv >= 4 ? 100 : Math.min(100, st.ix / 10);
-    const linePct = (st.lv / 4) * 100;
-    const steps = LV.map((l, i) => {
-      const cls = i === st.lv ? "cur" : i < st.lv ? "done" : "";
-      return `<div class="step ${cls}"><i></i>${l[0]}</div>`;
-    }).join("");
-    const moms = MOMENTS.map((m, i) => {
-      const cls = i === st.lv ? "cur" : i > st.lv ? "fut" : "";
-      return `<li class="${cls}"><span class="when">${m[0]}</span><span class="dot"></span><div><b>${m[1]}</b><small>${m[2]}</small></div></li>`;
-    }).join("");
-    const next = st.lv >= 4 ? "已经是搭档" : `离「${LV[st.lv + 1][0]}」还差 ${to - st.ix}`;
-    const can = [
-      ["✓", "", "记住你说过的事", st.lv >= 1 ? "已经放在心上" : "熟悉之后"],
-      ["✓", st.lv < 2 ? "lock" : "", "到点提醒", st.lv >= 2 ? "按你的节奏说一声" : "默契之后开放"],
-      ["✓", st.lv < 3 ? "lock" : "", "整理事项、推荐", st.lv >= 3 ? "已经可以帮你理一理" : "靠谱之后开放"],
-      [st.lv < 4 ? "🔒" : "✓", st.lv < 4 ? "lock" : "", "订票、预约", st.lv < 4 ? "成为搭档后，每次用到信息都先问你" : "用到信息前，我每次都会先说一声"],
-      ["✕", "no", "不会擅自用手机号、位置", "没经过你同意就不会做"]
-    ].map(([k, cls, t, s]) => `<li class="${cls}"><span class="k">${k}</span><div>${t}<small>${s}</small></div></li>`).join("");
+    const cur = MOMENTS[st.lv];
+    const to = st.lv >= 4 ? st.ix : LV[st.lv + 1][1];
+    const day = s => { const m = s.match(/(\d+)月(\d+)日/); return m ? `${m[1]}.${m[2].padStart(2, "0")}` : s; };
+    const past = MOMENTS.slice(0, st.lv).map(m => `<div><span>${day(m[0])}</span>${m[1]}</div>`).join("");
+    const ahead = st.lv >= 4 ? "" : `<div class="ahead">之后是「${LV[st.lv + 1][0]}」</div>`;
+    const remain = st.lv >= 4 ? "我们已经是搭档" : `离「${LV[st.lv + 1][0]}」还差 ${to - st.ix}`;
+    const canDo = [
+      st.lv >= 1 ? "记住你说过的事" : "",
+      st.lv >= 2 ? "到点轻轻提醒你" : "",
+      st.lv >= 3 ? "帮你整理事项、按你的喜好推荐" : "陪你聊天、回答你的问题"
+    ].filter(Boolean).join("，");
+    const notYet = st.lv >= 4
+      ? "订票和预约也可以了。用到你的信息前，我每次都会先说一声。"
+      : "订票和预约还要等我们成为搭档。没经过你同意，不会用你的手机号和位置。";
+    const names = LV.map((l, i) => `<span class="${i === st.lv ? "on" : ""}">${l[0]}</span>`).join("");
     return [nb("亲密度", "home"), `
-      <div class="ix-card">
-        <div class="ix-pair"><span class="avt u">Q</span><span class="avt m"><img src="${M}" alt=""></span></div>
+      <div class="bond">
+        <div class="bond-stage"><img src="${M}" alt="小元"></div>
         <h2>${lvName()}</h2>
-        <p class="sub">${LV[st.lv][2]}</p>
-        <div class="ix-meta">
-          <div><b>26 天</b><small>认识</small></div>
-          <div><b>${st.ix}</b><small>信任</small></div>
-          <div><b>${st.lv + 1} / 5</b><small>阶段</small></div>
-        </div>
+        <p class="line">${LV[st.lv][2]}</p>
+        <div class="bond-facts">认识第 <b>26</b> 天 · 信任 <b>${st.ix}</b></div>
+        <div class="names">${names}</div>
       </div>
-      <div class="ix-path">
-        <h3>走到哪了</h3>
-        <div class="ix-steps"><span class="fill" style="width:calc(${linePct}% - 8px)"></span>${steps}</div>
-        <div class="ix-next"><span>${st.lv >= 4 ? "搭档" : LV[st.lv][0] + " → " + LV[st.lv + 1][0]}</span><span>${next}</span></div>
-        <div class="prog" style="margin-top:8px"><i style="width:${pct}%"></i></div>
+      ${past ? `<div class="past">${past}</div>` : ""}
+      <div class="nowcard">
+        <small>${cur[0]} · 现在</small>
+        <b>${cur[1]}</b>
+        <p>${cur[2]}</p>
+        <div class="remain">${remain}</div>
       </div>
-      <div class="ix-block">
-        <h3>我们的瞬间</h3>
-        <ol class="ix-tl">${moms}</ol>
-      </div>
-      <div class="ix-block">
+      ${ahead}
+      <div class="help">
         <h3>现在我能帮你</h3>
-        <ul class="ix-can">${can}</ul>
+        <p>${canDo}。</p>
+        <p class="dim">${notYet}</p>
       </div>
-      <div class="ix-note">亲密度只因为信任增长，Q 米买不到。拒绝或撤回授权时，能力会回退，这里不显示「下降」，装扮也不收回。</div>`];
+      <p class="soft">亲密度只因为我们之间的信任增长，Q 米买不到。她拒绝或撤回授权时，能力会回退，这里不显示「下降」。</p>`];
   },
   shop() {
     const L = SHOP[st.cat];
